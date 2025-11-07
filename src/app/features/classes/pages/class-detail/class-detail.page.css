@@ -1,0 +1,12 @@
+.attendance-container { max-width: 800px; margin: 0 auto; }
+.actions { margin: 12px 0; }
+.class-list { list-style: none; padding: 0; margin: 0; }
+.class-item { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid #eee; }
+.class-info { display: flex; gap: 12px; align-items: baseline; }
+.class-name { font-weight: 600; }
+.class-date { color: #666; font-size: 0.9rem; }
+.btn { padding: 6px 12px; border-radius: 6px; border: none; cursor: pointer; }
+.btn-primary { background: #1976d2; color: white; }
+.btn-success { background: #2e7d32; color: white; }
+.no-classes { color: #916; margin: 12px 0; }
+.message { margin-top: 10px; }

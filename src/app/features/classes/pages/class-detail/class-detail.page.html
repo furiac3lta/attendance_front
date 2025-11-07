@@ -1,0 +1,29 @@
+<div class="attendance-container">
+  <h2>📘 Clases de {{ selectedCourseName }}</h2>
+  <p class="date-label">{{ currentDate }}</p>
+
+  <div class="actions">
+    <button class="btn btn-success" (click)="createClass()">➕ Crear nueva clase</button>
+  </div>
+
+  <hr />
+
+  <div *ngIf="classes.length === 0" class="no-classes">
+    ⚠️ Este curso no tiene clases creadas todavía.
+  </div>
+
+  <ul *ngIf="classes.length > 0" class="class-list">
+    <li *ngFor="let c of classes" class="class-item">
+      <div class="class-info">
+        <span class="class-name">{{ c.name }}</span>
+        <span class="class-date">{{ c.date | date: 'dd/MM/yyyy' }}</span>
+      </div>
+
+      <a class="btn btn-primary" [routerLink]="['/attendance/take', c.id]">
+        📝 Tomar asistencia
+      </a>
+    </li>
+  </ul>
+
+  <p *ngIf="message" class="message">{{ message }}</p>
+</div>

@@ -1,0 +1,57 @@
+<div class="course-list-container" *ngIf="!loading; else loadingTpl">
+  <h2>📘 Mis cursos</h2>
+
+  <div class="actions" style="margin-bottom: 1rem;">
+    <button class="btn btn-primary" (click)="goToCreateCourse()">
+      ➕ Nuevo curso
+    </button>
+  </div>
+
+  <div *ngIf="courses.length === 0; else tableTpl" class="no-courses">
+    ⚠️ No hay cursos disponibles para tu organización.
+  </div>
+
+  <ng-template #tableTpl>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Nombre del curso</th>
+          <th>Descripción</th>
+          <th>Programa</th>
+          <th>Instructor</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr *ngFor="let c of courses">
+          <td>{{ c.name }}</td>
+          <td>{{ c.description }}</td>
+          <td>{{ c.universityProgram }}</td>
+          <td>{{ c.instructor?.fullName || 'Sin asignar' }}</td>
+
+          <td>
+         <button
+  class="btn btn-success"
+  (click)="goToAttendance(c.id!)"
+  *ngIf="canTakeAttendance()"
+>
+  🧾 Tomar asistencia
+</button>
+
+<span *ngIf="!canTakeAttendance()" style="color: #888;">
+  🚫 Sin permisos
+</span>
+
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </ng-template>
+
+  <p *ngIf="message" class="message">{{ message }}</p>
+</div>
+
+<ng-template #loadingTpl>
+  <p class="loading">⏳ Cargando cursos...</p>
+</ng-template>

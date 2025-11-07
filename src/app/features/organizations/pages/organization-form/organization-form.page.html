@@ -1,0 +1,24 @@
+<div class="org-form-container">
+  <h2>🏢 Crear nueva organización</h2>
+
+  <form [formGroup]="orgForm" (ngSubmit)="onSubmit()">
+    <label>Nombre *</label>
+    <input type="text" formControlName="name" placeholder="Ej: Irmaos Club Puerto Rico" />
+
+    <label>Tipo *</label>
+    <input type="text" formControlName="type" placeholder="Ej: GIMNASIO" />
+
+    <label>Dirección</label>
+    <input type="text" formControlName="address" placeholder="Ej: Uruguay 162" />
+
+    <label>Teléfono</label>
+    <input type="text" formControlName="phone" placeholder="Ej: 2966-663880" />
+
+    <label>Logo (URL)</label>
+    <input type="text" formControlName="logoUrl" placeholder="https://..." />
+
+    <button type="submit" class="btn btn-primary">💾 Guardar</button>
+  </form>
+
+  <p *ngIf="message" class="message">{{ message }}</p>
+</div>

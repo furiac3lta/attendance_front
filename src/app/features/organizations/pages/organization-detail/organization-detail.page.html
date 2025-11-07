@@ -1,0 +1,22 @@
+<div class="org-detail-container" *ngIf="organization; else loadingTpl">
+  <h2>🏢 {{ organization.name }}</h2>
+  <p><strong>Tipo:</strong> {{ organization.type }}</p>
+  <p><strong>Dirección:</strong> {{ organization.address || '—' }}</p>
+  <p><strong>Teléfono:</strong> {{ organization.phone || '—' }}</p>
+  <p><strong>Administrador:</strong> {{ organization.admin?.fullName || 'Sin asignar' }}</p>
+
+  <div class="actions">
+    <button class="btn btn-primary">👤 Asignar admin</button>
+  </div>
+
+  <h3>👥 Miembros</h3>
+  <ul>
+    <li *ngFor="let u of organization.users">
+      {{ u.fullName }} — {{ u.role }}
+    </li>
+  </ul>
+</div>
+
+<ng-template #loadingTpl>
+  <p>⏳ Cargando información...</p>
+</ng-template>

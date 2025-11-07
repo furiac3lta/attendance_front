@@ -1,0 +1,84 @@
+<div class="container">
+  <h2 class="title">🏢 Organizaciones</h2>
+
+  <!-- Mensaje si no hay organizaciones -->
+  <div *ngIf="!organizations.length" class="alert alert-info">
+    No hay organizaciones registradas.
+  </div>
+
+  <!-- Tabla principal -->
+ <table class="table">
+  <thead>
+    <tr>
+      <th>Nombre</th>
+      <th>Tipo</th>
+      <th>Teléfono</th>
+      <th>Dirección</th>
+      <th>Administrador actual</th>
+      <th>Asignar nuevo administrador</th>
+      <th *ngIf="userRole === 'SUPER_ADMIN'">Acciones</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <tr *ngFor="let org of organizations">
+      <td>{{ org.name }}</td>
+      <td>{{ org.type }}</td>
+      <td>{{ org.phone }}</td>
+      <td>{{ org.address }}</td>
+
+      <!-- 🔹 Nueva columna: mostrar admin actual -->
+      <td>
+        <span *ngIf="org.admin; else noAdmin">
+          {{ org.admin.fullName }}
+        </span>
+        <ng-template #noAdmin>
+          <em class="text-muted">Sin asignar</em>
+        </ng-template>
+      </td>
+
+      <!-- 🔹 Nueva columna: select para reasignar -->
+      <td *ngIf="userRole === 'SUPER_ADMIN'">
+        <select
+          [(ngModel)]="selectedAdmin[org.id]"
+          class="form-select"
+          [disabled]="!admins.length"
+        >
+          <option [ngValue]="null">Seleccionar...</option>
+          <option *ngFor="let admin of admins" [ngValue]="admin.id">
+            {{ admin.fullName }}
+          </option>
+        </select>
+      </td>
+
+      <!-- 🔹 Acciones -->
+      <td *ngIf="userRole === 'SUPER_ADMIN'" class="actions">
+        <button
+          (click)="assignAdmin(org.id)"
+          class="btn btn-sm btn-primary"
+          [disabled]="!selectedAdmin[org.id]"
+        >
+          Asignar
+        </button>
+
+        <button
+          (click)="deleteOrganization(org.id)"
+          class="btn btn-sm btn-danger"
+        >
+          Eliminar
+        </button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+
+  <!-- 🔹 Solo SUPER_ADMIN puede crear nuevas organizaciones -->
+  <button
+    *ngIf="userRole === 'SUPER_ADMIN'"
+    class="btn btn-success"
+    routerLink="/organizations/new"
+  >
+    ➕ Nueva organización
+  </button>
+</div>

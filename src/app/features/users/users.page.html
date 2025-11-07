@@ -1,0 +1,83 @@
+<div class="container">
+  <h2>👥 Gestión de Usuarios</h2>
+
+  <!-- 🔹 Formulario para crear o editar usuario -->
+  <form [formGroup]="form" (ngSubmit)="saveUser()" class="user-form">
+    <input type="text" formControlName="username" placeholder="Nombre completo" required>
+    <input type="email" formControlName="email" placeholder="Correo electrónico" required>
+    <input
+      type="password"
+      formControlName="password"
+      placeholder="Contraseña"
+      [required]="!editingUserId"
+    >
+    <select formControlName="role">
+      <option value="USER">Usuario</option>
+      <option value="INSTRUCTOR">Instructor</option>
+      <option value="ADMIN">Administrador</option>
+    </select>
+
+    <!-- 🔘 Botones dinámicos -->
+    <div class="form-actions">
+      <button type="submit" class="btn btn-primary">
+        {{ editingUserId ? '💾 Guardar Cambios' : '➕ Crear Usuario' }}
+      </button>
+
+      <button
+        *ngIf="editingUserId"
+        type="button"
+        class="btn btn-secondary"
+        (click)="cancelEdit()"
+      >
+        ❌ Cancelar Edición
+      </button>
+    </div>
+  </form>
+
+  <hr />
+
+  <!-- 🔹 Tabla de usuarios -->
+  <table class="table table-hover text-center align-middle">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Usuario</th>
+        <th>Email</th>
+        <th>Rol</th>
+        <th>Cursos actuales</th>
+        <th>Asignar cursos</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr *ngFor="let u of users">
+        <td>{{ u.id }}</td>
+        <td>{{ u.fullName }}</td>
+        <td>{{ u.email }}</td>
+        <td>{{ u.role }}</td>
+        <td>{{ getCourseNames(u) }}</td>
+
+        <!-- 🔹 Select múltiple para asignar cursos -->
+        <td>
+          <select multiple (change)="onCoursesChange(u.id, $event)">
+            <option *ngFor="let c of courses" [value]="c.id">{{ c.name }}</option>
+          </select>
+          <button class="btn btn-sm btn-success mt-1" (click)="saveCourses(u.id)">
+            💾 Guardar
+          </button>
+        </td>
+
+        <!-- 🔹 Acciones -->
+        <td>
+          <button (click)="editUser(u)" class="btn btn-sm btn-warning me-1">
+            ✏️ Editar
+          </button>
+          <button (click)="deleteUser(u.id)" class="btn btn-sm btn-danger">
+            🗑️ Eliminar
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

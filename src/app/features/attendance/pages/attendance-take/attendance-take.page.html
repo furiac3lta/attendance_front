@@ -1,0 +1,38 @@
+<div class="take-container">
+  <h2>📝 Tomar asistencia</h2>
+
+  <div class="class-header">
+    <div><strong>Clase:</strong> {{ className }}</div>
+    <div><strong>Curso:</strong> {{ courseName }}</div>
+    <div><strong>Fecha:</strong> {{ date | date: 'dd/MM/yyyy' }}</div>
+  </div>
+
+  <div *ngIf="students.length === 0" class="muted">
+    Cargando alumnos…
+  </div>
+
+  <table *ngIf="students.length > 0" class="table">
+    <thead>
+      <tr>
+        <th>Alumno</th>
+        <th style="text-align:center;">Presente</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let s of students">
+        <td>{{ s.fullName }}</td>
+        <td style="text-align:center;">
+          <input
+            type="checkbox"
+[checked]="getMark(s.id)"
+            (change)="toggleAttendance(s.id, $event.target.checked)"
+          />
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="actions">
+    <button class="btn btn-primary" (click)="save()">💾 Guardar asistencia</button>
+  </div>
+</div>

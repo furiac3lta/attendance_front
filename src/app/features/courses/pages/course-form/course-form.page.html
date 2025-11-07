@@ -1,0 +1,24 @@
+<div class="course-container">
+  <h2>📘 Crear Curso</h2>
+
+  <form [formGroup]="form" (ngSubmit)="createCourse()" class="course-form">
+    <div class="form-group">
+      <label>Nombre:</label>
+      <input formControlName="name" type="text" required />
+    </div>
+
+    <div class="form-group">
+      <label>Descripción:</label>
+      <input formControlName="description" type="text" />
+    </div>
+
+    <div class="form-group">
+      <label>Programa universitario:</label>
+      <input formControlName="universityProgram" type="text" />
+    </div>
+
+    <button type="submit" [disabled]="form.invalid" class="btn-primary">
+      💾 Guardar
+    </button>
+  </form>
+</div>
