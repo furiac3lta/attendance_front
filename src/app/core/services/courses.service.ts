@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { Observable } from 'rxjs';
+import { User } from '../models/user.models'; // ← Ajustar ruta según tu proyecto
 
 @Injectable({ providedIn: 'root' })
 export class CoursesService {
@@ -34,4 +35,12 @@ export class CoursesService {
   delete(id: number): Observable<any> {
     return this.http.delete<any>(`${this.apiUrl}/${id}`);
   }
+  assignInstructor(courseId: number, instructorId: number) {
+  return this.http.patch(`${this.apiUrl}/${courseId}/assign-instructor/${instructorId}`, {});
+}
+getInstructors() {
+  return this.http.get<User[]>(`${environment.API_URL}/users?role=INSTRUCTOR`);
+}
+
+
 }

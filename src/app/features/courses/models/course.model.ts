@@ -11,6 +11,8 @@ export interface Course {
   // 🔹 Instructor asignado al curso
   instructor?: User;
 
+    selectedInstructorId?: number;
+
   // 🔹 Alumnos inscriptos
   students?: User[];
 

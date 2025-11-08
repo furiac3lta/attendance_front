@@ -64,6 +64,9 @@ return this.http.post<User>(`${environment.API_URL}/users/create`, dto);
 getByCourse(courseId: number) {
   return this.http.get<any[]>(`${environment.API_URL}/by-course/${courseId}`);
 }
+getInstructors() {
+  return this.http.get<User[]>(`${environment.API_URL}/users?role=INSTRUCTOR`);
+}
 
 
 }
