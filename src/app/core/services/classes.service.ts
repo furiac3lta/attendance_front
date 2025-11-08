@@ -22,7 +22,7 @@ export class ClassesService {
   constructor(private http: HttpClient) {}
 
   /** ✅ Crear clase (formato correcto) */
-  createClass(data: { name: string; date: string; course: { id: number } }): Observable<any> {
+createClass(data: { name: string; date: string; courseId: number }): Observable<any> {
   return this.http.post<any>(this.apiUrl, data);
 }
 

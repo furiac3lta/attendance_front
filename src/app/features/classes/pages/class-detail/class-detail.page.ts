@@ -70,9 +70,11 @@ export class ClassDetailPage implements OnInit {
     const payload = {
       name: `Clase del ${this.datePipe.transform(new Date(), 'dd/MM/yyyy', 'es-AR')}`,
       date: new Date().toISOString().split('T')[0],
-      course: { id: this.courseId }
+      courseId: this.courseId
+
  // 👈 CORRECTO
     };
+  console.log("📦 Payload que se enviará:", JSON.stringify(payload, null, 2));
 
     console.log("📤 Payload enviado:", payload);
 
