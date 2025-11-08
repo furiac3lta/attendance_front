@@ -18,9 +18,8 @@
           <th>Nombre del curso</th>
           <th>Descripción</th>
           <th>Programa</th>
-          <th>Instructor</th>
+          <th>Instructor actual</th>
           <th>Asignar Instructor</th>
-
           <th>Acciones</th>
         </tr>
       </thead>
@@ -30,37 +29,46 @@
           <td>{{ c.name }}</td>
           <td>{{ c.description }}</td>
           <td>{{ c.universityProgram }}</td>
-          <td>{{ c.instructor?.fullName || 'Sin asignar' }}</td>
-<td>
-  <select [(ngModel)]="c.selectedInstructorId">
-    <option [ngValue]="null">-- Seleccionar --</option>
-    <option *ngFor="let inst of instructors" [ngValue]="inst.id">
-      {{ inst.fullName }}
-    </option>
-  </select>
 
-  <button class="btn btn-success btn-sm"
-    (click)="saveInstructor(c.id!, c.selectedInstructorId!)"
-    [disabled]="!c.selectedInstructorId">
-    Guardar
-  </button>
-</td>
-
-
-
+          <!-- ✅ Mostrar instructor -->
           <td>
-         <button
-  class="btn btn-success"
-  (click)="goToAttendance(c.id!)"
-  *ngIf="canTakeAttendance()"
->
-  🧾 Tomar asistencia
-</button>
+            <span *ngIf="c.instructorName && c.instructorName !== 'Sin asignar'">
+              {{ c.instructorName }}
+            </span>
+            <span *ngIf="!c.instructorName || c.instructorName === 'Sin asignar'">
+              <i>Sin asignar</i>
+            </span>
+          </td>
 
-<span *ngIf="!canTakeAttendance()" style="color: #888;">
-  🚫 Sin permisos
-</span>
+          <!-- ✅ Selector de instructor -->
+          <td>
+            <select [(ngModel)]="c.selectedInstructorId">
+              <option [ngValue]="null">-- Seleccionar --</option>
+              <option *ngFor="let inst of instructors" [ngValue]="inst.id">
+                {{ inst.fullName }}
+              </option>
+            </select>
 
+            <button class="btn btn-success btn-sm"
+              (click)="saveInstructor(c.id!, c.selectedInstructorId!)"
+              [disabled]="!c.selectedInstructorId">
+              Guardar
+            </button>
+          </td>
+
+          <!-- ✅ Acción tomar asistencia -->
+          <td>
+            <button
+              class="btn btn-success"
+              (click)="goToAttendance(c.id!)"
+              *ngIf="canTakeAttendance()"
+            >
+              🧾 Tomar asistencia
+            </button>
+
+            <span *ngIf="!canTakeAttendance()" style="color: #888;">
+              🚫 Sin permisos
+            </span>
           </td>
         </tr>
       </tbody>

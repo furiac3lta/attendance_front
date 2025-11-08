@@ -8,10 +8,12 @@ export interface Course {
   description?: string;
   universityProgram?: string;
 
-  // 🔹 Instructor asignado al curso
-  instructor?: User;
+ // ✅ Nuevos campos utilizados en el front
+  instructorId?: number | null;
+  instructorName?: string | null;
 
-    selectedInstructorId?: number;
+  // ✅ Campo usado solo en UI (no viene del backend)
+  selectedInstructorId?: number | null;
 
   // 🔹 Alumnos inscriptos
   students?: User[];

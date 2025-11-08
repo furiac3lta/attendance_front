@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Router,RouterLink } from '@angular/router';
+import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms'; // 👈 AGREGAR
 import { CoursesService } from '../../../../core/services/courses.service';
 import { Course } from '../../models/course.model';
@@ -10,7 +10,7 @@ import { User } from '../../../../core/services/users.service';
 @Component({
   selector: 'app-course-list-page',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterLink],
+  imports: [CommonModule, FormsModule],
   templateUrl: './course-list.page.html',
   styleUrls: ['./course-list.page.css'],
 })
@@ -41,7 +41,7 @@ export class CourseListPage implements OnInit {
         this.loading = false;
         this.courses = res.map((c: any) => ({
         ...c,
-        selectedInstructorId: c.instructor?.id ?? null // 👈 agregamos propiedad dinamicamente
+        selectedInstructorId: c.instructorId ?? null
       }));
       },
       error: () => {
