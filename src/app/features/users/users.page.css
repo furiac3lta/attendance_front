@@ -177,3 +177,51 @@ select[multiple] option {
     width: 100%;
   }
 }
+.course-badge {
+  display: inline-block;
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: white;
+  background: linear-gradient(135deg, #4f46e5, #6366f1);
+}
+
+/* Variantes automáticas dependiendo del nombre (opcional) */
+.course-badge::before {
+  content: "• ";
+  opacity: 0.8;
+}
+
+/* Si querés colores distintos por curso */
+.course-badge[data-type="BJJ"] {
+  background: linear-gradient(135deg, #1e3a8a, #3b82f6);
+}
+
+.course-badge[data-type="TKD"] {
+  background: linear-gradient(135deg, #16a34a, #22c55e);
+}
+
+.course-badge[data-type="Kids"] {
+  background: linear-gradient(135deg, #d97706, #f59e0b);
+}
+.chip {
+  display: inline-block;
+  background: #e8f0fe;
+  color: #1a3d7c;
+  padding: 3px 8px;
+  border-radius: 12px;
+  margin: 2px;
+  font-size: 13px;
+  border: 1px solid #c5d9ff;
+  white-space: nowrap;
+}
+
+.chip:hover {
+  background: #d6e6ff;
+}
+
+.no-courses {
+  color: #888;
+  font-style: italic;
+}

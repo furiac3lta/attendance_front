@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { Observable } from 'rxjs';
 
@@ -10,11 +10,11 @@ export interface User {
   fullName?: string;
   email?: string;
   active?: boolean;
-  role?: { name: string }[];
+  role?: string; // corregido: el backend devuelve un string, no array
   courses?: { id: number; name: string }[];
 }
 
-// ✅ DTO para crear un nuevo usuario
+// ✅ DTO para crear usuario
 export interface CreateUserDto {
   fullName: string;
   email: string;
@@ -28,45 +28,53 @@ export class UsersService {
 
   constructor(private http: HttpClient) {}
 
-  // 🔹 Obtener usuarios visibles según el rol
-  //    - SUPER_ADMIN → todos
-  //    - ADMIN → solo su organización
-  findAll(): Observable<User[]> {
-    return this.http.get<User[]>(`${this.base}/visible`);
+  // ✅ Añadimos token automáticamente
+  private authHeaders() {
+    const token = sessionStorage.getItem('token');
+    return {
+      headers: new HttpHeaders({
+        Authorization: `Bearer ${token}`
+      })
+    };
   }
 
-  // 🔹 Crear usuario (usa /auth/register para evitar conflicto con PUT)
-  create(dto: CreateUserDto): Observable<User> {
-   // ✅ Ahora
-return this.http.post<User>(`${environment.API_URL}/users/create`, dto);
+  // 🔹 Obtener usuarios visibles
+  findAll(): Observable<User[]> {
+    return this.http.get<User[]>(`${this.base}`, this.authHeaders());
+  }
 
+  // 🔹 Crear usuario
+  create(dto: CreateUserDto): Observable<User> {
+    return this.http.post<User>(`${this.base}/create`, dto, this.authHeaders());
   }
 
   // 🔹 Actualizar usuario
   update(id: number, data: any) {
-    return this.http.put(`${this.base}/${id}`, data, { responseType: 'text' });
+    return this.http.put(`${this.base}/${id}`, data, { ...this.authHeaders(), responseType: 'text' });
   }
 
   // 🔹 Eliminar usuario
   remove(id: number): Observable<any> {
-    return this.http.delete(`${this.base}/${id}`, { responseType: 'text' });
+    return this.http.delete(`${this.base}/${id}`, { ...this.authHeaders(), responseType: 'text' });
   }
 
-  // 🔹 Asignar cursos a un usuario
+  // 🔹 Asignar cursos
   assignCourses(userId: number, courseIds: number[]): Observable<string> {
-    return this.http.post(`${this.base}/${userId}/assign-courses`, courseIds, {
-      responseType: 'text', // 👈 no intenta parsear JSON
-    });
+    return this.http.post(`${this.base}/${userId}/assign-courses`, courseIds, { ...this.authHeaders(), responseType: 'text' });
   }
+
+  // 🔹 Listar visibles según el rol del usuario logueado
   findVisible(): Observable<User[]> {
-  return this.http.get<User[]>(`${environment.API_URL}/users/visible`);
-}
-getByCourse(courseId: number) {
-  return this.http.get<any[]>(`${environment.API_URL}/by-course/${courseId}`);
-}
-getInstructors() {
-  return this.http.get<User[]>(`${environment.API_URL}/users?role=INSTRUCTOR`);
-}
+    return this.http.get<User[]>(`${this.base}/visible`, this.authHeaders());
+  }
 
+  // 🔹 Obtener usuarios inscritos en un curso
+  getByCourse(courseId: number): Observable<User[]> {
+    return this.http.get<User[]>(`${this.base}/by-course/${courseId}`, this.authHeaders());
+  }
 
+  // 🔹 Listar instructores correctamente
+  getInstructors(): Observable<User[]> {
+    return this.http.get<User[]>(`${this.base}/role/INSTRUCTOR`, this.authHeaders());
+  }
 }

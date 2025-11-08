@@ -8,6 +8,7 @@ export interface User {
   id?: number;
   fullName: string;
   email: string;
+  courses: string[]; // ← ahora cursos son solo nombres
   role: 'SUPER_ADMIN' | 'ADMIN' | 'INSTRUCTOR' | 'USER';
   organization?: {
     id: number;

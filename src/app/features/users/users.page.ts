@@ -38,7 +38,7 @@ export class UsersPage {
 
   // 🔹 Cargar usuarios según el rol (usa /users/visible)
   loadUsers() {
-    this.usersSvc.findVisible().subscribe({
+    this.usersSvc.findAll().subscribe({
       next: (res) => {
         this.users = res || [];
         console.log('✅ Usuarios visibles cargados:', this.users);
