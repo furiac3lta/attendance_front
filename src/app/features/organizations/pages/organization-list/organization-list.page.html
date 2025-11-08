@@ -29,13 +29,14 @@
 
       <!-- 🔹 Nueva columna: mostrar admin actual -->
       <td>
-        <span *ngIf="org.admin; else noAdmin">
-          {{ org.admin.fullName }}
-        </span>
-        <ng-template #noAdmin>
-          <em class="text-muted">Sin asignar</em>
-        </ng-template>
-      </td>
+  <ng-container *ngIf="org.adminFullName; else noAdmin">
+    {{ org.adminFullName }}
+  </ng-container>
+
+  <ng-template #noAdmin>
+    <em class="text-muted">Sin asignar</em>
+  </ng-template>
+</td>
 
       <!-- 🔹 Nueva columna: select para reasignar -->
       <td *ngIf="userRole === 'SUPER_ADMIN'">

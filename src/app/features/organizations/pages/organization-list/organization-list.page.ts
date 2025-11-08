@@ -46,6 +46,8 @@ userRole: string | null = sessionStorage.getItem('role');
   loadAdmins() {
     this.usersService.findAll().subscribe({
       next: (res) => {
+          console.log("📦 Organizaciones recibidas del backend:", res);
+
         this.admins = (res || []).filter((u: any) => String(u.role).toUpperCase() === 'ADMIN');
 
         console.log('✅ Admins disponibles:', this.admins);
