@@ -1,0 +1,18 @@
+<h2>Asistencia de la clase</h2>
+
+<table border="1" cellpadding="6">
+  <tr>
+    <th>Alumno</th>
+    <th>Presente</th>
+  </tr>
+
+  <tr *ngFor="let r of records">
+    <td>{{ r.fullName }}</td>
+    <td>
+      <span *ngIf="r.present">✅</span>
+      <span *ngIf="!r.present">❌</span>
+    </td>
+  </tr>
+</table>
+
+<button (click)="goBack()">Volver</button>

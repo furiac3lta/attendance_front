@@ -118,6 +118,15 @@ export const routes: Routes = [
 
 
 ,
+
+{
+  path: 'attendance/view/:classId',
+  loadComponent: () =>
+    import('./features/attendance/pages/attendance-view/attendance-view.page')
+      .then(m => m.AttendanceViewPage)
+}
+,
+
       // 📝 REGISTRO DE USUARIOS
       {
         path: 'register',

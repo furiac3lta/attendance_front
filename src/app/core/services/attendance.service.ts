@@ -18,4 +18,15 @@ export class AttendanceService {
   registerAttendance(classId: number, marks: AttendanceMark[]): Observable<void> {
     return this.http.post<void>(`${this.apiUrl}/${classId}/attendance`, marks);
   }
+
+getMonthlyReport(courseId: number, month: number, year: number) {
+  return this.http.get<any[]>(`${environment.API_URL}/attendance/course/${courseId}/monthly`, {
+    params: { month, year }
+  });
+}
+getAttendance(classId: number) {
+  return this.http.get<any[]>(`${environment.API_URL}/classes/${classId}/attendance`);
+}
+
+
 }

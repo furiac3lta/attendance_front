@@ -1,15 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router,  } from '@angular/router';
 import { DatePipe } from '@angular/common';
 import { ClassesService, ClassSessionDto } from '../../../../core/services/classes.service';
 import { CoursesService } from '../../../../core/services/courses.service';
 
+
 @Component({
   selector: 'app-class-detail',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterLink],
+  imports: [CommonModule, FormsModule],
   providers: [DatePipe],
   templateUrl: './class-detail.page.html',
   styleUrls: ['./class-detail.page.css'],
@@ -93,4 +94,8 @@ export class ClassDetailPage implements OnInit {
   goToAttendance(classId: number): void {
     this.router.navigate(['/attendance/take', classId]);
   }
+  viewAttendance(classId: number): void {
+  this.router.navigate(['/attendance/view', classId]);
+}
+
 }
