@@ -40,24 +40,17 @@ export class CourseReportPage implements OnInit {
     private attendanceSvc: AttendanceService
   ) {}
 
-  ngOnInit(): void {
+ ngOnInit(): void {
     this.courseId = Number(this.route.snapshot.paramMap.get('courseId'));
-
     const today = new Date();
     this.month = today.getMonth() + 1;
     this.year = today.getFullYear();
-
-    // Generar últimos 5 años
-    for (let y = this.year; y >= this.year - 4; y--) {
-      this.years.push(y);
-    }
-
     this.loadReport();
   }
 
-  loadReport() {
-    this.attendanceSvc.getMonthlyReport(this.courseId, this.month, this.year).subscribe({
-      next: (res) => this.stats = res,
+ loadReport() {
+this.attendanceSvc.getMonthlyReport(this.courseId, this.month, this.year).subscribe({
+      next: res => this.stats = res,
       error: () => alert("⚠️ No se pudo cargar el reporte")
     });
   }

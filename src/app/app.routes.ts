@@ -127,6 +127,14 @@ export const routes: Routes = [
 }
 ,
 
+{
+  path: 'attendance/report/:courseId',
+  loadComponent: () =>
+    import('./features/attendance/pages/course-report/course-report.page')
+      .then(m => m.CourseReportPage)
+}
+,
+
       // 📝 REGISTRO DE USUARIOS
       {
         path: 'register',

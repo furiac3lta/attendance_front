@@ -98,4 +98,9 @@ export class ClassDetailPage implements OnInit {
   this.router.navigate(['/attendance/view', classId]);
 }
 
+goToReport() {
+  this.router.navigate(['/attendance/report', this.courseId]);
+}
+
+
 }

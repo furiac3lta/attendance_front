@@ -1,42 +1,19 @@
-<h2 style="margin-bottom: 12px;">
-  📊 Reporte mensual del curso
-</h2>
-<div style="display: flex; gap: 12px; margin-bottom: 14px; align-items: center;">
-  
-  <label>Mes:</label>
-  <select [(ngModel)]="month" (change)="loadReport()">
-    <option *ngFor="let m of months" [value]="m.value">
-      {{ m.label }}
-    </option>
-  </select>
+<h2>Reporte mensual</h2>
 
-  <label>Año:</label>
-  <select [(ngModel)]="year" (change)="loadReport()">
-    <option *ngFor="let y of years" [value]="y">{{ y }}</option>
-  </select>
+<table border="1" cellpadding="6">
+  <tr>
+    <th>Alumno</th>
+    <th>Asistencias</th>
+    <th>Faltas</th>
+    <th>Total</th>
+    <th>%</th>
+  </tr>
 
-</div>
-
-<table border="1" cellspacing="0" cellpadding="8" style="width:100%; border-collapse: collapse;">
-  <thead style="background: #f3f3f3;">
-    <tr>
-      <th>Alumno</th>
-      <th>Presentes</th>
-      <th>Ausentes</th>
-      <th>Total</th>
-      <th>% Asistencia</th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <tr *ngFor="let s of stats">
-      <td>{{ s.fullName }}</td>
-      <td>{{ s.presentCount }}</td>
-      <td>{{ s.absentCount }}</td>
-      <td>{{ s.total }}</td>
-      <td [style.color]="getColor(s.percent)">
-        <strong>{{ s.percent | number : '1.0-1' }}%</strong>
-      </td>
-    </tr>
-  </tbody>
+  <tr *ngFor="let s of stats">
+    <td>{{ s.studentName }}</td>
+    <td>{{ s.present }}</td>
+<td>{{ (s.totalClasses || 0) - (s.present || 0) }}</td>
+    <td>{{ s.total }}</td>
+    <td>{{ s.percent | number:'1.0-1' }}%</td>
+  </tr>
 </table>
