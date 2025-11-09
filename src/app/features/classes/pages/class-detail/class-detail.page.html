@@ -7,34 +7,28 @@
   </div>
 
   <hr />
-<button (click)="goToReport()" class="btn-report">
-  📊 Ver reporte mensual
-</button>
+  <button (click)="goToReport()" class="btn-report">📊 Ver reporte mensual</button>
+
   <div *ngIf="classes.length === 0" class="no-classes">
     ⚠️ Este curso no tiene clases creadas todavía.
   </div>
 
-<ul>
-  <li *ngFor="let c of classes" class="class-item">
+  <ul>
+    <li *ngFor="let c of classes" class="class-item">
+      <span>{{ c.name }} - {{ c.date }}</span>
 
-    <span>{{ c.name }} - {{ c.date }}</span>
+      <!-- ✅ Mostrar según tenga asistencia -->
+      <button *ngIf="!c.attendanceTaken" class="btn btn-success" (click)="goToAttendance(c.id)">
+        Tomar asistencia
+      </button>
 
-    <!-- Mostrar el botón según si ya tiene asistencia -->
-    <button *ngIf="!c.attendanceTaken" class="btn btn-success" (click)="goToAttendance(c.id)">
-      Tomar asistencia
-    </button>
+      <button *ngIf="c.attendanceTaken" class="btn btn-warning" (click)="goToAttendance(c.id)">
+        Editar asistencia
+      </button>
 
-    <button *ngIf="c.attendanceTaken" class="btn btn-warning" (click)="goToAttendance(c.id)">
-      Editar asistencia
-    </button>
-
-    <button class="btn btn-info" (click)="viewAttendance(c.id)">
-      Ver asistencia
-    </button>
-
-  </li>
-</ul>
-
+      <button class="btn" (click)="viewAttendance(c.id)">Ver asistencia</button>
+    </li>
+  </ul>
 
   <p *ngIf="message" class="message">{{ message }}</p>
 </div>
