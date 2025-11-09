@@ -13,14 +13,14 @@ import { ClassesService, StudentDto } from '../../../../core/services/classes.se
   styleUrls: ['./attendance-take.page.css'],
 })
 export class AttendanceTakePage implements OnInit {
-  classId!: number;
-  courseName = '';
+classId!: number;
+  courseId!: number;
   className = '';
+  courseName = '';
   date = '';
   students: StudentDto[] = [];
-
-  // Estructura correcta para el POST
   attendanceMarks: AttendanceMark[] = [];
+  wasAlreadyTaken = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -32,55 +32,53 @@ export class AttendanceTakePage implements OnInit {
   ngOnInit(): void {
     this.classId = Number(this.route.snapshot.paramMap.get('classId'));
 
-    if (!this.classId || Number.isNaN(this.classId)) {
-      alert('Clase inválida');
-      this.router.navigate(['/']);
-      return;
-    }
-
-    // Detalles (curso/clase)
-    this.classesSvc.getDetails(this.classId).subscribe({
-      next: (res) => {
-        this.className = res?.name ?? '';
-        this.date = res?.date ?? '';
-        this.courseName = res?.courseName ?? '';
-      },
-      error: () => alert('⚠️ No se pudo cargar la clase'),
+    this.classesSvc.getDetails(this.classId).subscribe(res => {
+      this.courseId = res.courseId; // ✅ Necesario para volver correctamente
     });
 
-    // Alumnos
-    this.classesSvc.getStudentsForClass(this.classId).subscribe({
-      next: (res) => {
-        this.students = res ?? [];
-        // inicializamos marcas (por defecto ausente = false)
-        this.attendanceMarks = this.students.map(s => ({ userId: s.id, present: false }));
-      },
-      error: () => alert('⚠️ No se pudieron cargar los alumnos'),
+    this.classesSvc.getStudentsForClass(this.classId).subscribe(res => {
+      this.students = res ?? [];
+
+   this.attendanceSvc.getSessionAttendance(this.classId).subscribe({
+  next: (attendanceRes: any[]) => {
+
+    if (attendanceRes && attendanceRes.length > 0) {
+      this.wasAlreadyTaken = true;
+      this.attendanceMarks = attendanceRes.map(a => ({
+        userId: a.userId,       // ✅ Ahora coincide
+        present: a.present     // ✅ Ahora coincide
+      }));
+    } else {
+      this.attendanceMarks = this.students.map(s => ({
+        userId: s.id,
+        present: false
+      }));
+    }
+  },
+  error: () => {
+    this.attendanceMarks = this.students.map(s => ({
+      userId: s.id,
+      present: false
+    }));
+  }
+});
+
     });
   }
 
   toggleAttendance(userId: number, present: boolean) {
-    const idx = this.attendanceMarks.findIndex(a => a.userId === userId);
-    if (idx >= 0) {
-      this.attendanceMarks[idx].present = present;
-    } else {
-      this.attendanceMarks.push({ userId, present });
-    }
+    const item = this.attendanceMarks.find(a => a.userId === userId);
+    if (item) item.present = present;
+  }
+
+  getMark(userId: number): boolean {
+    return this.attendanceMarks.find(a => a.userId === userId)?.present ?? false;
   }
 
   save() {
-    this.attendanceSvc.registerAttendance(this.classId, this.attendanceMarks).subscribe({
-      next: () => {
-        alert('✅ Asistencia guardada');
-        this.router.navigate(['/attendance/class', /* volver al curso */]);
-      },
-      error: () => alert('❌ No se pudo guardar la asistencia'),
+    this.attendanceSvc.registerAttendance(this.classId, this.attendanceMarks).subscribe(() => {
+      alert(this.wasAlreadyTaken ? '✅ Cambios guardados' : '✅ Asistencia registrada');
+      this.router.navigate(['/attendance/class', this.courseId]); // ✅ vuelve al curso correcto
     });
   }
-getMark(userId: number): boolean {
-  const mark = this.attendanceMarks.find(a => a.userId === userId);
-  return mark ? mark.present : false;
-}
-
-
 }

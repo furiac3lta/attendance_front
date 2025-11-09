@@ -13,6 +13,8 @@ export interface ClassSessionDto {
   id: number;
   name: string;
   date: string;
+  attendanceTaken?: boolean;
+  courseId: number;
 }
 
 @Injectable({ providedIn: 'root' })

@@ -4,7 +4,8 @@ import { roleGuard } from './core/guards/role.guard';
 import { RegisterComponent } from './features/auth/register/register.component';
 
 export const routes: Routes = [
-  // 🔹 LOGIN (público)
+
+  // 🔹 LOGIN (Público)
   {
     path: 'login',
     loadComponent: () =>
@@ -16,8 +17,9 @@ export const routes: Routes = [
     path: '',
     canActivate: [canActivateAuth],
     children: [
-      // 🏠 DASHBOARD
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
+
+      // 🏠 Dashboard
       {
         path: 'dashboard',
         loadComponent: () =>
@@ -26,7 +28,7 @@ export const routes: Routes = [
           ),
       },
 
-      // 👥 USUARIOS
+      // 👥 Usuarios
       {
         path: 'users',
         canActivate: [roleGuard],
@@ -35,7 +37,7 @@ export const routes: Routes = [
           import('./features/users/users.page').then((m) => m.UsersPage),
       },
 
-      // 🏢 ORGANIZACIONES
+      // 🏢 Organizaciones
       {
         path: 'organizations',
         canActivate: [roleGuard],
@@ -44,98 +46,89 @@ export const routes: Routes = [
           {
             path: '',
             loadComponent: () =>
-              import(
-                './features/organizations/pages/organization-list/organization-list.page'
-              ).then((m) => m.OrganizationListPage),
+              import('./features/organizations/pages/organization-list/organization-list.page')
+                .then((m) => m.OrganizationListPage),
           },
           {
             path: 'new',
             loadComponent: () =>
-              import(
-                './features/organizations/pages/organization-form/organization-form.page'
-              ).then((m) => m.OrganizationFormPage),
+              import('./features/organizations/pages/organization-form/organization-form.page')
+                .then((m) => m.OrganizationFormPage),
           },
           {
             path: ':id',
             loadComponent: () =>
-              import(
-                './features/organizations/pages/organization-detail/organization-detail.page'
-              ).then((m) => m.OrganizationDetailPage),
+              import('./features/organizations/pages/organization-detail/organization-detail.page')
+                .then((m) => m.OrganizationDetailPage),
           },
         ],
       },
 
-      // 📚 CURSOS
+      // 📚 Cursos
       {
         path: 'courses',
         canActivate: [roleGuard],
         data: { roles: ['SUPER_ADMIN', 'ADMIN', 'INSTRUCTOR'] },
         loadComponent: () =>
-          import(
-            './features/courses/pages/course-list/courses.list.page'
-          ).then((m) => m.CourseListPage),
+          import('./features/courses/pages/course-list/courses.list.page')
+            .then((m) => m.CourseListPage),
       },
       {
         path: 'courses/new',
         canActivate: [roleGuard],
         data: { roles: ['SUPER_ADMIN', 'ADMIN'] },
         loadComponent: () =>
-          import(
-            './features/courses/pages/course-form/course-form.page'
-          ).then((m) => m.CourseFormPage),
+          import('./features/courses/pages/course-form/course-form.page')
+            .then((m) => m.CourseFormPage),
       },
 
-      // 🧾 ASISTENCIA (INSTRUCTOR, ADMIN, SUPER_ADMIN)
-     {
-  path: 'attendance/take/:classId',
-  canActivate: [canActivateAuth, roleGuard],
-  data: { roles: ['SUPER_ADMIN', 'ADMIN', 'INSTRUCTOR'] },
-  loadComponent: () =>
-    import('./features/attendance/pages/attendance-take/attendance-take.page')
-      .then((m) => m.AttendanceTakePage),
-},
-
-
+      // 🧾 Asistencia
       {
         path: 'attendance',
         canActivate: [roleGuard],
         data: { roles: ['SUPER_ADMIN', 'ADMIN', 'INSTRUCTOR'] },
         loadComponent: () =>
-          import('./features/attendance/pages/attendance.page').then(
-            (m) => m.AttendancePage
-          ),
+          import('./features/attendance/pages/attendance.page')
+            .then(m => m.AttendancePage),
       },
 
-      
-{
-  path: 'attendance/class/:classId',
-  canActivate: [roleGuard],
-  data: { roles: ['SUPER_ADMIN', 'ADMIN', 'INSTRUCTOR'] },
-  loadComponent: () =>
-    import('./features/classes/pages/class-detail/class-detail.page')
-      .then(m => m.ClassDetailPage)
-}
+      // ✅ VER LISTA DE CLASES DE UN CURSO
+      {
+        path: 'attendance/class/:courseId', // <-- esta es la correcta
+        canActivate: [roleGuard],
+        data: { roles: ['SUPER_ADMIN', 'ADMIN', 'INSTRUCTOR'] },
+        loadComponent: () =>
+          import('./features/classes/pages/class-detail/class-detail.page')
+            .then(m => m.ClassDetailPage),
+      },
 
+      // ✅ TOMAR O EDITAR ASISTENCIA
+      {
+        path: 'attendance/take/:classId',
+        canActivate: [roleGuard],
+        data: { roles: ['SUPER_ADMIN', 'ADMIN', 'INSTRUCTOR'] },
+        loadComponent: () =>
+          import('./features/attendance/pages/attendance-take/attendance-take.page')
+            .then(m => m.AttendanceTakePage),
+      },
 
-,
+      // ✅ Ver asistencia tomada
+      {
+        path: 'attendance/view/:classId',
+        loadComponent: () =>
+          import('./features/attendance/pages/attendance-view/attendance-view.page')
+            .then(m => m.AttendanceViewPage),
+      },
 
-{
-  path: 'attendance/view/:classId',
-  loadComponent: () =>
-    import('./features/attendance/pages/attendance-view/attendance-view.page')
-      .then(m => m.AttendanceViewPage)
-}
-,
+      // ✅ Reporte mensual
+      {
+        path: 'attendance/report/:courseId',
+        loadComponent: () =>
+          import('./features/attendance/pages/course-report/course-report.page')
+            .then(m => m.CourseReportPage),
+      },
 
-{
-  path: 'attendance/report/:courseId',
-  loadComponent: () =>
-    import('./features/attendance/pages/course-report/course-report.page')
-      .then(m => m.CourseReportPage)
-}
-,
-
-      // 📝 REGISTRO DE USUARIOS
+      // 📝 Registro de usuarios
       {
         path: 'register',
         canActivate: [roleGuard],
@@ -145,19 +138,5 @@ export const routes: Routes = [
     ],
   },
 
-  // 🔹 CUALQUIER OTRA RUTA
-  {
-    path: '**',
-    redirectTo: 'dashboard',
-    pathMatch: 'full',
-  },
-  {
-  path: 'attendance/class/:courseId',
-  loadComponent: () => import('./features/classes/pages/class-detail/class-detail.page').then(m => m.ClassDetailPage)
-},
-{
-  path: 'attendance/take/:classId',
-  loadComponent: () => import('./features/attendance/pages/attendance-take/attendance-take.page').then(m => m.AttendanceTakePage)
-},
-
+  { path: '**', redirectTo: 'dashboard', pathMatch: 'full' },
 ];

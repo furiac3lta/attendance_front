@@ -14,16 +14,23 @@
     ⚠️ Este curso no tiene clases creadas todavía.
   </div>
 
-  <ul>
+<ul>
   <li *ngFor="let c of classes" class="class-item">
 
     <span>{{ c.name }} - {{ c.date }}</span>
 
-    <!-- Botón para tomar asistencia -->
-    <button (click)="goToAttendance(c.id)">Tomar asistencia</button>
+    <!-- Mostrar el botón según si ya tiene asistencia -->
+    <button *ngIf="!c.attendanceTaken" class="btn btn-success" (click)="goToAttendance(c.id)">
+      Tomar asistencia
+    </button>
 
-    <!-- ✅ NUEVO botón para ver asistencia -->
-    <button (click)="viewAttendance(c.id)">Ver asistencia</button>
+    <button *ngIf="c.attendanceTaken" class="btn btn-warning" (click)="goToAttendance(c.id)">
+      Editar asistencia
+    </button>
+
+    <button class="btn btn-info" (click)="viewAttendance(c.id)">
+      Ver asistencia
+    </button>
 
   </li>
 </ul>
