@@ -1,12 +1,20 @@
 <nav class="navbar">
+
   <div class="navbar-left">
     <a routerLink="/" class="logo">🏠 Attendance</a>
 
     <ng-container *ngIf="isLoggedIn">
+
       <a *ngIf="canSee('dashboard')" routerLink="/dashboard" routerLinkActive="active">📊 Dashboard</a>
+
       <a *ngIf="canSee('organizations')" routerLink="/organizations" routerLinkActive="active">🏢 Organizaciones</a>
+
       <a *ngIf="canSee('users')" routerLink="/users" routerLinkActive="active">👥 Usuarios</a>
+
       <a *ngIf="canSee('courses')" routerLink="/courses" routerLinkActive="active">📚 Cursos</a>
+
+      <a *ngIf="canSee('attendance')" routerLink="/attendance" routerLinkActive="active">✅ Asistencia</a>
+
     </ng-container>
   </div>
 
@@ -16,4 +24,5 @@
     </span>
     <button (click)="logout()" class="btn-logout">Cerrar sesión</button>
   </div>
+
 </nav>

@@ -7,7 +7,6 @@ import { AuthService } from '../../../core/services/auth.service';
 
 interface DecodedToken {
   sub: string;
-  role?: string;
   exp?: number;
 }
 
@@ -22,13 +21,22 @@ export class NavbarComponent implements OnInit, OnDestroy {
   isLoggedIn = false;
   userName: string | null = null;
   userRole: string | null = null;
-  private sub!: Subscription;
 
-  constructor(private authService: AuthService, private router: Router) {}
+  private subRole!: Subscription;
+  private subLogin!: Subscription;
+
+  constructor(private auth: AuthService, private router: Router) {}
 
   ngOnInit(): void {
-    this.sub = this.authService.loginStatus$.subscribe((logged) => {
+    // ✅ Se actualiza cuando cambia el login
+    this.subLogin = this.auth.loginStatus$.subscribe(logged => {
       this.isLoggedIn = logged;
+      this.loadUserInfo();
+    });
+
+    // ✅ Se actualiza cuando cambia el rol (login o logout)
+    this.subRole = this.auth.role$.subscribe(role => {
+      this.userRole = role;
       this.loadUserInfo();
     });
 
@@ -36,39 +44,45 @@ export class NavbarComponent implements OnInit, OnDestroy {
   }
 
   loadUserInfo(): void {
-    const token = sessionStorage.getItem('token');
-    const role = sessionStorage.getItem('role');
+    this.userRole = this.auth.getRole() || null;
+    const user = this.auth.getUser();
 
+    if (user?.fullName) {
+      this.userName = user.fullName.split(' ')[0]; // solo nombre
+      return;
+    }
+
+    const token = this.auth.getToken();
     if (token) {
       try {
         const decoded = jwtDecode<DecodedToken>(token);
         this.userName = decoded.sub?.split('@')[0] ?? 'Usuario';
-        this.userRole = role ?? 'USER';
-      } catch (e) {
-        console.warn('⚠️ Token inválido o no decodificable', e);
-      }
+      } catch {}
     }
   }
 
   canSee(link: string): boolean {
     switch (this.userRole) {
       case 'SUPER_ADMIN':
-        return ['dashboard', 'organizations', 'users', 'courses'].includes(link);
+        return ['dashboard', 'organizations', 'users', 'courses', 'attendance'].includes(link);
       case 'ADMIN':
-        return ['dashboard', 'users', 'courses'].includes(link);
+        return ['dashboard', 'users', 'courses', 'attendance'].includes(link);
       case 'INSTRUCTOR':
         return ['dashboard', 'courses', 'attendance'].includes(link);
+      case 'USER':
+        return ['courses', 'attendance'].includes(link);
       default:
         return false;
     }
   }
 
   logout(): void {
-    this.authService.logout();
+    this.auth.logout();
     this.router.navigate(['/login']);
   }
 
   ngOnDestroy(): void {
-    this.sub?.unsubscribe();
+    this.subRole?.unsubscribe();
+    this.subLogin?.unsubscribe();
   }
 }
