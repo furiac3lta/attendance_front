@@ -1,9 +1,8 @@
+<!-- src/app/features/users/users.page.html -->
 <div class="container">
-
   <h2 class="title">👥 Gestión de Usuarios</h2>
 
   <form [formGroup]="form" (ngSubmit)="saveUser()" class="form">
-
     <input type="text" formControlName="username" placeholder="Nombre completo" required>
     <input type="email" formControlName="email" placeholder="Correo electrónico" required>
     <input type="password" formControlName="password" placeholder="Contraseña" [required]="!editingUserId">
@@ -26,12 +25,11 @@
 
       <button *ngIf="editingUserId" class="btn-secondary" type="button" (click)="cancelEdit()">❌ Cancelar</button>
     </div>
-
   </form>
 
   <hr>
 
-  <table class="table">
+  <table class="table" *ngIf="users.length; else noUsers">
     <thead>
       <tr>
         <th>ID</th><th>Nombre</th><th>Email</th><th>Rol</th><th>Organización</th><th>Cursos</th><th>Asignar</th><th>Acciones</th>
@@ -39,20 +37,22 @@
     </thead>
 
     <tbody>
-      <tr *ngFor="let u of users">
+      <tr *ngFor="let u of users; trackBy: trackByUserId">
         <td>{{ u.id }}</td>
         <td>{{ u.fullName }}</td>
         <td>{{ u.email }}</td>
         <td>{{ u.role }}</td>
-<td>{{ u.organizationName || 'Sin asignar' }}</td>
+        <td>{{ u.organizationName || 'Sin asignar' }}</td>
 
+        <!-- Cursos seguro -->
         <td>
-          <ng-container *ngIf="u.courses?.length; else noCourses">
-<span *ngFor="let c of u.courses" class="chip">{{ c }}</span>
+          <ng-container *ngIf="u.courses && u.courses.length; else noCourses">
+            <span *ngFor="let c of u.courses" class="chip">{{ c }}</span>
           </ng-container>
           <ng-template #noCourses><span class="no-courses">Sin cursos</span></ng-template>
         </td>
 
+        <!-- Selección cursos -->
         <td>
           <select multiple (change)="onCoursesChange(u.id, $event)">
             <option *ngFor="let c of courses" [value]="c.id">{{ c.name }}</option>
@@ -60,6 +60,7 @@
           <button class="btn-small" (click)="saveCourses(u.id)">💾</button>
         </td>
 
+        <!-- Acciones -->
         <td>
           <button class="btn-warning" (click)="editUser(u)">✏️</button>
           <button class="btn-danger" (click)="deleteUser(u.id)">🗑️</button>
@@ -68,4 +69,14 @@
     </tbody>
   </table>
 
+  <ng-template #noUsers>
+    <p>Sin usuarios para mostrar.</p>
+  </ng-template>
+
+  <!-- Paginación -->
+  <div class="pagination">
+    <button (click)="prevPage()" [disabled]="currentPage === 0">⬅️ Anterior</button>
+    <span>Página {{ currentPage + 1 }} de {{ totalPages }} ({{ totalElements }} usuarios)</span>
+    <button (click)="nextPage()" [disabled]="currentPage >= totalPages - 1">Siguiente ➡️</button>
+  </div>
 </div>
