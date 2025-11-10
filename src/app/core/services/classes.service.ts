@@ -48,4 +48,10 @@ createClass(data: { name: string; date: string; courseId: number }): Observable<
   getStudentsForClass(classId: number): Observable<StudentDto[]> {
     return this.http.get<StudentDto[]>(`${this.apiUrl}/${classId}/students`);
   }
+  
+getClassDetails(classId: number) {
+  return this.http.get<any>(`${environment.API_URL}/classes/${classId}/details`);
+}
+
+
 }

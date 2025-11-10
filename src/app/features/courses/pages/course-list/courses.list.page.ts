@@ -92,6 +92,9 @@ saveInstructor(courseId: number, instructorId: number | null): void {
     error: (err) => console.error("❌ Error asignando instructor", err),
   });
 }
+goToReport(courseId: number) {
+  this.router.navigate(['/attendance/report', courseId]);
+}
 
 
 }

@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { Observable } from 'rxjs';
 import { User } from '../models/user.models'; // ← Ajustar ruta según tu proyecto
+import { Router } from '@angular/router';
 
 @Injectable({ providedIn: 'root' })
 export class CoursesService {

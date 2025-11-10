@@ -58,13 +58,14 @@
 
           <!-- ✅ Acción tomar asistencia -->
           <td>
-            <button
-              class="btn btn-success"
-              (click)="goToAttendance(c.id!)"
-              *ngIf="canTakeAttendance()"
-            >
-              🧾 Tomar asistencia
-            </button>
+           <td>
+  <button class="btn btn-success" (click)="goToAttendance(c.id!)">
+    Tomar asistencia
+  </button>
+
+  <button class="btn btn-info" style="margin-left: 8px;" (click)="goToReport(c.id!)">
+    📊 Reporte mensual
+  </button>
 
             <span *ngIf="!canTakeAttendance()" style="color: #888;">
               🚫 Sin permisos
