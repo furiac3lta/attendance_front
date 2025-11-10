@@ -8,7 +8,8 @@ import { AttendanceService } from '../../../../core/services/attendance.service'
   selector: 'app-course-report',
   standalone: true,
   imports: [CommonModule, FormsModule], // ✅ Agregado
-  templateUrl: './course-report.page.html'
+  templateUrl: './course-report.page.html',
+  styleUrls: ['./course-report.page.css'],
 })
 export class CourseReportPage implements OnInit {
 

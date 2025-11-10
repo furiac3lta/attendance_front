@@ -1,0 +1,56 @@
+h2 {
+  text-align: center;
+  margin: 20px 0;
+  font-weight: 600;
+  color: #222;
+  letter-spacing: 0.5px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 15px;
+  background: #ffffff;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+
+th {
+  background: #121212;
+  color: #fff;
+  text-transform: uppercase;
+  font-size: 14px;
+  letter-spacing: 0.5px;
+  padding: 10px;
+  text-align: center;
+}
+
+td {
+  padding: 10px;
+  text-align: center;
+  font-size: 14px;
+}
+
+tr:nth-child(even) {
+  background: #f8f8f8;
+}
+
+tr:hover {
+  background: #ebebeb;
+  transition: 0.3s;
+}
+
+/* Opcional: resaltar los que tienen asistencia baja */
+td:last-child {
+  font-weight: bold;
+}
+
+td:last-child.ng-invalid,
+td:last-child.low {
+  color: #d62828;
+}
+
+td:last-child.high {
+  color: #2a9d8f;
+}
