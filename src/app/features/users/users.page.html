@@ -1,39 +1,40 @@
 <div class="container">
-  <h2>👥 Gestión de Usuarios</h2>
 
-  <form [formGroup]="form" (ngSubmit)="saveUser()" class="user-form">
+  <h2 class="title">👥 Gestión de Usuarios</h2>
+
+  <form [formGroup]="form" (ngSubmit)="saveUser()" class="form">
+
     <input type="text" formControlName="username" placeholder="Nombre completo" required>
     <input type="email" formControlName="email" placeholder="Correo electrónico" required>
     <input type="password" formControlName="password" placeholder="Contraseña" [required]="!editingUserId">
+
     <select formControlName="role">
       <option value="USER">Usuario</option>
       <option value="INSTRUCTOR">Instructor</option>
       <option value="ADMIN">Administrador</option>
     </select>
 
-    <div class="form-actions">
-      <button type="submit" class="btn btn-primary">
+    <select *ngIf="currentRole === 'SUPER_ADMIN'" formControlName="organizationId">
+      <option value="">-- Seleccionar organización --</option>
+      <option *ngFor="let org of organizations" [value]="org.id">{{ org.name }}</option>
+    </select>
+
+    <div class="actions">
+      <button class="btn-primary" type="submit">
         {{ editingUserId ? '💾 Guardar Cambios' : '➕ Crear Usuario' }}
       </button>
 
-      <button *ngIf="editingUserId" type="button" class="btn btn-secondary" (click)="cancelEdit()">
-        ❌ Cancelar Edición
-      </button>
+      <button *ngIf="editingUserId" class="btn-secondary" type="button" (click)="cancelEdit()">❌ Cancelar</button>
     </div>
+
   </form>
 
-  <hr />
+  <hr>
 
-  <table class="table table-hover text-center align-middle">
+  <table class="table">
     <thead>
       <tr>
-        <th>ID</th>
-        <th>Usuario</th>
-        <th>Email</th>
-        <th>Rol</th>
-        <th>Cursos actuales</th>
-        <th>Asignar cursos</th>
-        <th>Acciones</th>
+        <th>ID</th><th>Nombre</th><th>Email</th><th>Rol</th><th>Organización</th><th>Cursos</th><th>Asignar</th><th>Acciones</th>
       </tr>
     </thead>
 
@@ -43,35 +44,28 @@
         <td>{{ u.fullName }}</td>
         <td>{{ u.email }}</td>
         <td>{{ u.role }}</td>
+<td>{{ u.organizationName || 'Sin asignar' }}</td>
 
-        <!-- ✅ CURSOS ACTUALES (CORREGIDO) -->
-<td>
-  <ng-container *ngIf="u.courses && u.courses.length > 0; else noCourses">
-    <span class="chip" *ngFor="let course of u.courses">
-      {{ course }}
-    </span>
-  </ng-container>
+        <td>
+          <ng-container *ngIf="u.courses?.length; else noCourses">
+<span *ngFor="let c of u.courses" class="chip">{{ c }}</span>
+          </ng-container>
+          <ng-template #noCourses><span class="no-courses">Sin cursos</span></ng-template>
+        </td>
 
-  <ng-template #noCourses>
-    <span class="no-courses">Sin cursos</span>
-  </ng-template>
-</td>
-
-        <!-- Asignar cursos -->
         <td>
           <select multiple (change)="onCoursesChange(u.id, $event)">
             <option *ngFor="let c of courses" [value]="c.id">{{ c.name }}</option>
           </select>
-          <button class="btn btn-sm btn-success mt-1" (click)="saveCourses(u.id)">
-            💾 Guardar
-          </button>
+          <button class="btn-small" (click)="saveCourses(u.id)">💾</button>
         </td>
 
         <td>
-          <button (click)="editUser(u)" class="btn btn-sm btn-warning me-1">✏️ Editar</button>
-          <button (click)="deleteUser(u.id)" class="btn btn-sm btn-danger">🗑️ Eliminar</button>
+          <button class="btn-warning" (click)="editUser(u)">✏️</button>
+          <button class="btn-danger" (click)="deleteUser(u.id)">🗑️</button>
         </td>
       </tr>
     </tbody>
   </table>
+
 </div>

@@ -20,172 +20,117 @@ export class UsersPage {
 
   users: User[] = [];
   courses: any[] = [];
+  organizations: any[] = [];
   selectedCourses: Record<number, number[]> = {};
 
+  currentRole: string | null = sessionStorage.getItem('role');
   editingUserId: number | null = null;
 
   form = this.fb.group({
     username: ['', Validators.required],
     email: [''],
     password: [''],
-    role: ['USER', Validators.required]
+    role: ['USER', Validators.required],
+    organizationId: [null as number | null]
   });
 
   ngOnInit() {
     this.loadUsers();
     this.loadCourses();
+    if (this.currentRole === 'SUPER_ADMIN') this.loadOrganizations();
   }
 
-  // 🔹 Cargar usuarios según el rol (usa /users/visible)
   loadUsers() {
     this.usersSvc.findAll().subscribe({
-      next: (res) => {
-        this.users = res || [];
-        console.log('✅ Usuarios visibles cargados:', this.users);
-      },
-      error: (err) => {
-        console.error('❌ Error al cargar usuarios visibles:', err);
-        this.snackbar.show('❌ Error al cargar usuarios visibles');
-      }
+      next: (res) => this.users = res,
+      error: () => this.snackbar.show('❌ Error al cargar usuarios')
     });
   }
 
-  // 🔹 Cargar cursos (el instructor verá solo los suyos desde el backend)
   loadCourses() {
     this.coursesSvc.findAll().subscribe({
-      next: (res) => {
-        this.courses = res || [];
-        console.log('✅ Cursos cargados:', this.courses);
-      },
-      error: (err) => {
-        console.error('❌ Error al cargar cursos:', err);
-        this.snackbar.show('❌ Error al cargar cursos');
-      }
+      next: (res) => this.courses = res,
+      error: () => this.snackbar.show('❌ Error al cargar cursos')
     });
   }
 
-  // 🔹 Crear o actualizar usuario
-  saveUser() {
-    if (this.form.invalid) {
-      this.snackbar.show('⚠️ Completa los campos requeridos');
-      return;
-    }
+  loadOrganizations() {
+    this.usersSvc.getOrganizations().subscribe({
+      next: (res) => this.organizations = res,
+      error: () => this.snackbar.show('❌ Error al cargar organizaciones')
+    });
+  }
 
+  saveUser() {
+    if (this.form.invalid) return this.snackbar.show('⚠️ Completa los campos requeridos');
     const dto = this.form.value;
 
-    const payload = {
-      fullName: dto.username ?? '',
+    const payload: any = {
+      fullName: dto.username!,
       email: dto.email || `${dto.username}@dojo.com`,
-      password: dto.password || '',
-      role: dto.role || 'USER'
+      password: dto.password ?? '',
+      role: dto.role!
     };
 
-    if (this.editingUserId) {
-      // 🟢 Actualizar usuario existente
-      this.usersSvc.update(this.editingUserId, payload).subscribe({
-        next: (res: any) => {
-          console.log('✅ Usuario actualizado:', res);
-          this.snackbar.show('✅ Usuario actualizado correctamente');
-          this.loadUsers();
-          this.cancelEdit();
-        },
-        error: (err) => {
-          console.error('❌ Error al actualizar usuario:', err);
-          this.snackbar.show('❌ Error al actualizar usuario');
-        }
-      });
-    } else {
-      // 🆕 Crear usuario nuevo
-      this.usersSvc.create(payload).subscribe({
-        next: () => {
-          this.snackbar.show('✅ Usuario creado correctamente');
-          this.form.reset({ role: 'USER' });
-          this.loadUsers();
-        },
-        error: (err) => {
-          console.error('❌ Error al crear usuario:', err);
-          this.snackbar.show('❌ Error al crear usuario');
-        }
-      });
+    if (this.currentRole === 'SUPER_ADMIN' && dto.organizationId) {
+      payload.organization = { id: dto.organizationId };
     }
-  }
 
-  // 🔹 Iniciar edición
-  editUser(user: User): void {
-    this.editingUserId = user.id!;
-    this.form.patchValue({
-      username: user.fullName || user['username'] || '',
-      email: user.email || '',
-      password: '',
-      role: typeof user.role === 'string' ? user.role : 'USER'
+    const request = this.editingUserId
+      ? this.usersSvc.update(this.editingUserId, payload)
+      : this.usersSvc.create(payload);
+
+    request.subscribe({
+      next: () => {
+        this.snackbar.show('✅ Usuario guardado');
+        this.form.reset({ role: 'USER' });
+        this.loadUsers();
+        this.editingUserId = null;
+      },
+      error: () => this.snackbar.show('❌ Error al guardar usuario')
     });
-    this.snackbar.show(`✏️ Editando usuario: ${user.fullName}`);
   }
 
-  // 🔹 Cancelar edición
+  editUser(user: User): void {
+  this.editingUserId = user.id!;
+  this.form.patchValue({
+    username: user.fullName,
+    email: user.email,
+    role: user.role,
+    organizationId: user.organizationId ?? null
+  });
+}
+
+
   cancelEdit() {
     this.editingUserId = null;
     this.form.reset({ role: 'USER' });
   }
 
-  // 🔹 Eliminar usuario
   deleteUser(id: number) {
     if (!confirm('¿Eliminar este usuario?')) return;
-
     this.usersSvc.remove(id).subscribe({
-      next: () => {
-        this.snackbar.show('✅ Usuario eliminado correctamente');
-        this.loadUsers();
-      },
-      error: (err) => {
-        console.error('❌ Error al eliminar usuario:', err);
-        this.snackbar.show('❌ No se pudo eliminar el usuario');
-      }
+      next: () => this.loadUsers(),
+      error: () => this.snackbar.show('❌ No se pudo eliminar usuario')
     });
   }
 
-  // 🔹 Mostrar nombres de cursos
-  getCourseNames(user: any): string {
-    if (!user?.courses?.length) return 'Sin cursos';
-    return user.courses.map((c: any) => c.name).join(', ');
-  }
-
-  // 🔹 Guardar cursos seleccionados
   saveCourses(userId: number) {
     const courseIds = this.selectedCourses[userId] || [];
-
-    if (!courseIds.length) {
-      this.snackbar.show('⚠️ Selecciona al menos un curso');
-      return;
-    }
+    if (!courseIds.length) return this.snackbar.show('⚠️ Selecciona cursos');
 
     this.usersSvc.assignCourses(userId, courseIds).subscribe({
-      next: (response: any) => {
-        console.log('📩 Respuesta backend:', response);
-
-        if (typeof response === 'object' && response.courses) {
-          const index = this.users.findIndex(u => u.id === userId);
-          if (index !== -1) {
-            this.users[index].courses = response.courses;
-          }
-        } else {
-          this.loadUsers();
-        }
-
-        this.snackbar.show('✅ Cursos asignados correctamente');
+      next: () => {
+        this.snackbar.show('✅ Cursos asignados');
+        this.loadUsers();
       },
-      error: (err) => {
-        console.error('❌ Error al asignar cursos:', err);
-        this.snackbar.show('❌ Error al asignar cursos');
-      }
+      error: () => this.snackbar.show('❌ Error al asignar cursos')
     });
   }
 
-  // 🔹 Manejar cambios en el select múltiple
   onCoursesChange(userId: number, event: Event) {
     const select = event.target as HTMLSelectElement;
-    const selectedIds = Array.from(select.selectedOptions).map(opt => Number(opt.value));
-    this.selectedCourses[userId] = selectedIds;
-    console.log(`📘 Cursos seleccionados para user ${userId}:`, selectedIds);
+    this.selectedCourses[userId] =
+      Array.from(select.selectedOptions).map(opt => Number(opt.value));
   }
 }

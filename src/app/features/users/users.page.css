@@ -1,227 +1,148 @@
-/* 📦 Contenedor general */
 .container {
-  max-width: 1200px;
-  margin: 30px auto;
+  max-width: 1050px;
+  margin: 0 auto;
   padding: 25px;
-  background: #fff;
-  border-radius: 12px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-  font-family: "Inter", system-ui, sans-serif;
+  font-family: 'Inter', sans-serif;
 }
 
-/* 🔹 Título */
-.container h2 {
+.title {
   text-align: center;
-  font-size: 1.8rem;
+  font-weight: 600;
+  color: #004d7a;
   margin-bottom: 25px;
-  color: #111;
 }
 
-/* 🧾 Formulario */
-.user-form {
+/* FORM */
+.form {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 15px;
+  gap: 12px;
   margin-bottom: 25px;
 }
 
-.user-form input,
-.user-form select {
-  padding: 10px 14px;
-  border: 1px solid #ccc;
+.form input,
+.form select {
+  padding: 10px;
+  border: 1px solid #b6d6e8;
   border-radius: 6px;
-  font-size: 0.95rem;
-  transition: all 0.2s ease;
+  font-size: 14px;
+  background: #f8fcff;
 }
 
-.user-form input:focus,
-.user-form select:focus {
-  border-color: #3b82f6;
-  box-shadow: 0 0 5px rgba(59, 130, 246, 0.3);
+.form input:focus,
+.form select:focus {
+  border-color: #0095d9;
   outline: none;
+  box-shadow: 0 0 4px rgba(0, 147, 208, 0.4);
 }
 
-/* 🔘 Botones del formulario */
-.form-actions {
-  grid-column: 1 / -1;
-  display: flex;
-  justify-content: center;
-  gap: 10px;
-  margin-top: 10px;
-}
-
-.btn {
-  border: none;
-  border-radius: 6px;
-  padding: 8px 14px;
-  font-size: 0.9rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
+/* BUTTONS */
 .btn-primary {
-  background-color: #3b82f6;
-  color: #fff;
+  grid-column: span 2;
+  background: #0095d9;
+  color: white;
+  padding: 12px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  transition: 0.2s;
+  font-weight: 600;
 }
 
 .btn-primary:hover {
-  background-color: #2563eb;
-  transform: scale(1.05);
+  background: #007fb9;
 }
 
 .btn-secondary {
-  background-color: #f3f4f6;
-  color: #333;
+  grid-column: span 2;
+  background: #d1e9f6;
+  color: #004d7a;
+  padding: 12px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  transition: 0.2s;
+  font-weight: 600;
 }
 
 .btn-secondary:hover {
-  background-color: #e5e7eb;
-  transform: scale(1.05);
+  background: #b6d6e8;
 }
 
-/* 🧍‍♂️ Tabla de usuarios */
+/* TABLE */
+.table {
+  width: 100
+}
+.container {
+  max-width: 1050px;
+  margin: auto;
+  padding: 20px;
+}
+
+.title {
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+.form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.form input,
+.form select {
+  flex: 1;
+  padding: 8px;
+  border-radius: 6px;
+  border: 1px solid #bbb;
+}
+
+.actions {
+  width: 100%;
+  display: flex;
+  gap: 10px;
+  margin-top: 5px;
+}
+
+.btn-primary, .btn-secondary {
+  padding: 8px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  flex: 1;
+  font-weight: bold;
+}
+
+.btn-primary { background: #0066ff; color: white; }
+.btn-secondary { background: #ddd; }
+
 .table {
   width: 100%;
   border-collapse: collapse;
-  margin-top: 20px;
 }
 
-.table th,
-.table td {
-  padding: 12px 15px;
-  border-bottom: 1px solid #e5e5e5;
+.table th, .table td {
+  padding: 8px;
+  border-bottom: 1px solid #ddd;
   text-align: center;
-  font-size: 0.95rem;
 }
 
-.table thead {
-  background-color: #111;
-  color: #fff;
-  text-transform: uppercase;
-  font-size: 0.85rem;
-}
-
-.table tbody tr:hover {
-  background-color: #f9fafb;
-  transition: background-color 0.2s ease;
-}
-
-/* 🎓 Select múltiple */
-select[multiple] {
-  width: 100%;
-  height: 90px;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  padding: 5px;
-  font-size: 0.9rem;
-}
-
-select[multiple] option {
-  padding: 4px 8px;
-}
-
-/* 🎯 Botones dentro de la tabla */
-.btn-sm {
-  padding: 5px 8px;
-  font-size: 0.8rem;
-  margin: 2px;
-}
-
-.btn-warning {
-  background-color: #f59e0b;
-  color: #fff;
-}
-
-.btn-warning:hover {
-  background-color: #d97706;
-}
-
-.btn-danger {
-  background-color: #ef4444;
-  color: #fff;
-}
-
-.btn-danger:hover {
-  background-color: #dc2626;
-}
-
-.btn-success {
-  background-color: #22c55e;
-  color: #fff;
-}
-
-.btn-success:hover {
-  background-color: #16a34a;
-}
-
-/* 🪟 Responsividad */
-@media (max-width: 768px) {
-  .container {
-    padding: 15px;
-  }
-
-  .table {
-    font-size: 0.85rem;
-  }
-
-  .user-form {
-    grid-template-columns: 1fr;
-  }
-
-  .form-actions {
-    flex-direction: column;
-  }
-
-  .btn {
-    width: 100%;
-  }
-}
-.course-badge {
-  display: inline-block;
-  padding: 4px 8px;
-  border-radius: 6px;
-  font-size: 0.75rem;
-  font-weight: 600;
-  color: white;
-  background: linear-gradient(135deg, #4f46e5, #6366f1);
-}
-
-/* Variantes automáticas dependiendo del nombre (opcional) */
-.course-badge::before {
-  content: "• ";
-  opacity: 0.8;
-}
-
-/* Si querés colores distintos por curso */
-.course-badge[data-type="BJJ"] {
-  background: linear-gradient(135deg, #1e3a8a, #3b82f6);
-}
-
-.course-badge[data-type="TKD"] {
-  background: linear-gradient(135deg, #16a34a, #22c55e);
-}
-
-.course-badge[data-type="Kids"] {
-  background: linear-gradient(135deg, #d97706, #f59e0b);
-}
 .chip {
-  display: inline-block;
-  background: #e8f0fe;
-  color: #1a3d7c;
-  padding: 3px 8px;
-  border-radius: 12px;
+  background: #1a8917;
+  color: white;
+  padding: 3px 7px;
+  border-radius: 5px;
   margin: 2px;
-  font-size: 13px;
-  border: 1px solid #c5d9ff;
-  white-space: nowrap;
+  font-size: 12px;
+  display: inline-block;
 }
 
-.chip:hover {
-  background: #d6e6ff;
+.btn-small, .btn-warning, .btn-danger {
+  padding: 4px 6px;
+  border-radius: 4px;
+  cursor: pointer;
 }
 
-.no-courses {
-  color: #888;
-  font-style: italic;
-}
+.btn-warning { background: #f5b800; }
+.btn-danger { background: #d82323; color: white; }

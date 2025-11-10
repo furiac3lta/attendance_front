@@ -6,12 +6,15 @@ import { Observable } from 'rxjs';
 // ✅ Modelo de usuario que devuelve el backend
 export interface User {
   id: number;
-  username: string;
   fullName?: string;
   email?: string;
-  active?: boolean;
-  role?: string; // corregido: el backend devuelve un string, no array
-  courses?: { id: number; name: string }[];
+  role?: string;
+  courses?: string[]; // ← ahora cursos son nombres, no objetos
+  // ✅ Ahora sí coincide con el JSON del backend
+  organizationId?: number | null;
+  organizationName?: string | null;
+
+  
 }
 
 // ✅ DTO para crear usuario
@@ -20,6 +23,7 @@ export interface CreateUserDto {
   email: string;
   password: string;
   role: string;
+  organization?: { id: number }; // ✅ lo sumamos también
 }
 
 @Injectable({ providedIn: 'root' })
@@ -28,7 +32,7 @@ export class UsersService {
 
   constructor(private http: HttpClient) {}
 
-  // ✅ Añadimos token automáticamente
+  // ✅ Añadir token automáticamente
   private authHeaders() {
     const token = sessionStorage.getItem('token');
     return {
@@ -38,20 +42,19 @@ export class UsersService {
     };
   }
 
-  // 🔹 Obtener usuarios visibles
+  // 🔹 Obtener usuarios
   findAll(): Observable<User[]> {
     return this.http.get<User[]>(`${this.base}`, this.authHeaders());
   }
 
-  // 🔹 Crear usuario
-  create(dto: CreateUserDto): Observable<User> {
-    return this.http.post<User>(`${this.base}/create`, dto, this.authHeaders());
-  }
+  create(dto: any): Observable<User> {
+  return this.http.post<User>(`${this.base}/create`, dto, this.authHeaders());
+}
 
-  // 🔹 Actualizar usuario
-  update(id: number, data: any) {
-    return this.http.put(`${this.base}/${id}`, data, { ...this.authHeaders(), responseType: 'text' });
-  }
+update(id: number, data: any) {
+  return this.http.put(`${this.base}/${id}`, data, this.authHeaders());
+}
+
 
   // 🔹 Eliminar usuario
   remove(id: number): Observable<any> {
@@ -68,13 +71,19 @@ export class UsersService {
     return this.http.get<User[]>(`${this.base}/visible`, this.authHeaders());
   }
 
-  // 🔹 Obtener usuarios inscritos en un curso
+  // 🔹 Obtener alumnos de un curso
   getByCourse(courseId: number): Observable<User[]> {
     return this.http.get<User[]>(`${this.base}/by-course/${courseId}`, this.authHeaders());
   }
 
-  // 🔹 Listar instructores correctamente
+  // 🔹 Listar instructores
   getInstructors(): Observable<User[]> {
     return this.http.get<User[]>(`${this.base}/role/INSTRUCTOR`, this.authHeaders());
   }
+
+  // ✅ Obtener organizaciones
+  getOrganizations(): Observable<any[]> {
+    return this.http.get<any[]>(`${environment.API_URL}/organizations`, this.authHeaders());
+  }
+  
 }
