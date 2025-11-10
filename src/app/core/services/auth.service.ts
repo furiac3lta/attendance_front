@@ -25,8 +25,11 @@ export interface AuthResponse {
 @Injectable({ providedIn: 'root' })
 export class AuthService {
   private base = `${environment.API_URL}/auth`;
+    private roleSubject = new BehaviorSubject<string | null>(sessionStorage.getItem('role'));
+
   private loginStatus = new BehaviorSubject<boolean>(this.hasToken());
   loginStatus$ = this.loginStatus.asObservable();
+  role$ = this.roleSubject.asObservable();
 
   constructor(private http: HttpClient, private router: Router) {}
 
@@ -117,6 +120,7 @@ export class AuthService {
     localStorage.removeItem('user');
     this.loginStatus.next(false);
     this.router.navigate(['/login']);
+     this.roleSubject.next(null);
     console.log('🚪 Sesión cerrada correctamente.');
   }
 

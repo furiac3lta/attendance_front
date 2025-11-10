@@ -55,9 +55,9 @@ export class NavbarComponent implements OnInit, OnDestroy {
       case 'SUPER_ADMIN':
         return ['dashboard', 'organizations', 'users', 'courses'].includes(link);
       case 'ADMIN':
-        return ['dashboard', 'users', 'courses', 'classes', 'attendance'].includes(link);
+        return ['dashboard', 'users', 'courses'].includes(link);
       case 'INSTRUCTOR':
-        return ['dashboard', 'classes', 'attendance'].includes(link);
+        return ['dashboard', 'courses', 'attendance'].includes(link);
       default:
         return false;
     }
