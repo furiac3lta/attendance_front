@@ -1,27 +1,32 @@
 @import "@angular/material/prebuilt-themes/indigo-pink.css";
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap');
 
+/* 🌞 Tema Claro */
 :root {
-  --bg: #fafafa;
-  --text: #111;
-  --card-bg: rgba(255, 255, 255, 0.8);
-  --accent: #6a1b9a;
-  --accent-hover: #7b1fa2;
-  --border: rgba(0, 0, 0, 0.08);
-  --shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+  --bg: #f5f7fa;              /* Fondo soft */
+  --text: #333;               /* Texto principal */
+  --text-strong: #111;        /* Titulos */
+  --card-bg: #ffffff;         /* Tarjetas limpias */
+  --accent: #826aed;          /* Lila moderno (principal) */
+  --accent-hover: #836bec;    /* Hover suave */
+  --border: #d9dce3;          /* Borde gris tenue */
+  --shadow: 0 4px 14px rgba(0,0,0,0.06); /* Sombra soft */
 }
 
-/* 🌙 Tema oscuro */
+/* 🌙 Tema Oscuro */
 .dark-mode {
-  --bg: #0f0f11;
-  --text: #e9e9e9;
-  --card-bg: rgba(22, 22, 24, 0.75);
-  --accent: #bb86fc;
-  --accent-hover: #cfb0ff;
-  --border: rgba(255, 255, 255, 0.08);
-  --shadow: 0 6px 16px rgba(0, 0, 0, 0.35);
+  --bg: #131415;              /* Fondo ultra oscuro moderno */
+  --text: #d7d7d9;            /* Texto claro suave */
+  --text-strong: #ffffff;     /* Titulos */
+  --card-bg: #181a1f;         /* Fondo tarjetas elegante */
+  --accent: #8273b3;          /* Lila más pastel en oscuro */
+  --accent-hover: #7a7295;    /* Hover brillante */
+  --border: #1e1f22;          /* Bordes sutiles */
+  --shadow: 0 6px 22px rgba(0,0,0,0.45); /* Sombra más marcada */
 }
 
+
+/* Aplicación */
 body {
   background: var(--bg);
   color: var(--text);
@@ -30,10 +35,44 @@ body {
 }
 
 /* NAVBAR */
-mat-toolbar {
-  background: transparent !important;
-  backdrop-filter: blur(10px);
+mat-toolbar,
+.navbar {
+  background: var(--card-bg) !important;
+  color: var(--text-strong) !important;
   border-bottom: 1px solid var(--border);
+  box-shadow: var(--shadow);
+  padding: 0.75rem 1rem;
+}
+
+/* Links y botones del navbar */
+mat-toolbar button[mat-button],
+mat-toolbar button[mat-icon-button],
+mat-toolbar a,
+mat-toolbar .user-info {
+  color: var(--text-strong) !important;
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+
+mat-toolbar button[mat-button]:hover,
+mat-toolbar a:hover {
+  color: var(--accent-hover) !important;
+}
+
+/* Logout */
+mat-toolbar button.logout,
+.btn-logout {
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text-strong) !important;
+}
+
+mat-toolbar button.logout:hover,
+.btn-logout:hover {
+  background: var(--accent-hover);
+  color: white !important;
+  border-color: transparent;
 }
 
 /* CARDS */
@@ -60,7 +99,7 @@ button[mat-raised-button] {
 
 button[mat-raised-button].primary {
   background: var(--accent) !important;
-  color: white;
+  color: white !important;
 }
 
 button[mat-raised-button].primary:hover {
@@ -69,22 +108,10 @@ button[mat-raised-button].primary:hover {
 
 button[mat-raised-button].warn {
   background: #ef5350 !important;
-  color: white;
+  color: white !important;
 }
 
-/* LISTA */
-.class-list .mat-list-item {
-  padding: 14px 8px;
-  border-radius: 10px;
-  border: 1px solid var(--border);
-  margin-bottom: 8px;
-  transition: 0.2s;
-}
-
-.class-list .mat-list-item:hover {
-  border-color: var(--accent);
-}
-/* 🔥 Tablas modernas */
+/* TABLAS MODERNAS */
 .table-modern {
   width: 100%;
   border-collapse: separate;
@@ -93,11 +120,14 @@ button[mat-raised-button].warn {
 
 .table-modern thead th {
   text-align: left;
-  padding: 10px 14px;
+  padding: 12px 16px;
   font-weight: 600;
-  font-size: 14px;
-  color: var(--text);
-  border-bottom: 1px solid var(--border);
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  background: var(--card-bg);
+  color: var(--text-strong);
+  border-bottom: 2px solid var(--accent);
 }
 
 .table-modern tbody tr {
@@ -119,152 +149,332 @@ button[mat-raised-button].warn {
   color: var(--text);
 }
 
-/* Botones dentro de tablas */
-.table-btn {
-  border-radius: 8px;
-  padding: 6px 14px;
-  border: none;
-  cursor: pointer;
-  font-weight: 500;
-  transition: 0.25s;
-  font-size: 13px;
-}
-
-.table-btn.edit {
-  background: #ef5350;
-  color: white;
-}
-.table-btn.edit:hover {
-  background: #ff665f;
-}
-
-.table-btn.primary {
-  background: var(--accent);
-  color: white;
-}
-.table-btn.primary:hover {
-  background: var(--accent-hover);
-}
-
-/* Chips para cursos / roles */
-.chip {
-  display: inline-block;
+/* Chips */
+.role-chip {
   padding: 4px 10px;
   border-radius: 8px;
-  background: var(--accent);
-  color: white;
   font-size: 12px;
-  margin-right: 6px;
 }
-.chip.role {
-  background: #29b6f6;
-}
-/* Encabezado de tabla más pro */
-.table-modern thead th {
-  text-align: left;
-  padding: 12px 16px;
-  font-weight: 600;
-  font-size: 13px;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
+.role-chip.ADMIN { background: #ff7043; color: white; }
+.role-chip.INSTRUCTOR { background: #29b6f6; color: white; }
+.role-chip.USER { background: #9c27b0; color: white; }
 
-  background: var(--card-bg);
-  color: var(--text-strong);
+/* ============================= */
+/* 🎨 SELECT (mat-select)        */
+/* ============================= */
+
+/* Texto y borde del select */
+.mat-select-trigger {
+  color: var(--text) !important;
+  font-weight: 500;
+}
+
+/* Caja del select */
+.mat-form-field-appearance-fill .mat-form-field-flex,
+.mat-form-field-appearance-outline .mat-form-field-outline {
+  background: var(--card-bg) !important;
+  border-radius: 8px !important;
+  border-color: var(--border) !important;
+}
+
+/* Icono flecha del select */
+.mat-select-arrow {
+  color: var(--text) !important;
+}
+
+/* ============================= */
+/* 🎨 PANEL DESPLEGABLE (popup) */
+/* ============================= */
+
+.mat-select-panel {
+  background: var(--card-bg) !important;
+  color: var(--text) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: 10px !important;
+  box-shadow: var(--shadow) !important;
+}
+
+/* ============================= */
+/* 🎨 OPCIONES DEL SELECT        */
+/* ============================= */
+
+.mat-option {
+  background: var(--card-bg) !important;
+  color: var(--text) !important;
+  transition: 0.2s;
+}
+
+.mat-option:hover:not(.mat-option-disabled) {
+  background: var(--accent-hover) !important;
+  color: white !important;
+}
+
+.mat-selected:not(.mat-option-disabled) {
+  background: var(--accent) !important;
+  color: white !important;
+}
+
+/* ============================= */
+/* 🌙 DARK MODE corrección extra */
+/* ============================= */
+.dark-mode .mat-select-panel {
+  background: var(--card-bg) !important;
+}
+
+.dark-mode .mat-option {
+  color: var(--text) !important;
+}
+.dark-mode .mat-option:hover:not(.mat-option-disabled) {
+  background: var(--accent-hover) !important;
+  color: white !important;
+}
+/* Encabezados siempre con letra negra */
+.table-modern thead th,
+.mat-header-cell {
+  color: #111 !important;  /* Negro real, no gris */
+  background: #ffffff !important; /* fondo blanco */
+}
+
+/* Filas también texto oscuro */
+.table-modern tbody td,
+.mat-cell {
+  color: #111 !important;
+}
+/* ===== TABLA MODERNA ===== */
+
+/* Encabezados siempre claros y visibles */
+.table-modern thead th,
+.mat-header-cell {
+  background: #ffffff !important;
+  color: #111 !important;
+  font-weight: 600;
+}
+
+/* Filas (modo claro) */
+.table-modern tbody tr,
+.mat-row {
+  background: #ffffff !important;
+  color: #111 !important;
+  border-bottom: 1px solid #e6e6e6;
+}
+
+/* ---- MODO OSCURO ---- */
+.dark-mode .table-modern thead th,
+.dark-mode .mat-header-cell {
+  background: #18181b !important; /* gris oscuro */
+  color: #e9e9e9 !important; /* texto claro */
+}
+
+.dark-mode .table-modern tbody tr,
+.dark-mode .mat-row {
+  background: #7e7e8b !important; /* gris intermedio visible */
+  color: #e9e9e9 !important;
+  border-bottom: 1px solid #3a3a3a;
+}
+
+/* Hover en modo oscuro */
+.dark-mode .table-modern tbody tr:hover,
+.dark-mode .mat-row:hover {
+  background: #29292c !important;
+  border-color: var(--accent);
+   
+
+}
+
+/* Selects dentro de tablas */
+.dark-mode .mat-select-value,
+.dark-mode .mat-select-arrow,
+.dark-mode .mat-option {
+  color: #e9e9e9 !important;
+}
+/* ===================================== */
+/* ✅ TABLAS MODERNAS (LIMPIAS Y SIN DUPLICADOS) */
+/* ===================================== */
+
+/* Encabezados */
+.table-modern thead th,
+.mat-header-cell {
+  background: var(--card-bg) !important;
+  color: var(--text-strong) !important;
+  font-weight: 600;
+  padding: 12px 16px;
+  text-transform: uppercase;
   border-bottom: 2px solid var(--accent);
 }
 
-/* Ajustes para modo claro */
-:root {
-  --text-strong: #222;
-  --text: #555;
-  --border: #e6e6e6;
-  --card-bg: #ffffff;
-  --accent: #6750a4; /* morado suave */
-  --accent-hover: #7e63ff;
-}
-
-/* Ajustes para modo oscuro */
-[data-theme="dark"] {
-  --text-strong: #fff;
-  --text: #ddd;
-  --border: #333;
-  --card-bg: #1c1c1f;
-  --accent: #9d8cff;
-  --accent-hover: #b7a6ff;
-}
-/* NAVBAR BASE */
-.navbar,
-.mat-toolbar {
+/* Filas */
+.table-modern tbody tr,
+.mat-row {
   background: var(--card-bg) !important;
   color: var(--text) !important;
-  border-bottom: 1px solid var(--border);
-  box-shadow: var(--shadow);
-  display: flex;
-  align-items: center;
-  padding: 0.75rem 1rem;
-}
-
-/* LOGO Y LINKS */
-.navbar a,
-.mat-toolbar a {
-  color: var(--text) !important;
-  text-decoration: none;
-  font-weight: 500;
-  margin-right: 1rem;
-  transition: color 0.2s ease;
-}
-
-/* HOVER LINKS */
-.navbar a:hover,
-.mat-toolbar a:hover {
-  color: var(--accent-hover) !important;
-}
-
-/* USUARIO (NOMBRE EN LA DERECHA) */
-.user-info {
-  color: var(--text);
-  font-weight: 500;
-}
-
-/* BOTÓN CERRAR SESIÓN */
-.btn-logout {
-  background: transparent;
-  color: var(--text) !important;
   border: 1px solid var(--border);
-  border-radius: 6px;
-  padding: 6px 12px;
-  margin-left: 1rem;
-  cursor: pointer;
-  transition: background 0.2s ease, border 0.2s ease;
+  border-radius: 12px;
+  transition: 0.25s;
 }
 
-.btn-logout:hover {
-  background: var(--accent-hover);
+/* Hover modo claro */
+.table-modern tbody tr:hover,
+.mat-row:hover {
+  border-color: var(--accent);
+  background: #f4f0ff !important; /* violeta super suave */
+}
+
+/* ===================================== */
+/* 🌙 DARK MODE TABLAS (RESPETA EL TEMA) */
+/* ===================================== */
+
+.dark-mode .table-modern thead th,
+.dark-mode .mat-header-cell {
+  background: var(--card-bg) !important;
+  color: var(--text-strong) !important;
+  border-bottom-color: var(--accent);
+}
+
+/* Filas en dark mode (visibles, NO negras) */
+.dark-mode .table-modern tbody tr,
+.dark-mode .mat-row {
+  background: #2b2b32 !important; /* gris violeta suave */
+  color: #f2f2f2 !important;
+  border-color: #3a3a3a;
+}
+
+/* ✅ Hover claro en dark mode (lo que pediste) */
+.dark-mode .table-modern tbody tr:hover,
+.dark-mode .mat-row:hover {
+  background: #3b3b48 !important; /* un tono más claro que la fila */
+  border-color: var(--accent);
+}
+
+/* ===================================== */
+/* 🎨 SELECT — SIN ROMPER DARK MODE      */
+/* ===================================== */
+
+.mat-select-trigger,
+.mat-select-arrow,
+.mat-option {
+  color: var(--text) !important;
+}
+
+.mat-select-panel {
+  background: var(--card-bg) !important;
+  border-radius: 8px !important;
+  box-shadow: var(--shadow) !important;
+}
+
+.mat-option:hover:not(.mat-option-disabled) {
+  background: var(--accent-hover) !important;
   color: white !important;
-  border-color: transparent;
-}
-/* NAVBAR LINKS SIEMPRE LEÍBLES */
-.navbar a,
-.mat-toolbar a,
-.navbar .mat-button,
-.mat-toolbar .mat-button {
-  color: var(--text) !important;
-  font-weight: 500;
 }
 
-/* Ícono del usuario */
-.user-info,
-.navbar .user-info {
-  color: var(--text) !important;
+.mat-selected:not(.mat-option-disabled) {
+  background: var(--accent) !important;
+  color: white !important;
 }
 
-/* Hover más sutil y moderno */
-.navbar a:hover,
-.mat-toolbar a:hover {
-  color: var(--accent-hover) !important;
-  text-decoration: none;
-}
-.mat-button,
-.mat-icon-button {
+/* Ajuste extra para tema oscuro */
+.dark-mode .mat-select-value,
+.dark-mode .mat-select-arrow,
+.dark-mode .mat-option {
   color: var(--text) !important;
+}
+/* =========================== */
+/* 🌙 INPUTS EN DARK MODE      */
+/* =========================== */
+
+/* Inputs normales (HTML) */
+.dark-mode input,
+.dark-mode textarea,
+.dark-mode select {
+  background: #2b2b32 !important;
+  color: #e9e9e9 !important;
+  border: 1px solid #444 !important;
+  border-radius: 2px;
+    padding: 8px 4px;
+}
+
+/* Placeholder */
+.dark-mode input::placeholder,
+.dark-mode textarea::placeholder {
+  color: #aaa !important;
+}
+
+/* =========================== */
+/* 🌙 Material Inputs          */
+/* =========================== */
+
+/* Fondo del input */
+.dark-mode .mat-form-field-appearance-fill .mat-form-field-flex {
+  background: #2b2b32 !important;
+  border-radius: 8px !important;
+}
+
+/* Texto */
+.dark-mode .mat-input-element {
+  color: #e9e9e9 !important;
+}
+
+/* Label flotante */
+.dark-mode .mat-form-field-label {
+  color: #bdbdbd !important;
+}
+
+/* Borde (outline) */
+.dark-mode .mat-form-field-outline,
+.dark-mode .mat-form-field-outline-thick {
+  color: #555 !important;
+  stroke: #555 !important;
+}
+
+/* Iconos de mat-form-field */
+.dark-mode .mat-form-field-prefix .mat-icon,
+.dark-mode .mat-form-field-suffix .mat-icon {
+  color: #ccc !important;
+}
+
+/* Hover y focus */
+.dark-mode .mat-form-field-appearance-fill .mat-form-field-flex:hover {
+  background: #383842 !important;
+}
+.dark-mode .mat-form-field-appearance-fill.mat-focused .mat-form-field-flex {
+  background: #3f3f4a !important;
+  border-color: var(--accent) !important;
+}
+/* Contenedor que ocupa toda la pantalla menos el navbar */
+.login-wrapper {
+  min-height: calc(100vh - 64px); /* 64px es la altura del mat-toolbar */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 16px;
+}
+
+/* Tarjeta */
+.login-card {
+  width: 100%;
+  max-width: 380px;
+  padding: 28px;
+  border-radius: 16px;
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow);
+}
+
+/* Texto */
+.title {
+  text-align: center;
+  font-weight: 600;
+  margin-bottom: 20px;
+  color: var(--text-strong);
+}
+
+/* Inputs */
+.full-width {
+  width: 100%;
+}
+
+/* Botón */
+.login-button {
+  width: 100%;
+  margin-top: 10px;
+  font-weight: 600;
 }

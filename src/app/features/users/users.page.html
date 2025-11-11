@@ -39,7 +39,7 @@
 
     <div class="actions">
       <button mat-raised-button color="primary" type="submit">
-        {{ editingUserId ? '💾 Guardar Cambios' : '➕ Crear Usuario' }}
+        {{ editingUserId ? 'Guardar' : ' Crear' }}
       </button>
 
       <button *ngIf="editingUserId" mat-button color="warn" type="button" (click)="cancelEdit()">

@@ -9,6 +9,7 @@ import { LoaderComponent } from './shared/components/loader/loader.component';
   imports: [RouterOutlet, NavbarComponent, LoaderComponent],
   template: `
     <app-navbar></app-navbar>
+    
     <router-outlet></router-outlet>
     <app-loader></app-loader>
   `,
