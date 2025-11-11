@@ -32,8 +32,18 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
   constructor(private auth: AuthService, private router: Router) {}
 
+  isDark = false;
+
+toggleDark() {
+  this.isDark = !this.isDark;
+  document.body.classList.toggle('dark-mode', this.isDark);
+  localStorage.setItem('dark', this.isDark ? '1' : '0');
+}
+
   ngOnInit(): void {
     // ✅ Se actualiza cuando cambia el login
+    this.isDark = localStorage.getItem('dark') === '1';
+  document.body.classList.toggle('dark-mode', this.isDark);
     this.subLogin = this.auth.loginStatus$.subscribe(logged => {
       this.isLoggedIn = logged;
       this.loadUserInfo();
@@ -90,4 +100,5 @@ export class NavbarComponent implements OnInit, OnDestroy {
     this.subRole?.unsubscribe();
     this.subLogin?.unsubscribe();
   }
+  
 }

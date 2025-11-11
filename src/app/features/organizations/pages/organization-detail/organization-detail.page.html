@@ -1,21 +1,63 @@
-<div class="org-detail-container" *ngIf="organization; else loadingTpl">
-  <h2>🏢 {{ organization.name }}</h2>
-  <p><strong>Tipo:</strong> {{ organization.type }}</p>
-  <p><strong>Dirección:</strong> {{ organization.address || '—' }}</p>
-  <p><strong>Teléfono:</strong> {{ organization.phone || '—' }}</p>
-  <p><strong>Administrador:</strong> {{ organization.admin?.fullName || 'Sin asignar' }}</p>
+<mat-card class="org-detail-wrapper" *ngIf="organization; else loadingTpl">
+
+  <h2 class="title">🏢 {{ organization.name }}</h2>
+  <mat-divider></mat-divider>
+
+  <!-- =======================
+        📌 TABLA DE INFORMACIÓN
+       ======================= -->
+  <table mat-table [dataSource]="orgBasicData" class="mat-elevation-z2 info-table">
+
+    <ng-container matColumnDef="label">
+      <th mat-header-cell *matHeaderCellDef> Información </th>
+      <td mat-cell *matCellDef="let row">{{ row.label }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="value">
+      <th mat-header-cell *matHeaderCellDef> Detalle </th>
+      <td mat-cell *matCellDef="let row">{{ row.value }}</td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="['label', 'value']"></tr>
+    <tr mat-row *matRowDef="let row; columns: ['label', 'value']"></tr>
+
+  </table>
 
   <div class="actions">
-    <button class="btn btn-primary">👤 Asignar admin</button>
+    <button mat-raised-button color="primary">
+      <mat-icon>person_add</mat-icon> Asignar admin
+    </button>
   </div>
 
-  <h3>👥 Miembros</h3>
-  <ul>
-    <li *ngFor="let u of organization.users">
-      {{ u.fullName }} — {{ u.role }}
-    </li>
-  </ul>
-</div>
+  <h3 class="subtitle">👥 Miembros</h3>
+
+  <!-- =======================
+        📌 TABLA DE USUARIOS
+       ======================= -->
+  <table mat-table [dataSource]="organization.users || []" class="mat-elevation-z2 members-table">
+
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef> Nombre </th>
+      <td mat-cell *matCellDef="let u">{{ u.fullName }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="role">
+      <th mat-header-cell *matHeaderCellDef> Rol </th>
+      <td mat-cell *matCellDef="let u">
+        <span class="role-chip" [class.admin]="u.role === 'ADMIN'"
+                                 [class.instructor]="u.role === 'INSTRUCTOR'"
+                                 [class.user]="u.role === 'USER'">
+          {{ u.role }}
+        </span>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="['name', 'role']"></tr>
+    <tr mat-row *matRowDef="let row; columns: ['name','role']"></tr>
+
+  </table>
+
+</mat-card>
 
 <ng-template #loadingTpl>
   <p>⏳ Cargando información...</p>

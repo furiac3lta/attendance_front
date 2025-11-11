@@ -1,14 +1,63 @@
-.full-width {
+.page-wrapper {
+  padding: 24px;
+}
+
+.page-title {
+  margin-bottom: 20px;
+  font-weight: 600;
+}
+
+/* Tabla */
+.modern-table {
   width: 100%;
-  margin-top: 15px;
+  border-radius: 10px;
+  overflow: hidden;
 }
 
-.add-btn {
+/* Encabezado */
+.modern-table th {
+  background: var(--accent);
+  color: white;
+  font-weight: 600;
+}
+
+/* Filas */
+.modern-table td {
+  padding: 14px 12px;
+  border-bottom: 1px solid var(--border);
+}
+
+.hover-row:hover {
+  background: rgba(255, 255, 255, 0.04);
+}
+
+/* Chips */
+.chip {
+  padding: 4px 10px;
+  border-radius: 6px;
+  background: var(--accent);
+  color: white;
+  font-size: 0.85rem;
+}
+
+.chip-muted {
+  background: rgba(255,255,255,0.15);
+  color: var(--text);
+}
+
+/* Select dentro de tabla */
+.table-select {
+  min-width: 160px;
+}
+
+/* Acciones */
+.actions-col button {
+  margin-right: 10px;
+}
+
+/* Botón flotante */
+.floating-btn {
   position: fixed;
-  bottom: 20px;
-  right: 20px;
-}
-
-mat-select {
-  background: white;
+  bottom: 24px;
+  right: 24px;
 }

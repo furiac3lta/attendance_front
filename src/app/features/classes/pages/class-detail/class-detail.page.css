@@ -1,87 +1,16 @@
-.attendance-container {
-  max-width: 900px;
-  margin: 0 auto;
-  padding: 2rem;
-}
-
-.title {
+.center-actions {
   text-align: center;
-  margin-bottom: 0.3rem;
-}
-
-.date-label {
-  text-align: center;
-  color: #666;
-  margin-bottom: 1.5rem;
-}
-
-.actions {
+  margin: 15px 0;
   display: flex;
+  gap: 12px;
   justify-content: center;
-  gap: 1rem;
-  margin-bottom: 1rem;
 }
 
-.report-btn {
-  display: flex;
-  align-items: center;
-  margin: 0 auto 1.5rem auto;
+.attendance-container {
+  max-width: 850px;
+  margin: 0 auto;
+  padding: 20px;
 }
-
-.class-list {
-  margin-top: 1rem;
-}
-
-.class-item {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.class-info {
-  display: flex;
-  flex-direction: column;
-}
-
-.class-date {
-  font-size: 13px;
-  color: #777;
-}
-
-.spacer {
-  flex: 1;
-}
-
-.no-classes {
-  text-align: center;
-  padding: 1rem;
-  font-style: italic;
-  color: #888;
-}
-.class-list {
-  width: 100%;
-  margin-top: 1rem;
-}
-
-.class-item {
-  display: flex;
-  align-items: center;
-  justify-content: space-between; /* <--- empuja el botón a la derecha */
-  padding: 0.6rem 0;
-  border-bottom: 1px solid #eee;
-}
-
-.class-text {
-  font-size: 15px;
-  font-weight: 500;
-}
-
-.class-item button {
-  margin-left: auto; /* <--- por si acaso */
-}
-.no-classes {
-  text-align: center;
-  padding: 1rem;
-  font-style: italic;
-  color: #888;
+.attendance-list {
+  margin-top: 20px;
 }
