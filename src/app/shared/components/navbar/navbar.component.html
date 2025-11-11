@@ -1,28 +1,47 @@
-<nav class="navbar">
+<mat-toolbar color="primary" class="toolbar">
 
-  <div class="navbar-left">
-    <a routerLink="/" class="logo">🏠 Attendance</a>
+  <!-- Logo + navegación izquierda -->
+  <div class="nav-left">
+    <button mat-button routerLink="/">
+      <mat-icon>home</mat-icon> Attendance
+    </button>
 
     <ng-container *ngIf="isLoggedIn">
 
-      <a *ngIf="canSee('dashboard')" routerLink="/dashboard" routerLinkActive="active">📊 Dashboard</a>
+      <button mat-button *ngIf="canSee('dashboard')" routerLink="/dashboard" routerLinkActive="active">
+        <mat-icon>insights</mat-icon> Dashboard
+      </button>
 
-      <a *ngIf="canSee('organizations')" routerLink="/organizations" routerLinkActive="active">🏢 Organizaciones</a>
+      <button mat-button *ngIf="canSee('organizations')" routerLink="/organizations" routerLinkActive="active">
+        <mat-icon>business</mat-icon> Organizaciones
+      </button>
 
-      <a *ngIf="canSee('users')" routerLink="/users" routerLinkActive="active">👥 Usuarios</a>
+      <button mat-button *ngIf="canSee('users')" routerLink="/users" routerLinkActive="active">
+        <mat-icon>groups</mat-icon> Usuarios
+      </button>
 
-      <a *ngIf="canSee('courses')" routerLink="/courses" routerLinkActive="active">📚 Cursos</a>
+      <button mat-button *ngIf="canSee('courses')" routerLink="/courses" routerLinkActive="active">
+        <mat-icon>menu_book</mat-icon> Cursos
+      </button>
 
-      <a *ngIf="canSee('attendance')" routerLink="/attendance" routerLinkActive="active">✅ Asistencia</a>
+      <button mat-button *ngIf="canSee('attendance')" routerLink="/attendance" routerLinkActive="active">
+        <mat-icon>check_circle</mat-icon> Asistencia
+      </button>
 
     </ng-container>
   </div>
 
-  <div class="navbar-right" *ngIf="isLoggedIn">
+  <!-- Usuario + logout -->
+  <div class="nav-right" *ngIf="isLoggedIn">
     <span class="user-info">
-      {{ userName }} <small>({{ userRole }})</small>
+      <mat-icon>account_circle</mat-icon>
+      {{ userName }}
+      <small>({{ userRole }})</small>
     </span>
-    <button (click)="logout()" class="btn-logout">Cerrar sesión</button>
+
+    <button mat-raised-button color="accent" (click)="logout()">
+      <mat-icon>logout</mat-icon> Salir
+    </button>
   </div>
 
-</nav>
+</mat-toolbar>

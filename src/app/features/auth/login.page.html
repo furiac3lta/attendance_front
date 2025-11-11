@@ -1,11 +1,30 @@
-<h2>Iniciar sesión</h2>
+<div class="login-wrapper">
 
-<form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-  <label>Email:</label>
-  <input type="email" formControlName="email" />
+  <mat-card class="login-card">
 
-  <label>Contraseña:</label>
-  <input type="password" formControlName="password" />
+    <h2 class="title">👋 Iniciar sesión</h2>
 
-  <button type="submit">Entrar</button>
-</form>
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Email</mat-label>
+        <input matInput type="email" formControlName="email" autocomplete="email">
+        <mat-icon matSuffix>mail</mat-icon>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Contraseña</mat-label>
+        <input matInput type="password" formControlName="password" autocomplete="current-password">
+        <mat-icon matSuffix>lock</mat-icon>
+      </mat-form-field>
+
+      <button mat-raised-button color="primary" class="login-button" type="submit" [disabled]="loginForm.invalid">
+        <mat-icon>login</mat-icon>
+        Entrar
+      </button>
+
+    </form>
+
+  </mat-card>
+
+</div>

@@ -1,24 +1,28 @@
-<div class="course-container">
+<mat-card class="course-card">
+
   <h2>📘 Crear Curso</h2>
 
-  <form [formGroup]="form" (ngSubmit)="createCourse()" class="course-form">
-    <div class="form-group">
-      <label>Nombre:</label>
-      <input formControlName="name" type="text" required />
-    </div>
+  <form [formGroup]="form" (ngSubmit)="createCourse()">
 
-    <div class="form-group">
-      <label>Descripción:</label>
-      <input formControlName="description" type="text" />
-    </div>
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Nombre del curso</mat-label>
+      <input matInput formControlName="name" required />
+    </mat-form-field>
 
-    <div class="form-group">
-      <label>Programa universitario:</label>
-      <input formControlName="universityProgram" type="text" />
-    </div>
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Descripción</mat-label>
+      <input matInput formControlName="description" />
+    </mat-form-field>
 
-    <button type="submit" [disabled]="form.invalid" class="btn-primary">
-      💾 Guardar
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Programa Universitario</mat-label>
+      <input matInput formControlName="universityProgram" />
+    </mat-form-field>
+
+    <button mat-raised-button color="primary" type="submit" [disabled]="form.invalid">
+      <mat-icon>save</mat-icon> Guardar
     </button>
+
   </form>
-</div>
+
+</mat-card>

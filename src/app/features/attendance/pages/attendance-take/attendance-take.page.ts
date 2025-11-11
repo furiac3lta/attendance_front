@@ -4,11 +4,20 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { AttendanceService, AttendanceMark } from '../../../../core/services/attendance.service';
 import { ClassesService, StudentDto } from '../../../../core/services/classes.service';
+import { MatTableModule } from '@angular/material/table';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import { MatDividerModule } from '@angular/material/divider';
 
 @Component({
   selector: 'app-attendance-take',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule,  MatTableModule,
+    MatCheckboxModule,
+    MatButtonModule,
+    MatCardModule,
+    MatDividerModule],
   templateUrl: './attendance-take.page.html',
   styleUrls: ['./attendance-take.page.css'],
 })

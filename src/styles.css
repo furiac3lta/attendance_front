@@ -1,1 +1,26 @@
-/* You can add global styles to this file, and also import other style files */
+@import "@angular/material/prebuilt-themes/indigo-pink.css";
+
+/* Opcional: tipografía Roboto + iconos Material */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap');
+@import url('https://fonts.googleapis.com/icon?family=Material+Icons');
+
+
+:root {
+  --dojo-red: #c62828;
+  --dojo-black: #111;
+}
+
+.mat-toolbar,
+.mat-button.mat-primary {
+  background: var(--dojo-red);
+  color: white;
+}
+
+.mat-card {
+  border-radius: 10px;
+  padding: 16px;
+}
+
+html, body {
+  font-family: 'Roboto', sans-serif;
+}

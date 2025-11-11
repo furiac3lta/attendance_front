@@ -4,6 +4,9 @@ import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { jwtDecode } from 'jwt-decode';
 import { Subscription } from 'rxjs';
 import { AuthService } from '../../../core/services/auth.service';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 
 interface DecodedToken {
   sub: string;
@@ -13,7 +16,9 @@ interface DecodedToken {
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [CommonModule, RouterLink, RouterLinkActive],
+  imports: [CommonModule, RouterLink, RouterLinkActive,MatToolbarModule,
+    MatButtonModule,
+    MatIconModule],
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.css'],
 })

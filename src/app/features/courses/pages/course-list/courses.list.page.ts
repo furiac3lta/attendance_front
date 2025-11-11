@@ -6,11 +6,28 @@ import { CoursesService } from '../../../../core/services/courses.service';
 import { Course } from '../../models/course.model';
 import { UsersService } from '../../../../core/services/users.service';
 import { User } from '../../../../core/services/users.service';
+import { MatTableModule } from '@angular/material/table';
+import { MatSelectModule } from '@angular/material/select';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @Component({
   selector: 'app-course-list-page',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [
+    CommonModule,
+    FormsModule,
+    MatTableModule,
+    MatButtonModule,
+    MatIconModule,
+    MatSelectModule,
+    MatTooltipModule,
+    MatDividerModule,
+    MatProgressSpinnerModule
+  ],
   templateUrl: './course-list.page.html',
   styleUrls: ['./course-list.page.css'],
 })

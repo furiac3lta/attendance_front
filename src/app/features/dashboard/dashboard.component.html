@@ -1,35 +1,47 @@
-<div class="dashboard-container">
-  <h2>👋 Bienvenido al Panel de Control</h2>
-  <p>Rol actual: <strong>{{ role }}</strong></p>
+<mat-card class="dashboard-card">
+  <h2>👋 Bienvenido</h2>
+  <p class="role">Rol actual: <strong>{{ role }}</strong></p>
 
-  <div class="card-container">
+  <div class="grid">
+
     <!-- SUPER ADMIN -->
-    <button *ngIf="role === 'SUPER_ADMIN'" (click)="goToSection('/organizations')">
-      🏢 Organizaciones
+    <button mat-raised-button color="primary" *ngIf="role === 'SUPER_ADMIN'"
+            (click)="goToSection('/organizations')">
+      <mat-icon>business</mat-icon> Organizaciones
     </button>
-    <button *ngIf="role === 'SUPER_ADMIN'" (click)="goToSection('/users')">
-      👥 Usuarios
+
+    <button mat-raised-button color="accent" *ngIf="role === 'SUPER_ADMIN'"
+            (click)="goToSection('/users')">
+      <mat-icon>groups</mat-icon> Usuarios
     </button>
 
     <!-- ADMIN -->
-    <button *ngIf="role === 'ADMIN'" (click)="goToSection('/courses')">
-      📚 Cursos
+    <button mat-raised-button color="primary" *ngIf="role === 'ADMIN'"
+            (click)="goToSection('/courses')">
+      <mat-icon>menu_book</mat-icon> Cursos
     </button>
-    <button *ngIf="role === 'ADMIN'" (click)="goToSection('/users')">
-      👤 Alumnos e Instructores
+
+    <button mat-raised-button color="accent" *ngIf="role === 'ADMIN'"
+            (click)="goToSection('/users')">
+      <mat-icon>school</mat-icon> Alumnos e Instructores
     </button>
 
     <!-- INSTRUCTOR -->
-    <button *ngIf="role === 'INSTRUCTOR'" (click)="goToSection('/classes')">
-      🏫 Mis clases
+    <button mat-raised-button color="primary" *ngIf="role === 'INSTRUCTOR'"
+            (click)="goToSection('/classes')">
+      <mat-icon>class</mat-icon> Mis clases
     </button>
-    <button *ngIf="role === 'INSTRUCTOR'" (click)="goToSection('/attendance')">
-      🕓 Asistencia
+
+    <button mat-raised-button color="accent" *ngIf="role === 'INSTRUCTOR'"
+            (click)="goToSection('/attendance')">
+      <mat-icon>check_circle</mat-icon> Tomar asistencia
     </button>
 
     <!-- USER -->
-    <button *ngIf="role === 'USER'" (click)="goToSection('/attendance')">
-      🧾 Ver mi asistencia
+    <button mat-raised-button color="primary" *ngIf="role === 'USER'"
+            (click)="goToSection('/attendance')">
+      <mat-icon>visibility</mat-icon> Ver mi asistencia
     </button>
+
   </div>
-</div>
+</mat-card>

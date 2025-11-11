@@ -5,11 +5,12 @@ import { ReactiveFormsModule, FormBuilder, FormsModule, Validators } from '@angu
 import { UsersService, User, PageResponse } from '../../core/services/users.service';
 import { CoursesService } from '../../core/services/courses.service';
 import { SnackbarService } from '../../shared/services/snackbar.service';
+import { MaterialModule } from '../../material.module';
 
 @Component({
   standalone: true,
   selector: 'app-users-page',
-  imports: [CommonModule, ReactiveFormsModule, FormsModule],
+  imports: [CommonModule, ReactiveFormsModule, FormsModule, MaterialModule],
   templateUrl: './users.page.html',
   styleUrls: ['./users.page.css']
 })
@@ -162,7 +163,11 @@ export class UsersPage implements OnInit {
     const select = event.target as HTMLSelectElement;
     this.selectedCourses[userId] = Array.from(select.selectedOptions).map(opt => Number(opt.value));
   }
-
+onPaginatorChange(event: any) {
+  this.pageSize = event.pageSize;
+  this.currentPage = event.pageIndex;
+  this.loadUsers();
+}
   // Evita errores de template con opcionales
   trackByUserId = (_: number, u: User) => u.id;
 }

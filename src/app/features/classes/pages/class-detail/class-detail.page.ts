@@ -5,11 +5,20 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ClassesService, ClassSessionDto } from '../../../../core/services/classes.service';
 import { CoursesService } from '../../../../core/services/courses.service';
 import { AttendanceService } from '../../../../core/services/attendance.service';
+import { MatCardModule } from '@angular/material/card';
+import { MatButtonModule } from '@angular/material/button';
+import { MatListModule } from '@angular/material/list';
+import { MatIconModule } from '@angular/material/icon';
+import { MatDividerModule } from '@angular/material/divider';
 
 @Component({
   selector: 'app-class-detail',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, MatCardModule,
+    MatButtonModule,
+    MatListModule,
+    MatIconModule,
+    MatDividerModule],
   providers: [DatePipe],
   templateUrl: './class-detail.page.html',
   styleUrls: ['./class-detail.page.css'],

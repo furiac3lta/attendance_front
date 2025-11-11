@@ -1,12 +1,87 @@
-.attendance-container { max-width: 800px; margin: 0 auto; }
-.actions { margin: 12px 0; }
-.class-list { list-style: none; padding: 0; margin: 0; }
-.class-item { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid #eee; }
-.class-info { display: flex; gap: 12px; align-items: baseline; }
-.class-name { font-weight: 600; }
-.class-date { color: #666; font-size: 0.9rem; }
-.btn { padding: 6px 12px; border-radius: 6px; border: none; cursor: pointer; }
-.btn-primary { background: #1976d2; color: white; }
-.btn-success { background: #2e7d32; color: white; }
-.no-classes { color: #916; margin: 12px 0; }
-.message { margin-top: 10px; }
+.attendance-container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.title {
+  text-align: center;
+  margin-bottom: 0.3rem;
+}
+
+.date-label {
+  text-align: center;
+  color: #666;
+  margin-bottom: 1.5rem;
+}
+
+.actions {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.report-btn {
+  display: flex;
+  align-items: center;
+  margin: 0 auto 1.5rem auto;
+}
+
+.class-list {
+  margin-top: 1rem;
+}
+
+.class-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.class-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.class-date {
+  font-size: 13px;
+  color: #777;
+}
+
+.spacer {
+  flex: 1;
+}
+
+.no-classes {
+  text-align: center;
+  padding: 1rem;
+  font-style: italic;
+  color: #888;
+}
+.class-list {
+  width: 100%;
+  margin-top: 1rem;
+}
+
+.class-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between; /* <--- empuja el botón a la derecha */
+  padding: 0.6rem 0;
+  border-bottom: 1px solid #eee;
+}
+
+.class-text {
+  font-size: 15px;
+  font-weight: 500;
+}
+
+.class-item button {
+  margin-left: auto; /* <--- por si acaso */
+}
+.no-classes {
+  text-align: center;
+  padding: 1rem;
+  font-style: italic;
+  color: #888;
+}

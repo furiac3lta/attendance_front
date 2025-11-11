@@ -5,11 +5,23 @@ import { OrganizationsService } from '../../../../core/services/organizations.se
 import { UsersService } from '../../../../core/services/users.service';
 import { SnackbarService } from '../../../../shared/services/snackbar.service';
 import { RouterModule } from '@angular/router';
+import { MatTableModule } from '@angular/material/table';
+import { MatSelectModule } from '@angular/material/select';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-organization-list',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterModule],
+  imports: [
+    CommonModule, 
+    FormsModule, 
+    RouterModule,
+    MatTableModule,
+    MatSelectModule,
+    MatButtonModule,
+    MatIconModule
+  ],
   templateUrl: './organization-list.page.html',
   styleUrls: ['./organization-list.page.css'],
 })
@@ -91,4 +103,8 @@ this.admins = (res?.content || []).filter((u: any) => String(u.role) === 'ADMIN'
       },
     });
   }
+  displayedColumns = this.userRole === 'SUPER_ADMIN'
+  ? ['name', 'type', 'phone', 'address', 'admin', 'selectAdmin', 'actions']
+  : ['name', 'type', 'phone', 'address', 'admin'];
+
 }
