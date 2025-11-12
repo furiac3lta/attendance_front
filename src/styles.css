@@ -9,10 +9,10 @@
   --font-main: 'Poppins', sans-serif;
 
   /* 🌞 Tema claro */
-  --bg: #faf7fc;
+  --bg: #e4e2e6;
   --text: #3b3b4f;
   --text-strong: #1f1b2d;
-  --card-bg: #ffffff;
+  --card-bg: #e6e6e7;
 
   --accent: #cdb4db;
   --accent-strong: #ffafcc;
@@ -186,10 +186,11 @@ button[mat-raised-button]:hover {
 }
 
 .dark-mode .mat-form-field-label { color: #c7c3d3 !important; }
+.dark-mode .mat-mdc-form-field-input-control { color:#29b6f6!important; }
 .dark-mode .mat-select-arrow { color: #d3cde3 !important; }
 
 .dark-mode .mat-option:hover:not(.mat-option-disabled) {
-  background: #5e4b8b !important;
+  background: #726e7a !important;
   color: white !important;
 }
 
@@ -271,3 +272,39 @@ button[mat-raised-button]:hover {
 .dark-mode button[mat-raised-button]:hover {
   background: var(--accent-hover) !important;
 }
+/* === Modo oscuro: inputs más claros y sin redondeo === */
+.dark-theme .mat-mdc-text-field-wrapper,
+.dark-theme .mat-mdc-form-field-flex,
+.dark-theme .mat-mdc-input-element {
+  color: #f5f5f5 !important;
+  background: rgba(255, 255, 255, 0.05) !important;
+}
+
+.dark-theme .mat-mdc-form-field-subscript-wrapper,
+.dark-theme .mat-mdc-floating-label,
+.dark-theme .mdc-text-field--outlined .mdc-notched-outline__leading,
+.dark-theme .mdc-text-field--outlined .mdc-notched-outline__trailing,
+.dark-theme .mdc-text-field--outlined .mdc-notched-outline__notch {
+  border-radius: 0 !important;
+}
+
+.dark-theme .mdc-text-field--outlined .mdc-notched-outline__leading,
+.dark-theme .mdc-text-field--outlined .mdc-notched-outline__trailing,
+.dark-theme .mdc-text-field--outlined .mdc-notched-outline__notch {
+  border-color: rgba(255, 255, 255, 0.3) !important;
+}
+
+.dark-theme .mat-mdc-input-element::placeholder {
+  color: rgba(255, 255, 255, 0.6) !important;
+}
+
+.dark-theme .mat-mdc-form-field-focus-overlay {
+  background: rgba(255, 255, 255, 0.1) !important;
+}
+
+.dark-theme .mdc-text-field--focused .mdc-notched-outline__leading,
+.dark-theme .mdc-text-field--focused .mdc-notched-outline__trailing,
+.dark-theme .mdc-text-field--focused .mdc-notched-outline__notch {
+  border-color: #ffffff !important;
+}
+/* ======================================================= */

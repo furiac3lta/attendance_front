@@ -34,7 +34,9 @@
       <button mat-raised-button color="primary" class="save-btn" type="submit" [disabled]="orgForm.invalid">
         Guardar
       </button>
-
+<button mat-raised-button  color="primary"  (click)="cancel()">
+        <mat-icon>cancel</mat-icon> Cancelar
+      </button>
     </form>
 
     <p *ngIf="message" class="message">{{ message }}</p>

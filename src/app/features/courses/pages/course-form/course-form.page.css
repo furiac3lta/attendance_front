@@ -18,3 +18,10 @@ button {
   align-items: center;
   gap: 6px;
 }
+
+.mat-mdc-outlined-button {
+  color: rgb(151, 142, 142)!important;
+}
+.mat-mdc-outlined-button:hover {
+  color: #a2d2ff!important;
+}

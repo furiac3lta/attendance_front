@@ -1,9 +1,7 @@
 <mat-card class="course-card">
-
   <h2>Crear Curso</h2>
 
   <form [formGroup]="form" (ngSubmit)="createCourse()">
-
     <mat-form-field appearance="outline" class="full-width">
       <mat-label>Nombre del curso</mat-label>
       <input matInput formControlName="name" required />
@@ -19,10 +17,14 @@
       <input matInput formControlName="universityProgram" />
     </mat-form-field>
 
-    <button mat-raised-button color="primary" type="submit" [disabled]="form.invalid">
-      <mat-icon>save</mat-icon> Guardar
-    </button>
+    <div class="actions">
+      <button mat-raised-button color="primary" type="submit" [disabled]="form.invalid">
+        <mat-icon>save</mat-icon> Guardar
+      </button>
 
+      <button mat-stroked-button  type="button" (click)="cancel()">
+        <mat-icon>cancel</mat-icon> Cancelar
+      </button>
+    </div>
   </form>
-
 </mat-card>

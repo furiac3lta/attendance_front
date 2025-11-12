@@ -43,9 +43,12 @@
   <mat-divider></mat-divider>
 
   <div class="button-container">
-    <button mat-raised-button color="primary" (click)="save()">
-      Guardar asistencia
+    <button mat-raised-button color="primary" class="mbtn" (click)="save()">
+     <mat-icon>save</mat-icon>  Guardar
     </button>
+    <button mat-raised-button  color="primary"  (click)="cancel()">
+        <mat-icon>cancel</mat-icon> Cancelar
+      </button>
   </div>
 
 </mat-card>

@@ -67,4 +67,7 @@ export class CourseFormPage {
       }
     });
   }
+  cancel(): void {
+  this.router.navigate(['/courses']); // 👉 vuelve al listado de cursos
+}
 }

@@ -8,6 +8,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
+import { MatIcon } from '@angular/material/icon';
 
 @Component({
   selector: 'app-organization-form-page',
@@ -15,7 +16,8 @@ import { MatButtonModule } from '@angular/material/button';
   imports: [CommonModule, FormsModule, ReactiveFormsModule, MatCardModule,
   MatFormFieldModule,
   MatInputModule,
-  MatButtonModule],
+  MatButtonModule,
+MatIcon],
   templateUrl: './organization-form.page.html',
   styleUrls: ['./organization-form.page.css'],
 })
@@ -57,4 +59,8 @@ export class OrganizationFormPage {
       },
     });
   }
+  cancel(): void {
+  this.router.navigate(['/courses']); // 👉 vuelve al listado de cursos
+}
+
 }

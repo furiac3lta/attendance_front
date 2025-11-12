@@ -9,6 +9,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatDividerModule } from '@angular/material/divider';
+import { MatIcon } from '@angular/material/icon';
 
 @Component({
   selector: 'app-attendance-take',
@@ -17,7 +18,8 @@ import { MatDividerModule } from '@angular/material/divider';
     MatCheckboxModule,
     MatButtonModule,
     MatCardModule,
-    MatDividerModule],
+    MatDividerModule,
+  MatIcon],
   templateUrl: './attendance-take.page.html',
   styleUrls: ['./attendance-take.page.css'],
 })
@@ -105,6 +107,8 @@ save() {
       error: () => alert('❌ No se pudo guardar la asistencia')
     });
   }
-
+cancel(): void {
+  this.router.navigate(['/courses']); // 👉 vuelve al listado de cursos
+}
 
 }
