@@ -1,6 +1,8 @@
-<div class="course-list-container" *ngIf="!loading; else loadingTpl">
-  <h2 class="mat-headline-medium">📘 Mis cursos</h2>
+<mat-card class="page-card">
 
+  <h2 class="title">Gestión de Cursos</h2>
+
+  <!-- Acciones -->
   <div class="actions">
     <button mat-raised-button color="primary" (click)="goToCreateCourse()">
       <mat-icon>add</mat-icon> Nuevo curso
@@ -12,88 +14,90 @@
     <mat-icon>info</mat-icon> No hay cursos disponibles para tu organización.
   </div>
 
-  <!-- Tabla -->
-  <table mat-table [dataSource]="courses" class="table-modern">
+  <!-- 📊 TABLA -->
+  <div class="table-section">
+    <div class="table-scroll-wrapper">
+      <table mat-table [dataSource]="courses" class="table-modern responsive-table">
 
-    <!-- Nombre -->
-    <ng-container matColumnDef="name">
-      <th mat-header-cell *matHeaderCellDef> Nombre </th>
-      <td mat-cell *matCellDef="let c"> {{ c.name }} </td>
-    </ng-container>
+        <!-- Nombre -->
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef> Nombre </th>
+          <td mat-cell *matCellDef="let c"> {{ c.name }} </td>
+        </ng-container>
 
-    <!-- Descripción -->
-    <ng-container matColumnDef="description">
-      <th mat-header-cell *matHeaderCellDef> Descripción </th>
-      <td mat-cell *matCellDef="let c"> {{ c.description }} </td>
-    </ng-container>
+        <!-- Descripción -->
+        <ng-container matColumnDef="description">
+          <th mat-header-cell *matHeaderCellDef> Descripción </th>
+          <td mat-cell *matCellDef="let c"> {{ c.description }} </td>
+        </ng-container>
 
-    <!-- Programa -->
-    <ng-container matColumnDef="program">
-      <th mat-header-cell *matHeaderCellDef> Programa </th>
-      <td mat-cell *matCellDef="let c"> {{ c.universityProgram }} </td>
-    </ng-container>
+        <!-- Programa -->
+        <ng-container matColumnDef="program">
+          <th mat-header-cell *matHeaderCellDef> Programa </th>
+          <td mat-cell *matCellDef="let c"> {{ c.universityProgram }} </td>
+        </ng-container>
 
-    <!-- Instructor actual -->
-    <ng-container matColumnDef="instructor">
-      <th mat-header-cell *matHeaderCellDef> Instructor actual </th>
-      <td mat-cell *matCellDef="let c">
-        <span *ngIf="c.instructorName && c.instructorName !== 'Sin asignar'">
-          {{ c.instructorName }}
-        </span>
-        <span *ngIf="!c.instructorName || c.instructorName === 'Sin asignar'" class="text-muted">
-          Sin asignar
-        </span>
-      </td>
-    </ng-container>
+        <!-- Instructor actual -->
+        <ng-container matColumnDef="instructor">
+          <th mat-header-cell *matHeaderCellDef> Instructor actual </th>
+          <td mat-cell *matCellDef="let c">
+            <span *ngIf="c.instructorName && c.instructorName !== 'Sin asignar'">
+              {{ c.instructorName }}
+            </span>
+            <span *ngIf="!c.instructorName || c.instructorName === 'Sin asignar'" class="text-muted">
+              Sin asignar
+            </span>
+          </td>
+        </ng-container>
 
-    <!-- Asignar nuevo instructor -->
-    <ng-container matColumnDef="assign">
-      <th mat-header-cell *matHeaderCellDef> Asignar Instructor </th>
-      <td mat-cell *matCellDef="let c">
+        <!-- Asignar nuevo instructor -->
+        <ng-container matColumnDef="assign">
+          <th mat-header-cell *matHeaderCellDef> Asignar Instructor </th>
+          <td mat-cell *matCellDef="let c">
+            <mat-select [(ngModel)]="c.selectedInstructorId" placeholder="Seleccionar" class="assign-select">
+              <mat-option [value]="null">Sin asignar</mat-option>
+              <mat-option *ngFor="let inst of instructors" [value]="inst.id">
+                {{ inst.fullName }}
+              </mat-option>
+            </mat-select>
 
-        <mat-select [(ngModel)]="c.selectedInstructorId" placeholder="Seleccionar">
-          <mat-option [value]="null">Sin asignar</mat-option>
-          <mat-option *ngFor="let inst of instructors" [value]="inst.id">
-            {{ inst.fullName }}
-          </mat-option>
-        </mat-select>
+            <button mat-icon-button color="primary"
+              matTooltip="Guardar instructor"
+              (click)="saveInstructor(c.id!, c.selectedInstructorId!)"
+              [disabled]="!c.selectedInstructorId">
+              <mat-icon>check</mat-icon>
+            </button>
+          </td>
+        </ng-container>
 
-        <button mat-icon-button color="primary"
-          matTooltip="Guardar instructor"
-          (click)="saveInstructor(c.id!, c.selectedInstructorId!)"
-          [disabled]="!c.selectedInstructorId">
-          <mat-icon>check</mat-icon>
-        </button>
+        <!-- Acciones -->
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef> Acciones </th>
+          <td mat-cell *matCellDef="let c">
+            <button mat-stroked-button color="primary" (click)="goToAttendance(c.id!)">
+              <mat-icon>assignment</mat-icon> Asistencia
+            </button>
 
-      </td>
-    </ng-container>
+            <button mat-stroked-button color="accent" style="margin-left: 6px;"
+              (click)="goToReport(c.id!)">
+              <mat-icon>bar_chart</mat-icon> Reporte
+            </button>
+          </td>
+        </ng-container>
 
-    <!-- Acciones -->
-    <ng-container matColumnDef="actions">
-      <th mat-header-cell *matHeaderCellDef> Acciones </th>
-      <td mat-cell *matCellDef="let c">
+        <tr mat-header-row *matHeaderRowDef="['name','description','program','instructor','assign','actions']"></tr>
+        <tr mat-row *matRowDef="let row; columns: ['name','description','program','instructor','assign','actions'];"></tr>
 
-        <button mat-stroked-button color="primary" (click)="goToAttendance(c.id!)">
-          <mat-icon>assignment</mat-icon> Asistencia
-        </button>
-
-        <button mat-stroked-button color="accent" style="margin-left: 6px;"
-          (click)="goToReport(c.id!)">
-          <mat-icon>bar_chart</mat-icon> Reporte
-        </button>
-
-      </td>
-    </ng-container>
-
-    <tr mat-header-row *matHeaderRowDef="['name','description','program','instructor','assign','actions']"></tr>
-    <tr mat-row *matRowDef="let row; columns: ['name','description','program','instructor','assign','actions'];"></tr>
-
-  </table>
-</div>
-
-<ng-template #loadingTpl>
-  <div class="loading">
-    <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
-    <p>Cargando cursos...</p>
+      </table>
+    </div>
   </div>
-</ng-template>
+
+  <!-- 🔄 Loading -->
+  <ng-template #loadingTpl>
+    <div class="loading">
+      <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+      <p>Cargando cursos...</p>
+    </div>
+  </ng-template>
+
+</mat-card>

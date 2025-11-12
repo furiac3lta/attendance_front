@@ -1,102 +1,105 @@
 <mat-card class="page-card">
 
-  <h2 class="title">👥 Gestión de Usuarios</h2>
+  <h2 class="title"> Gestión de Usuarios</h2>
 
   <!-- FORMULARIO -->
-  <form [formGroup]="form" (ngSubmit)="saveUser()" class="form-grid">
+  <div class="form-section">
+    <form [formGroup]="form" (ngSubmit)="saveUser()" class="form-grid">
 
-    <mat-form-field appearance="outline">
-      <mat-label>Nombre completo</mat-label>
-      <input matInput type="text" formControlName="username" required>
-    </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Nombre completo</mat-label>
+        <input matInput type="text" formControlName="username" required>
+      </mat-form-field>
 
-    <mat-form-field appearance="outline">
-      <mat-label>Correo electrónico</mat-label>
-      <input matInput type="email" formControlName="email" required>
-    </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Correo electrónico</mat-label>
+        <input matInput type="email" formControlName="email" required>
+      </mat-form-field>
 
-    <mat-form-field appearance="outline" *ngIf="!editingUserId">
-      <mat-label>Contraseña</mat-label>
-      <input matInput type="password" formControlName="password">
-    </mat-form-field>
+      <mat-form-field appearance="outline" *ngIf="!editingUserId">
+        <mat-label>Contraseña</mat-label>
+        <input matInput type="password" formControlName="password">
+      </mat-form-field>
 
-    <mat-form-field appearance="outline">
-      <mat-label>Rol</mat-label>
-      <mat-select formControlName="role">
-        <mat-option value="USER">Usuario</mat-option>
-        <mat-option value="INSTRUCTOR">Instructor</mat-option>
-        <mat-option value="ADMIN">Administrador</mat-option>
-      </mat-select>
-    </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Rol</mat-label>
+        <mat-select formControlName="role">
+          <mat-option value="USER">Usuario</mat-option>
+          <mat-option value="INSTRUCTOR">Instructor</mat-option>
+          <mat-option value="ADMIN">Administrador</mat-option>
+        </mat-select>
+      </mat-form-field>
 
-    <mat-form-field appearance="outline" *ngIf="currentRole === 'SUPER_ADMIN'">
-      <mat-label>Organización</mat-label>
-      <mat-select formControlName="organizationId">
-        <mat-option [value]="null">Sin asignar</mat-option>
-        <mat-option *ngFor="let org of organizations" [value]="org.id">{{ org.name }}</mat-option>
-      </mat-select>
-    </mat-form-field>
+      <mat-form-field appearance="outline" *ngIf="currentRole === 'SUPER_ADMIN'">
+        <mat-label>Organización</mat-label>
+        <mat-select formControlName="organizationId">
+          <mat-option [value]="null">Sin asignar</mat-option>
+          <mat-option *ngFor="let org of organizations" [value]="org.id">
+            {{ org.name }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
 
-    <div class="actions">
-      <button mat-raised-button color="primary" type="submit">
-        {{ editingUserId ? 'Guardar' : ' Crear' }}
-      </button>
-
-      <button *ngIf="editingUserId" mat-button color="warn" type="button" (click)="cancelEdit()">
-        Cancelar
-      </button>
-    </div>
-  </form>
-
-  <br>
-
-  <!-- TABLA DE USUARIOS -->
-  <table mat-table [dataSource]="users" class="table-modern">
-
-    <!-- Columnas -->
-    <ng-container matColumnDef="fullName">
-      <th mat-header-cell *matHeaderCellDef> Nombre </th>
-      <td mat-cell *matCellDef="let u"> {{ u.fullName }} </td>
-    </ng-container>
-
-    <ng-container matColumnDef="email">
-      <th mat-header-cell *matHeaderCellDef> Email </th>
-      <td mat-cell *matCellDef="let u"> {{ u.email }} </td>
-    </ng-container>
-
-    <ng-container matColumnDef="role">
-      <th mat-header-cell *matHeaderCellDef> Rol </th>
-      <td mat-cell *matCellDef="let u"> {{ u.role }} </td>
-    </ng-container>
-
-    <ng-container matColumnDef="organization">
-      <th mat-header-cell *matHeaderCellDef> Organización </th>
-      <td mat-cell *matCellDef="let u"> {{ u.organizationName || 'Sin asignar' }} </td>
-    </ng-container>
-
-    <ng-container matColumnDef="actions">
-      <th mat-header-cell *matHeaderCellDef> Acciones </th>
-      <td mat-cell *matCellDef="let u">
-        <button mat-icon-button color="primary" (click)="editUser(u)">
-          <mat-icon>edit</mat-icon>
+      <div class="actions">
+        <button mat-raised-button color="primary" type="submit">
+          {{ editingUserId ? 'Guardar' : ' Crear' }}
         </button>
 
-        <button mat-icon-button color="warn" (click)="deleteUser(u.id)">
-          <mat-icon>delete</mat-icon>
+        <button *ngIf="editingUserId" mat-button color="warn" type="button" (click)="cancelEdit()">
+          Cancelar
         </button>
-      </td>
-    </ng-container>
+      </div>
+    </form>
+  </div>
 
-    <!-- Filas -->
-    <tr mat-header-row *matHeaderRowDef="['fullName','email','role','organization','actions']"></tr>
-    <tr mat-row *matRowDef="let row; columns: ['fullName','email','role','organization','actions']"></tr>
+  <!-- TABLA -->
+  <div class="table-section">
+    <table mat-table [dataSource]="users" class="table-modern responsive-table">
 
-  </table>
-<mat-paginator
-  [length]="totalElements"
-  [pageSize]="pageSize"
-  [pageIndex]="currentPage"
-  [pageSizeOptions]="[5, 10, 20]"
-  (page)="onPaginatorChange($event)">
-</mat-paginator>
+      <ng-container matColumnDef="fullName">
+        <th mat-header-cell *matHeaderCellDef> Nombre </th>
+        <td mat-cell *matCellDef="let u"> {{ u.fullName }} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="email">
+        <th mat-header-cell *matHeaderCellDef> Email </th>
+        <td mat-cell *matCellDef="let u"> {{ u.email }} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="role">
+        <th mat-header-cell *matHeaderCellDef> Rol </th>
+        <td mat-cell *matCellDef="let u"> {{ u.role }} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="organization">
+        <th mat-header-cell *matHeaderCellDef> Organización </th>
+        <td mat-cell *matCellDef="let u"> {{ u.organizationName || 'Sin asignar' }} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef> Acciones </th>
+        <td mat-cell *matCellDef="let u">
+          <button mat-icon-button (click)="editUser(u)" class="edit-btn">
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button mat-icon-button color="accent" (click)="deleteUser(u.id)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="['fullName','email','role','organization','actions']"></tr>
+      <tr mat-row *matRowDef="let row; columns: ['fullName','email','role','organization','actions']"></tr>
+
+    </table>
+
+    <mat-paginator
+      [length]="totalElements"
+      [pageSize]="pageSize"
+      [pageIndex]="currentPage"
+      [pageSizeOptions]="[5, 10, 20]"
+      (page)="onPaginatorChange($event)">
+    </mat-paginator>
+  </div>
+
 </mat-card>

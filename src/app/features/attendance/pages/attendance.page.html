@@ -1,8 +1,8 @@
-<h3>📋 Asistencias registradas</h3>
+<h3>Asistencias registradas</h3>
 
 <div *ngIf="loading">Cargando asistencias...</div>
 
-<table class="table-modern"
+<table mat-table class="table-modern responsive-table">
   *ngIf="!loading && attendances.length > 0"
   border="1"
   cellpadding="6"

@@ -1,33 +1,96 @@
-.course-list-container {
-  padding: 1rem;
+/* ===================================== */
+/* 🧩 CONTENEDOR PRINCIPAL (mat-card)     */
+/* ===================================== */
+.page-card {
+  padding: 3rem;
+  margin-top: 1rem;
+  position: relative;
 }
 
+/* ===================================== */
+/* 🎛️ ACCIONES / BOTONES                 */
+/* ===================================== */
 .actions {
   margin-bottom: 1rem;
+  display: flex;
+  justify-content: flex-start;
+  gap: 10px;
 }
 
+/* Mensaje si no hay cursos */
 .empty {
   margin-top: 1rem;
   color: #777;
   font-style: italic;
   display: flex;
   align-items: center;
-  gap: .5rem;
+  gap: 0.5rem;
 }
 
-table {
+/* ===================================== */
+/* 📊 TABLA DE CURSOS                    */
+/* ===================================== */
+.table-section {
+  display: flex;
+  justify-content: center;
   width: 100%;
-  border-radius: 6px;
-  overflow: hidden;
+  margin-top: 1rem;
 }
 
-mat-select {
+.table-scroll-wrapper {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+}
+
+.table-modern {
+  width: 100%;
+  min-width: 850px; /* evita recorte de columnas */
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+.assign-select {
   min-width: 160px;
 }
 
+/* ===================================== */
+/* 🔄 LOADING                            */
+/* ===================================== */
 .loading {
   display: flex;
   flex-direction: column;
   align-items: center;
   padding: 2rem;
+}
+
+/* ===================================== */
+/* 📱 MOBILE                            */
+/* ===================================== */
+@media (max-width: 768px) {
+  .page-card {
+    padding: 1.4rem;
+  }
+
+  .table-section {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+
+  .table-scroll-wrapper {
+    max-width: 100%;
+    overflow-x: auto;
+    padding-bottom: 10px;
+  }
+
+  .table-modern {
+    min-width: 650px;
+  }
+
+  .actions {
+    flex-direction: column;
+    align-items: flex-start;
+  }
 }

@@ -10,11 +10,11 @@ table {
 }
 
 .present {
-  color: #2e7d32;
+  color: #70d6ff;
 }
 
 .absent {
-  color: #c62828;
+  color: #ff70a6;
 }
 
 .actions {

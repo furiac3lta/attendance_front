@@ -1,295 +1,120 @@
 @import "@angular/material/prebuilt-themes/indigo-pink.css";
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
 
-/* 🌞 Tema Claro */
+/* ======================================================= */
+/* 🎨 FUENTES Y VARIABLES BASE                             */
+/* ======================================================= */
 :root {
-  --bg: #f5f7fa;              /* Fondo soft */
-  --text: #333;               /* Texto principal */
-  --text-strong: #111;        /* Titulos */
-  --card-bg: #ffffff;         /* Tarjetas limpias */
-  --accent: #826aed;          /* Lila moderno (principal) */
-  --accent-hover: #836bec;    /* Hover suave */
-  --border: #d9dce3;          /* Borde gris tenue */
-  --shadow: 0 4px 14px rgba(0,0,0,0.06); /* Sombra soft */
+  --font-main: 'Poppins', sans-serif;
+
+  /* 🌞 Tema claro */
+  --bg: #faf7fc;
+  --text: #3b3b4f;
+  --text-strong: #1f1b2d;
+  --card-bg: #ffffff;
+
+  --accent: #cdb4db;
+  --accent-strong: #ffafcc;
+  --accent-hover: #a2d2ff;
+
+  --border: #e7e0ef;
+  --shadow: 0 6px 18px rgba(134, 118, 164, 0.12);
 }
 
-/* 🌙 Tema Oscuro */
+/* 🌙 Tema oscuro lavanda pastel */
 .dark-mode {
-  --bg: #131415;              /* Fondo ultra oscuro moderno */
-  --text: #d7d7d9;            /* Texto claro suave */
-  --text-strong: #ffffff;     /* Titulos */
-  --card-bg: #181a1f;         /* Fondo tarjetas elegante */
-  --accent: #8273b3;          /* Lila más pastel en oscuro */
-  --accent-hover: #7a7295;    /* Hover brillante */
-  --border: #1e1f22;          /* Bordes sutiles */
-  --shadow: 0 6px 22px rgba(0,0,0,0.45); /* Sombra más marcada */
+  --bg: #1a1720;              /* Fondo violeta oscuro */
+  --text: #dcd7e8;            /* Texto principal lavanda claro */
+  --text-strong: #ffffff;     /* Blanco puro para títulos */
+  --card-bg: #252131;         /* Tarjetas violeta gris elegante */
+
+  --accent: #ffb3c6;          /* Rosa pastel */
+  --accent-strong: #ffc8dd;   /* Rosa claro */
+  --accent-hover: #bde0fe;    /* Celeste pastel */
+
+  --border: #3d364c;          /* Borde violeta oscuro */
+  --shadow: 0 10px 28px rgba(0, 0, 0, 0.45);
 }
 
+/* ======================================================= */
+/* 🧩 BASE GLOBAL                                          */
+/* ======================================================= */
+body, input, button, mat-card, mat-toolbar, mat-select, mat-option, table {
+  font-family: var(--font-main) !important;
+}
 
-/* Aplicación */
 body {
   background: var(--bg);
   color: var(--text);
+  transition: background 0.35s ease, color 0.35s ease;
   font-family: 'Inter', sans-serif;
-  transition: 0.35s ease;
 }
 
-/* NAVBAR */
-mat-toolbar,
-.navbar {
+/* ======================================================= */
+/* 🧭 NAVBAR                                               */
+/* ======================================================= */
+mat-toolbar {
   background: var(--card-bg) !important;
   color: var(--text-strong) !important;
   border-bottom: 1px solid var(--border);
   box-shadow: var(--shadow);
   padding: 0.75rem 1rem;
+  position: sticky;
+  top: 0;
+  z-index: 2000;
 }
 
-/* Links y botones del navbar */
-mat-toolbar button[mat-button],
-mat-toolbar button[mat-icon-button],
-mat-toolbar a,
-mat-toolbar .user-info {
+mat-toolbar button, mat-toolbar a {
   color: var(--text-strong) !important;
   font-weight: 500;
   transition: color 0.2s ease;
 }
-
-mat-toolbar button[mat-button]:hover,
-mat-toolbar a:hover {
+mat-toolbar a:hover, mat-toolbar button:hover {
   color: var(--accent-hover) !important;
 }
 
-/* Logout */
-mat-toolbar button.logout,
-.btn-logout {
-  border-radius: 6px;
-  border: 1px solid var(--border);
-  background: transparent;
-  color: var(--text-strong) !important;
-}
-
-mat-toolbar button.logout:hover,
-.btn-logout:hover {
-  background: var(--accent-hover);
-  color: white !important;
-  border-color: transparent;
-}
-
-/* CARDS */
+/* ======================================================= */
+/* 🟣 CARDS / BOTONES / INPUTS NEUMORFISMO SUAVE           */
+/* ======================================================= */
 mat-card {
   background: var(--card-bg) !important;
-  border: 1px solid var(--border);
-  border-radius: 16px;
-  box-shadow: var(--shadow);
-  transition: 0.35s ease;
+  border-radius: 18px !important;
+  box-shadow:
+    6px 6px 14px rgba(0,0,0,0.18),
+    -6px -6px 14px rgba(255,255,255,0.6);
+  padding: 24px;
+  transition: 0.3s ease;
 }
+mat-card:hover { transform: translateY(-3px); }
 
-mat-card:hover {
+/* Botones principales */
+button[mat-raised-button] {
+  border-radius: 12px !important;
+  text-transform: none !important;
+  font-weight: 600 !important;
+  padding: 10px 20px;
+  background: var(--accent-strong) !important;
+  color: #fff !important;
+  border: none;
+  box-shadow:
+    2px 2px 8px rgba(0,0,0,0.18),
+    -2px -2px 8px rgba(255,255,255,0.3);
+  transition: 0.25s ease;
+}
+button[mat-raised-button]:hover {
+  background: var(--accent-hover) !important;
   transform: translateY(-2px);
 }
 
-/* BOTONES */
-button[mat-raised-button] {
-  border-radius: 10px !important;
-  text-transform: none !important;
-  font-weight: 500 !important;
-  padding: 8px 20px;
-  transition: 0.25s ease;
-}
-
-button[mat-raised-button].primary {
-  background: var(--accent) !important;
-  color: white !important;
-}
-
-button[mat-raised-button].primary:hover {
-  background: var(--accent-hover) !important;
-}
-
-button[mat-raised-button].warn {
-  background: #ef5350 !important;
-  color: white !important;
-}
-
-/* TABLAS MODERNAS */
+/* ======================================================= */
+/* 🧾 TABLAS MODERNAS                                     */
+/* ======================================================= */
 .table-modern {
   width: 100%;
   border-collapse: separate;
   border-spacing: 0 8px;
 }
-
-.table-modern thead th {
-  text-align: left;
-  padding: 12px 16px;
-  font-weight: 600;
-  font-size: 13px;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  background: var(--card-bg);
-  color: var(--text-strong);
-  border-bottom: 2px solid var(--accent);
-}
-
-.table-modern tbody tr {
-  background: var(--card-bg);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  box-shadow: var(--shadow);
-  transition: 0.25s;
-}
-
-.table-modern tbody tr:hover {
-  transform: translateY(-2px);
-  border-color: var(--accent);
-}
-
-.table-modern tbody td {
-  padding: 12px 14px;
-  font-size: 14px;
-  color: var(--text);
-}
-
-/* Chips */
-.role-chip {
-  padding: 4px 10px;
-  border-radius: 8px;
-  font-size: 12px;
-}
-.role-chip.ADMIN { background: #ff7043; color: white; }
-.role-chip.INSTRUCTOR { background: #29b6f6; color: white; }
-.role-chip.USER { background: #9c27b0; color: white; }
-
-/* ============================= */
-/* 🎨 SELECT (mat-select)        */
-/* ============================= */
-
-/* Texto y borde del select */
-.mat-select-trigger {
-  color: var(--text) !important;
-  font-weight: 500;
-}
-
-/* Caja del select */
-.mat-form-field-appearance-fill .mat-form-field-flex,
-.mat-form-field-appearance-outline .mat-form-field-outline {
-  background: var(--card-bg) !important;
-  border-radius: 8px !important;
-  border-color: var(--border) !important;
-}
-
-/* Icono flecha del select */
-.mat-select-arrow {
-  color: var(--text) !important;
-}
-
-/* ============================= */
-/* 🎨 PANEL DESPLEGABLE (popup) */
-/* ============================= */
-
-.mat-select-panel {
-  background: var(--card-bg) !important;
-  color: var(--text) !important;
-  border: 1px solid var(--border) !important;
-  border-radius: 10px !important;
-  box-shadow: var(--shadow) !important;
-}
-
-/* ============================= */
-/* 🎨 OPCIONES DEL SELECT        */
-/* ============================= */
-
-.mat-option {
-  background: var(--card-bg) !important;
-  color: var(--text) !important;
-  transition: 0.2s;
-}
-
-.mat-option:hover:not(.mat-option-disabled) {
-  background: var(--accent-hover) !important;
-  color: white !important;
-}
-
-.mat-selected:not(.mat-option-disabled) {
-  background: var(--accent) !important;
-  color: white !important;
-}
-
-/* ============================= */
-/* 🌙 DARK MODE corrección extra */
-/* ============================= */
-.dark-mode .mat-select-panel {
-  background: var(--card-bg) !important;
-}
-
-.dark-mode .mat-option {
-  color: var(--text) !important;
-}
-.dark-mode .mat-option:hover:not(.mat-option-disabled) {
-  background: var(--accent-hover) !important;
-  color: white !important;
-}
-/* Encabezados siempre con letra negra */
-.table-modern thead th,
-.mat-header-cell {
-  color: #111 !important;  /* Negro real, no gris */
-  background: #ffffff !important; /* fondo blanco */
-}
-
-/* Filas también texto oscuro */
-.table-modern tbody td,
-.mat-cell {
-  color: #111 !important;
-}
-/* ===== TABLA MODERNA ===== */
-
-/* Encabezados siempre claros y visibles */
-.table-modern thead th,
-.mat-header-cell {
-  background: #ffffff !important;
-  color: #111 !important;
-  font-weight: 600;
-}
-
-/* Filas (modo claro) */
-.table-modern tbody tr,
-.mat-row {
-  background: #ffffff !important;
-  color: #111 !important;
-  border-bottom: 1px solid #e6e6e6;
-}
-
-/* ---- MODO OSCURO ---- */
-.dark-mode .table-modern thead th,
-.dark-mode .mat-header-cell {
-  background: #18181b !important; /* gris oscuro */
-  color: #e9e9e9 !important; /* texto claro */
-}
-
-.dark-mode .table-modern tbody tr,
-.dark-mode .mat-row {
-  background: #7e7e8b !important; /* gris intermedio visible */
-  color: #e9e9e9 !important;
-  border-bottom: 1px solid #3a3a3a;
-}
-
-/* Hover en modo oscuro */
-.dark-mode .table-modern tbody tr:hover,
-.dark-mode .mat-row:hover {
-  background: #29292c !important;
-  border-color: var(--accent);
-   
-
-}
-
-/* Selects dentro de tablas */
-.dark-mode .mat-select-value,
-.dark-mode .mat-select-arrow,
-.dark-mode .mat-option {
-  color: #e9e9e9 !important;
-}
-/* ===================================== */
-/* ✅ TABLAS MODERNAS (LIMPIAS Y SIN DUPLICADOS) */
-/* ===================================== */
 
 /* Encabezados */
 .table-modern thead th,
@@ -297,8 +122,8 @@ button[mat-raised-button].warn {
   background: var(--card-bg) !important;
   color: var(--text-strong) !important;
   font-weight: 600;
-  padding: 12px 16px;
   text-transform: uppercase;
+  padding: 12px 16px;
   border-bottom: 2px solid var(--accent);
 }
 
@@ -309,172 +134,140 @@ button[mat-raised-button].warn {
   color: var(--text) !important;
   border: 1px solid var(--border);
   border-radius: 12px;
-  transition: 0.25s;
+  transition: 0.25s ease;
+  box-shadow:
+    4px 4px 10px rgba(0,0,0,0.08),
+    -4px -4px 10px rgba(255,255,255,0.6);
 }
 
 /* Hover modo claro */
 .table-modern tbody tr:hover,
 .mat-row:hover {
   border-color: var(--accent);
-  background: #f4f0ff !important; /* violeta super suave */
+  background: #f4f0ff !important;
 }
 
-/* ===================================== */
-/* 🌙 DARK MODE TABLAS (RESPETA EL TEMA) */
-/* ===================================== */
-
+/* ======================================================= */
+/* 🌙 DARK MODE — LAVANDA PASTEL                           */
+/* ======================================================= */
 .dark-mode .table-modern thead th,
 .dark-mode .mat-header-cell {
-  background: var(--card-bg) !important;
-  color: var(--text-strong) !important;
+  background: #1f1d27 !important;
+  color: #f7f5fc !important;
   border-bottom-color: var(--accent);
 }
 
-/* Filas en dark mode (visibles, NO negras) */
 .dark-mode .table-modern tbody tr,
 .dark-mode .mat-row {
-  background: #2b2b32 !important; /* gris violeta suave */
-  color: #f2f2f2 !important;
+  background: #2b2836 !important; /* gris violeta medio */
+  color: #f4f0ff !important;
   border-color: #3a3a3a;
 }
 
-/* ✅ Hover claro en dark mode (lo que pediste) */
 .dark-mode .table-modern tbody tr:hover,
 .dark-mode .mat-row:hover {
-  background: #3b3b48 !important; /* un tono más claro que la fila */
+  background: #413c58 !important; /* violeta más claro */
   border-color: var(--accent);
 }
 
-/* ===================================== */
-/* 🎨 SELECT — SIN ROMPER DARK MODE      */
-/* ===================================== */
+.dark-mode .mat-icon { color: #ffbde6 !important; }
 
-.mat-select-trigger,
-.mat-select-arrow,
-.mat-option {
-  color: var(--text) !important;
-}
-
-.mat-select-panel {
-  background: var(--card-bg) !important;
+/* ======================================================= */
+/* 🎨 SELECTS / INPUTS EN DARK MODE                        */
+/* ======================================================= */
+.dark-mode .mat-form-field-flex {
+  background: #2a2833 !important;
   border-radius: 8px !important;
-  box-shadow: var(--shadow) !important;
 }
 
-.mat-option:hover:not(.mat-option-disabled) {
-  background: var(--accent-hover) !important;
+.dark-mode .mat-input-element,
+.dark-mode .mat-select-value {
+  color: #f8f7fa !important;
+}
+
+.dark-mode .mat-form-field-label { color: #c7c3d3 !important; }
+.dark-mode .mat-select-arrow { color: #d3cde3 !important; }
+
+.dark-mode .mat-option:hover:not(.mat-option-disabled) {
+  background: #5e4b8b !important;
   color: white !important;
 }
 
-.mat-selected:not(.mat-option-disabled) {
-  background: var(--accent) !important;
-  color: white !important;
-}
-
-/* Ajuste extra para tema oscuro */
-.dark-mode .mat-select-value,
-.dark-mode .mat-select-arrow,
-.dark-mode .mat-option {
-  color: var(--text) !important;
-}
-/* =========================== */
-/* 🌙 INPUTS EN DARK MODE      */
-/* =========================== */
-
-/* Inputs normales (HTML) */
-.dark-mode input,
-.dark-mode textarea,
-.dark-mode select {
+.dark-mode input, .dark-mode textarea, .dark-mode select {
   background: #2b2b32 !important;
-  color: #e9e9e9 !important;
+  color: #f1f1f1 !important;
   border: 1px solid #444 !important;
-  border-radius: 2px;
-    padding: 8px 4px;
+  border-radius: 6px;
+  padding: 6px 8px;
 }
 
-/* Placeholder */
-.dark-mode input::placeholder,
-.dark-mode textarea::placeholder {
-  color: #aaa !important;
-}
-
-/* =========================== */
-/* 🌙 Material Inputs          */
-/* =========================== */
-
-/* Fondo del input */
-.dark-mode .mat-form-field-appearance-fill .mat-form-field-flex {
-  background: #2b2b32 !important;
-  border-radius: 8px !important;
-}
-
-/* Texto */
-.dark-mode .mat-input-element {
-  color: #e9e9e9 !important;
-}
-
-/* Label flotante */
-.dark-mode .mat-form-field-label {
-  color: #bdbdbd !important;
-}
-
-/* Borde (outline) */
-.dark-mode .mat-form-field-outline,
-.dark-mode .mat-form-field-outline-thick {
-  color: #555 !important;
-  stroke: #555 !important;
-}
-
-/* Iconos de mat-form-field */
-.dark-mode .mat-form-field-prefix .mat-icon,
-.dark-mode .mat-form-field-suffix .mat-icon {
-  color: #ccc !important;
-}
-
-/* Hover y focus */
-.dark-mode .mat-form-field-appearance-fill .mat-form-field-flex:hover {
-  background: #383842 !important;
-}
-.dark-mode .mat-form-field-appearance-fill.mat-focused .mat-form-field-flex {
-  background: #3f3f4a !important;
-  border-color: var(--accent) !important;
-}
-/* Contenedor que ocupa toda la pantalla menos el navbar */
-.login-wrapper {
-  min-height: calc(100vh - 64px); /* 64px es la altura del mat-toolbar */
-  display: flex;
-  justify-content: center;
-  align-items: center;
+/* ======================================================= */
+/* 🧱 LAYOUT Y RESPONSIVE                                  */
+/* ======================================================= */
+.container, .page-content, .page-card {
+  width: 100%;
+  max-width: 1200px;
+  margin: auto;
   padding: 16px;
 }
 
-/* Tarjeta */
-.login-card {
-  width: 100%;
-  max-width: 380px;
-  padding: 28px;
-  border-radius: 16px;
-  background: var(--card-bg);
-  border: 1px solid var(--border);
-  box-shadow: var(--shadow);
+.page-container {
+  display: flex;
+  gap: 24px;
+  margin-top: 20px;
 }
 
-/* Texto */
-.title {
-  text-align: center;
-  font-weight: 600;
-  margin-bottom: 20px;
-  color: var(--text-strong);
+.form-section { flex: 1; max-width: 420px; }
+.table-section { flex: 2; }
+
+@media (max-width: 768px) {
+  .page-container {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .form-section,
+  .table-section {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .table-modern {
+    border-spacing: 0;
+  }
 }
 
-/* Inputs */
-.full-width {
-  width: 100%;
+/* ======================================================= */
+/* ✨ EXTRAS / CHIPS / BOTONES                             */
+/* ======================================================= */
+.role-chip.ADMIN { background: #ff7043; color: white; }
+.role-chip.INSTRUCTOR { background: #29b6f6; color: white; }
+.role-chip.USER { background: #9c27b0; color: white; }
+
+.actions {
+  display: flex;
+  gap: 12px;
+}
+@media (max-width: 768px) {
+  .actions { flex-direction: column; }
 }
 
-/* Botón */
-.login-button {
-  width: 100%;
-  margin-top: 10px;
-  font-weight: 600;
+/* ======================================================= */
+/* 🌙 AJUSTES VISUALES DARK MODE EXTRA                     */
+/* ======================================================= */
+.dark-mode mat-card,
+.dark-mode .table-modern tbody tr,
+.dark-mode .mat-row,
+.dark-mode .mat-form-field-flex {
+  box-shadow:
+    4px 4px 12px rgba(0,0,0,0.65),
+    -4px -4px 12px rgba(255,255,255,0.05);
+}
+
+.dark-mode button[mat-raised-button] {
+  background: var(--accent) !important;
+  color: #fff !important;
+}
+.dark-mode button[mat-raised-button]:hover {
+  background: var(--accent-hover) !important;
 }

@@ -9,6 +9,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { MatCard } from '@angular/material/card';
 
 @Component({
   selector: 'app-organization-list',
@@ -20,7 +21,8 @@ import { MatIconModule } from '@angular/material/icon';
     MatTableModule,
     MatSelectModule,
     MatButtonModule,
-    MatIconModule
+    MatIconModule,
+    MatCard
   ],
   templateUrl: './organization-list.page.html',
   styleUrls: ['./organization-list.page.css'],

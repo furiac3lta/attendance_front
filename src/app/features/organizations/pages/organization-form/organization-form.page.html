@@ -1,24 +1,43 @@
-<div class="org-form-container">
-  <h2>🏢 Crear nueva organización</h2>
+<div class="org-form-wrapper">
 
-  <form [formGroup]="orgForm" (ngSubmit)="onSubmit()">
-    <label>Nombre *</label>
-    <input type="text" formControlName="name" placeholder="Ej: Irmaos Club Puerto Rico" />
+  <mat-card class="org-form-card">
 
-    <label>Tipo *</label>
-    <input type="text" formControlName="type" placeholder="Ej: GIMNASIO" />
+    <h2 class="title">Nueva Organización</h2>
 
-    <label>Dirección</label>
-    <input type="text" formControlName="address" placeholder="Ej: Uruguay 162" />
+    <form [formGroup]="orgForm" (ngSubmit)="onSubmit()" class="form-grid">
 
-    <label>Teléfono</label>
-    <input type="text" formControlName="phone" placeholder="Ej: 2966-663880" />
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Nombre *</mat-label>
+        <input matInput formControlName="name" placeholder="Irmaos Club Puerto Rico">
+      </mat-form-field>
 
-    <label>Logo (URL)</label>
-    <input type="text" formControlName="logoUrl" placeholder="https://..." />
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Tipo *</mat-label>
+        <input matInput formControlName="type" placeholder="GIMNASIO / ESCUELA">
+      </mat-form-field>
 
-    <button type="submit" class="btn btn-primary">Guardar</button>
-  </form>
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Dirección</mat-label>
+        <input matInput formControlName="address" placeholder="Uruguay 162">
+      </mat-form-field>
 
-  <p *ngIf="message" class="message">{{ message }}</p>
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Teléfono</mat-label>
+        <input matInput formControlName="phone" placeholder="2966-663880">
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Logo (URL)</mat-label>
+        <input matInput formControlName="logoUrl" placeholder="https://...">
+      </mat-form-field>
+
+      <button mat-raised-button color="primary" class="save-btn" type="submit" [disabled]="orgForm.invalid">
+        Guardar
+      </button>
+
+    </form>
+
+    <p *ngIf="message" class="message">{{ message }}</p>
+
+  </mat-card>
 </div>

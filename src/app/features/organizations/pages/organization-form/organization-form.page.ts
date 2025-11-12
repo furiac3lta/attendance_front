@@ -4,11 +4,18 @@ import { FormsModule, ReactiveFormsModule, FormBuilder, FormGroup, Validators } 
 import { Router } from '@angular/router';
 import { OrganizationsService } from '../../../../core/services/organizations.service';
 import { Organization } from '../../models/organization.model';
+import { MatCardModule } from '@angular/material/card';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-organization-form-page',
   standalone: true,
-  imports: [CommonModule, FormsModule, ReactiveFormsModule],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, MatCardModule,
+  MatFormFieldModule,
+  MatInputModule,
+  MatButtonModule],
   templateUrl: './organization-form.page.html',
   styleUrls: ['./organization-form.page.css'],
 })

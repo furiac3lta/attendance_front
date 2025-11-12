@@ -1,6 +1,6 @@
 <mat-card class="take-card">
 
-  <h2>📝 Tomar asistencia</h2>
+  <h2>Tomar asistencia</h2>
 
   <mat-divider></mat-divider>
 
@@ -13,10 +13,10 @@
   <mat-divider></mat-divider>
 
   <div *ngIf="students.length === 0" class="loading">
-    ⏳ Cargando alumnos…
+    Cargando alumnos…
   </div>
 
-  <table mat-table [dataSource]="students" class="table-modern" *ngIf="students.length > 0">
+  <table mat-table [dataSource]="students" class="table-modern responsive-table" *ngIf="students.length > 0">
 
     <!-- Alumno -->
     <ng-container matColumnDef="name">
@@ -44,7 +44,7 @@
 
   <div class="button-container">
     <button mat-raised-button color="primary" (click)="save()">
-      💾 Guardar asistencia
+      Guardar asistencia
     </button>
   </div>
 

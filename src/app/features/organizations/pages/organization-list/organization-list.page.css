@@ -1,63 +1,84 @@
-.page-wrapper {
-  padding: 24px;
+/* ===================================== */
+/* 🧩 CONTENEDOR PRINCIPAL (mat-card)     */
+/* ===================================== */
+.page-card {
+  padding: 3rem;
+  margin-top: 1rem;
+  position: relative;
 }
 
-.page-title {
-  margin-bottom: 20px;
-  font-weight: 600;
-}
-
-/* Tabla */
-.modern-table {
+/* ===================================== */
+/* 📊 SECCIÓN DE TABLA                   */
+/* ===================================== */
+.table-section {
+  display: flex;
+  justify-content: center;
   width: 100%;
-  border-radius: 10px;
-  overflow: hidden;
+  margin-top: 1rem;
 }
 
-/* Encabezado */
-.modern-table th {
-  background: var(--accent);
-  color: white;
-  font-weight: 600;
+/* Envoltorio para scroll horizontal */
+.table-scroll-wrapper {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
 }
 
-/* Filas */
-.modern-table td {
-  padding: 14px 12px;
-  border-bottom: 1px solid var(--border);
+/* Tabla base */
+.table-modern {
+  width: 100%;
+  min-width: 750px; /* 👈 evita que se corten columnas */
+  border-collapse: collapse;
+  border-spacing: 0;
 }
 
-.hover-row:hover {
-  background: rgba(255, 255, 255, 0.04);
-}
-
-/* Chips */
-.chip {
-  padding: 4px 10px;
-  border-radius: 6px;
-  background: var(--accent);
-  color: white;
-  font-size: 0.85rem;
-}
-
-.chip-muted {
-  background: rgba(255,255,255,0.15);
-  color: var(--text);
-}
-
-/* Select dentro de tabla */
-.table-select {
-  min-width: 160px;
-}
-
-/* Acciones */
-.actions-col button {
-  margin-right: 10px;
-}
+/* ===================================== */
+/* 🎛️ ELEMENTOS ADICIONALES              */
+/* ===================================== */
 
 /* Botón flotante */
-.floating-btn {
+.add-btn {
   position: fixed;
-  bottom: 24px;
-  right: 24px;
+  bottom: 2rem;
+  right: 2rem;
+  z-index: 100;
+}
+
+/* Select de admins */
+.admin-select {
+  width: 180px;
+}
+
+/* ===================================== */
+/* 📱 MODO MOBILE                        */
+/* ===================================== */
+@media (max-width: 768px) {
+  .page-card {
+    padding: 1.4rem;
+  }
+
+  .table-section {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+
+  /* Scroll horizontal fluido */
+  .table-scroll-wrapper {
+    max-width: 100%;
+    overflow-x: auto;
+    padding-bottom: 10px;
+  }
+
+  /* Evita recortes */
+  .table-modern {
+    min-width: 600px;
+  }
+
+  /* Botón más cerca del borde */
+  .add-btn {
+    bottom: 1.4rem;
+    right: 1.4rem;
+  }
 }

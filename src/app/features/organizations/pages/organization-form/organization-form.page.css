@@ -1,43 +1,45 @@
-.org-form-container {
-  max-width: 480px;
-  margin: 2rem auto;
-  padding: 1.5rem;
-  background: #fff;
-  border-radius: 12px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+.org-form-wrapper {
+  display: flex;
+  justify-content: center;
+  padding: 32px;
 }
 
-label {
-  display: block;
-  font-weight: 600;
-  margin-top: 1rem;
-}
-
-input {
+.org-form-card {
   width: 100%;
-  padding: 0.6rem;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  margin-top: 0.3rem;
+  max-width: 450px;
+  padding: 26px;
+  border-radius: 20px;
 }
 
-button {
-  margin-top: 1.5rem;
-  width: 100%;
-  background-color: #007bff;
-  color: white;
-  border: none;
-  padding: 0.8rem;
-  border-radius: 8px;
-  cursor: pointer;
-  font-weight: bold;
-}
-
-button:hover {
-  background-color: #0056b3;
-}
-
-.message {
-  margin-top: 1rem;
+.title {
   text-align: center;
+  margin-bottom: 20px;
+  font-weight: 600;
+  color: var(--text-strong);
+}
+
+/* Grid del formulario */
+.form-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* Botón guardar */
+.save-btn {
+  margin-top: 8px;
+  width: 100%;
+  font-weight: 600;
+  border-radius: 12px !important;
+}
+
+/* Mensaje */
+.message {
+  margin-top: 14px;
+  text-align: center;
+  color: var(--accent);
+  font-weight: 500;
+}
+.edit-btn {
+  color: #70d6ff;
 }
