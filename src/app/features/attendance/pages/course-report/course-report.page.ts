@@ -5,6 +5,9 @@ import { FormsModule } from '@angular/forms';
 import { AttendanceService } from '../../../../core/services/attendance.service';
 import { MatCardModule } from '@angular/material/card';
 import { MatTableModule } from '@angular/material/table';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatSelectModule } from '@angular/material/select';
+import { CoursesService } from '../../../../core/services/courses.service';
 
 @Component({
   selector: 'app-course-report',
@@ -13,18 +16,21 @@ import { MatTableModule } from '@angular/material/table';
     CommonModule,
     FormsModule,
     MatCardModule,
-    MatTableModule
+    MatTableModule,
+    MatFormFieldModule,
+    MatSelectModule
   ],
   templateUrl: './course-report.page.html',
   styleUrls: ['./course-report.page.css'],
 })
 export class CourseReportPage implements OnInit {
 
-  displayedColumns = ['studentName', 'present', 'absent', 'total', 'percent']; // ✅ <--- RESUELTO
+  displayedColumns = ['studentName', 'present', 'absent', 'total', 'percent'];
 
   courseId!: number;
   month!: number;
   year!: number;
+  courseName = ''; // nombre del curso
 
   stats: any[] = [];
 
@@ -47,7 +53,8 @@ export class CourseReportPage implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private attendanceSvc: AttendanceService
+    private attendanceSvc: AttendanceService,
+    private courseSvc: CoursesService
   ) {}
 
   ngOnInit(): void {
@@ -57,13 +64,28 @@ export class CourseReportPage implements OnInit {
     this.month = today.getMonth() + 1;
     this.year = today.getFullYear();
 
+    // Generar años desde 2020 hasta el actual
+    const currentYear = today.getFullYear();
+    this.years = Array.from({ length: 6 }, (_, i) => currentYear - i);
+
+    // Primero cargar el nombre del curso
+    this.loadCourseInfo();
+    // Luego cargar el reporte del mes actual
     this.loadReport();
   }
 
+  /** 🔹 Carga el nombre del curso */
+  loadCourseInfo() {
+    this.courseSvc.getById(this.courseId).subscribe({
+      next: (course: any) => this.courseName = course.name,
+      error: () => this.courseName = 'Curso desconocido'
+    });
+  }
+
+  /** 🔹 Carga el reporte mensual */
   loadReport() {
     this.attendanceSvc.getMonthlyReport(this.courseId, this.month, this.year).subscribe({
       next: res => {
-        // ✅ Convertimos correctamente datos del backend
         this.stats = res.map((s: any) => ({
           studentName: s.studentName,
           present: s.present ?? 0,
@@ -72,12 +94,19 @@ export class CourseReportPage implements OnInit {
           percent: s.percent ?? 0
         }));
       },
-      error: () => alert("⚠️ No se pudo cargar el reporte")
+      error: () => alert('⚠️ No se pudo cargar el reporte')
     });
   }
 
+  /** 🔹 Devuelve el nombre del mes */
+  getMonthLabel(value: number): string {
+    const found = this.months.find(m => m.value === value);
+    return found ? found.label : '';
+  }
+
+  /** 🔹 Color según porcentaje */
   getColor(percent: number): string {
-    if (percent >= 85) return 'green';
+    if (percent >= 85) return 'limegreen';
     if (percent >= 60) return 'orange';
     return 'red';
   }

@@ -79,3 +79,18 @@
     font-size: 1.2rem;
   }
 }
+.filters {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+}
+
+.filter-field {
+  width: 180px;
+}
+
+.subtitle {
+  font-weight: 600;
+  margin-bottom: 8px;
+}

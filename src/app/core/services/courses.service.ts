@@ -42,6 +42,9 @@ export class CoursesService {
 getInstructors() {
   return this.http.get<User[]>(`${environment.API_URL}/users?role=INSTRUCTOR`);
 }
-
+  /** Obtener curso por ID */
+  getById(id: number): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/${id}`);
+  }
 
 }
