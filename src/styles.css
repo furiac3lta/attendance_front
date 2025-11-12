@@ -308,3 +308,41 @@ button[mat-raised-button]:hover {
   border-color: #ffffff !important;
 }
 /* ======================================================= */
+/* Contenedor principal */
+.login-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* ocupa toda la pantalla */
+  background: var(--card-bg, #f3f3f3); /* opcional: color de fondo */
+  padding: 1rem;
+  box-sizing: border-box;
+}
+
+/* Tarjeta de login */
+.login-card {
+  width: 100%;
+  max-width: 400px; /* limita el ancho en desktop */
+  padding: 2rem;
+  box-sizing: border-box;
+}
+
+/* Botón y campos */
+.full-width {
+  width: 100%;
+}
+
+.login-button {
+  width: 100%;
+  margin-top: 1rem;
+}
+
+/* Modo oscuro opcional */
+.dark-theme .login-wrapper {
+  background: #121212;
+}
+
+.dark-theme .login-card {
+  background: #1e1e1e;
+  color: #fff;
+}
