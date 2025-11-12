@@ -309,15 +309,18 @@ button[mat-raised-button]:hover {
 }
 /* ======================================================= */
 /* Contenedor principal */
+/* 💡 Ajustado para navbar + footer visibles sin scroll */
 .login-wrapper {
+  min-height: calc(100vh - 64px); /* resta el alto del navbar */
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 100vh; /* ocupa toda la pantalla */
-  background: var(--card-bg, #f3f3f3); /* opcional: color de fondo */
-  padding: 1rem;
+  background: var(--card-bg, #f3f3f3);
+  padding-bottom: 80px; /* espacio para el footer fijo */
   box-sizing: border-box;
 }
+
 
 /* Tarjeta de login */
 .login-card {
@@ -345,4 +348,34 @@ button[mat-raised-button]:hover {
 .dark-theme .login-card {
   background: #1e1e1e;
   color: #fff;
+}
+/* ⚓ Footer siempre abajo */
+.login-footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  text-align: center;
+  font-size: 0.85rem;
+  color: #555;
+  padding: 0.8rem 0;
+  background: transparent; /* se ve natural sobre el fondo */
+}
+
+.login-footer a {
+  text-decoration: none;
+  color: #1976d2;
+  font-weight: 500;
+}
+
+.login-footer a:hover {
+  text-decoration: underline;
+}
+
+.dark-theme .login-footer {
+  color: #bbb;
+}
+
+.dark-theme .login-footer a {
+  color: #90caf9;
 }
