@@ -128,3 +128,12 @@ mat-paginator {
     min-width: 420px; /* evita que la tabla quede más chica que el form */
   }
 }
+.no-courses {
+  color: #777;
+  font-size: 12px;
+  font-style: italic;
+}
+
+.course-select {
+  width: 180px;
+}
