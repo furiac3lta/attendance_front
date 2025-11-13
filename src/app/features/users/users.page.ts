@@ -11,22 +11,28 @@ import { MatChipsModule } from '@angular/material/chips';
 @Component({
   standalone: true,
   selector: 'app-users-page',
-  imports: [CommonModule, ReactiveFormsModule, FormsModule, MaterialModule, MatChipsModule],
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    FormsModule,
+    MaterialModule,
+    MatChipsModule
+  ],
   templateUrl: './users.page.html',
   styleUrls: ['./users.page.css']
 })
 export class UsersPage implements OnInit {
+
   private fb = inject(FormBuilder);
   private usersSvc = inject(UsersService);
   private coursesSvc = inject(CoursesService);
   private snackbar = inject(SnackbarService);
 
-  users: User[] = [];                    // SIEMPRE array (evita NG02200)
+  users: User[] = [];
   courses: any[] = [];
   organizations: any[] = [];
   selectedCourses: Record<number, number[]> = {};
 
-  // Paginación
   currentPage = 0;
   pageSize = 10;
   totalPages = 1;
@@ -41,27 +47,35 @@ export class UsersPage implements OnInit {
     email: [''],
     password: [''],
     role: ['USER', Validators.required],
-    organizationId: [null as number | null]
+    organizationId: [null as number | null],
+    courseIds: [[] as number[]] // SE GUARDAN ACA LOS IDS
   });
 
   ngOnInit() {
+    this.loadCourses(); // importante cargar cursos antes de users
     this.loadUsers();
-    this.loadCourses();
     if (this.currentRole === 'SUPER_ADMIN') this.loadOrganizations();
   }
 
-  // ✅ Cargar usuarios paginados
+  // ============================================
+  // CARGA DE USERS
+  // ============================================
   loadUsers() {
     this.loading = true;
     this.usersSvc.findAll(this.currentPage, this.pageSize).subscribe({
       next: (res: PageResponse<User>) => {
-        // Aseguramos array (evita NG02200)
+
         this.users = Array.isArray(res?.content) ? res.content : [];
         this.totalPages = res?.totalPages ?? 1;
         this.totalElements = res?.totalElements ?? this.users.length;
         this.currentPage = res?.number ?? 0;
+
+        // ⭐ Convertimos nombres de cursos -> IDS
+        this.users.forEach(u => {
+          this.selectedCourses[u.id] = this.mapCourseNamesToIds(u.courses || []);
+        });
+
         this.loading = false;
-        // console.log('DEBUG USERS PAGE RESPONSE:', res);
       },
       error: () => {
         this.snackbar.show('❌ Error al cargar usuarios');
@@ -70,45 +84,48 @@ export class UsersPage implements OnInit {
     });
   }
 
-  // Pagination buttons
-  nextPage() {
-    if (this.currentPage < this.totalPages - 1) {
-      this.currentPage++;
-      this.loadUsers();
-    }
-  }
-  prevPage() {
-    if (this.currentPage > 0) {
-      this.currentPage--;
-      this.loadUsers();
-    }
+  // ============================================
+  // MAPEO NOMBRE → ID
+  // ============================================
+  mapCourseNamesToIds(courseNames: string[]): number[] {
+    return this.courses
+      .filter(c => courseNames.includes(c.name))
+      .map(c => c.id);
   }
 
-  // Helpers
+  // ============================================
+  // CARGA DE CURSOS Y ORGANIZACIONES
+  // ============================================
   loadCourses() {
     this.coursesSvc.findAll().subscribe({
-      next: (res: any[]) => this.courses = Array.isArray(res) ? res : [],
+      next: res => this.courses = res,
       error: () => this.snackbar.show('❌ Error al cargar cursos')
     });
   }
+
   loadOrganizations() {
     this.usersSvc.getOrganizations().subscribe({
-      next: (res: any[]) => this.organizations = Array.isArray(res) ? res : [],
+      next: res => this.organizations = res,
       error: () => this.snackbar.show('❌ Error al cargar organizaciones')
     });
   }
 
-  // CRUD
+  // ============================================
+  // CRUD USERS
+  // ============================================
   saveUser() {
-    if (this.form.invalid) return this.snackbar.show('⚠️ Completa los campos requeridos');
+    if (this.form.invalid) return this.snackbar.show('⚠️ Completa los campos');
+
     const dto = this.form.value;
 
     const payload: any = {
       fullName: dto.username!,
       email: dto.email || `${dto.username}@dojo.com`,
       password: dto.password ?? '',
-      role: dto.role!
+      role: dto.role!,
+      courseIds: dto.courseIds || [] // ⭐ IMPORTANTE
     };
+
     if (this.currentRole === 'SUPER_ADMIN' && dto.organizationId) {
       payload.organization = { id: dto.organizationId };
     }
@@ -120,56 +137,77 @@ export class UsersPage implements OnInit {
     req$.subscribe({
       next: () => {
         this.snackbar.show('✅ Usuario guardado');
-        this.form.reset({ role: 'USER' });
+        this.form.reset({ role: 'USER', courseIds: [] });
         this.editingUserId = null;
         this.loadUsers();
       },
-      error: () => this.snackbar.show('❌ Error al guardar usuario')
+      error: () => this.snackbar.show('❌ Error al guardar')
     });
   }
 
-  editUser(user: User): void {
+  editUser(user: User) {
     this.editingUserId = user.id!;
+
+    const ids = this.mapCourseNamesToIds(user.courses || []);
+
     this.form.patchValue({
-      username: user.fullName || '',
-      email: user.email || '',
-      role: user.role || 'USER',
-      organizationId: user.organizationId ?? null
+      username: user.fullName,
+      email: user.email,
+      role: user.role,
+      organizationId: user.organizationId || null,
+      courseIds: ids
     });
+
+    this.selectedCourses[user.id] = ids;
   }
 
   cancelEdit() {
     this.editingUserId = null;
-    this.form.reset({ role: 'USER' });
+    this.form.reset({ role: 'USER', courseIds: [] });
   }
 
   deleteUser(id: number) {
     if (!confirm('¿Eliminar este usuario?')) return;
+
     this.usersSvc.remove(id).subscribe({
-      next: () => { this.snackbar.show('🗑️ Usuario eliminado'); this.loadUsers(); },
-      error: () => this.snackbar.show('❌ No se pudo eliminar usuario')
+      next: () => {
+        this.snackbar.show('🗑️ Usuario eliminado');
+        this.loadUsers();
+      },
+      error: () => this.snackbar.show('❌ Error al eliminar')
     });
   }
 
+  // ============================================
+  // ASIGNAR CURSOS
+  // ============================================
   saveCourses(userId: number) {
     const courseIds = this.selectedCourses[userId] || [];
-    if (!courseIds.length) return this.snackbar.show('⚠️ Selecciona cursos');
+
     this.usersSvc.assignCourses(userId, courseIds).subscribe({
-      next: () => { this.snackbar.show('✅ Cursos asignados'); this.loadUsers(); },
+      next: () => {
+        this.snackbar.show('✅ Cursos asignados');
+        this.loadUsers();
+      },
       error: () => this.snackbar.show('❌ Error al asignar cursos')
     });
   }
 
   onCoursesChange(userId: number, event: any) {
-  const values = event.value;
-  this.selectedCourses[userId] = Array.isArray(values) ? values : [];
-}
+    this.selectedCourses[userId] = event.value;
+    if (this.editingUserId === userId) {
+      this.form.patchValue({ courseIds: event.value });
+    }
+  }
 
-onPaginatorChange(event: any) {
-  this.pageSize = event.pageSize;
-  this.currentPage = event.pageIndex;
-  this.loadUsers();
-}
-  // Evita errores de template con opcionales
+  // ============================================
+  // PAGINADOR
+  // ============================================
+  onPaginatorChange(event: any) {
+    this.pageSize = event.pageSize;
+    this.currentPage = event.pageIndex;
+    this.loadUsers();
+  }
+
   trackByUserId = (_: number, u: User) => u.id;
 }
