@@ -74,10 +74,10 @@ export class UsersService {
   }
 
   getOrganizations(): Observable<any[]> {
-    return this.http.get<any[]>(`${environment.API_URL}/organizations`, this.authHeaders());
+    return this.http.get<any[]>(`${this.base}/organizations`, this.authHeaders());
   }
   getUsersByRole(role: string) {
-  return this.http.get<any[]>(`${environment.API_URL}/role/${role}`);
+  return this.http.get<any[]>(`${this.base}/role/${role}`);
 }
 
 }
