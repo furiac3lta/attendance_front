@@ -6,11 +6,12 @@ import { UsersService, User, PageResponse } from '../../core/services/users.serv
 import { CoursesService } from '../../core/services/courses.service';
 import { SnackbarService } from '../../shared/services/snackbar.service';
 import { MaterialModule } from '../../material.module';
+import { MatChipsModule } from '@angular/material/chips';
 
 @Component({
   standalone: true,
   selector: 'app-users-page',
-  imports: [CommonModule, ReactiveFormsModule, FormsModule, MaterialModule],
+  imports: [CommonModule, ReactiveFormsModule, FormsModule, MaterialModule, MatChipsModule],
   templateUrl: './users.page.html',
   styleUrls: ['./users.page.css']
 })
