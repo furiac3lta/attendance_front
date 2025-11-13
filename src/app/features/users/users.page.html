@@ -98,15 +98,15 @@
         <th mat-header-cell *matHeaderCellDef> Cursos asignados </th>
         <td mat-cell *matCellDef="let u">
 
-          <mat-chip-set>
-            <mat-chip *ngFor="let c of u.courses">
-              {{ c }}
-            </mat-chip>
+         <mat-chip-set class="chip-wrapper">
+  <mat-chip *ngFor="let c of u.courses" class="course-chip" selected>
+    {{ c }}
+  </mat-chip>
 
-            <span *ngIf="!u.courses || u.courses.length === 0" class="no-courses">
-              Sin cursos
-            </span>
-          </mat-chip-set>
+  <span *ngIf="!u.courses || u.courses.length === 0" class="no-courses">
+    Sin cursos
+  </span>
+</mat-chip-set>
 
         </td>
       </ng-container>
