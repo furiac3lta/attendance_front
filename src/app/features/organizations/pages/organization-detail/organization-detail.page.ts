@@ -54,7 +54,7 @@ export class OrganizationDetailPage implements OnInit {
           { label: 'Administrador', value: res.admin?.fullName || 'Sin asignar' }
         ];
 
-        console.log('🏢 Detalle organización:', res);
+       // console.log('🏢 Detalle organización:', res);
       },
       error: (err) => {
         console.error('❌ Error al cargar detalle:', err);

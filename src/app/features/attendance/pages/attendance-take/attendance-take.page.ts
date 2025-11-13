@@ -10,16 +10,21 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatIcon } from '@angular/material/icon';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-attendance-take',
   standalone: true,
-  imports: [CommonModule, FormsModule,  MatTableModule,
+  imports: [
+    CommonModule,
+    FormsModule,
+    MatTableModule,
     MatCheckboxModule,
     MatButtonModule,
     MatCardModule,
     MatDividerModule,
-  MatIcon],
+    MatIcon
+  ],
   templateUrl: './attendance-take.page.html',
   styleUrls: ['./attendance-take.page.css'],
 })
@@ -42,37 +47,55 @@ export class AttendanceTakePage implements OnInit {
     private attendanceSvc: AttendanceService
   ) {}
 
-ngOnInit(): void {
+  ngOnInit(): void {
     this.classId = Number(this.route.snapshot.paramMap.get('classId'));
 
     if (!this.classId || Number.isNaN(this.classId)) {
-      alert('Clase inválida');
+      Swal.fire({
+        title: 'Clase inválida',
+        text: 'No se pudo identificar la clase.',
+        icon: 'error',
+        heightAuto: false
+      });
       this.router.navigate(['/courses']);
       return;
     }
 
-    // ✅ Usamos getClassDetails (el nuevo endpoint con courseId incluido)
+    // ==================================================
+    // 🔹 Cargar detalles de la clase
+    // ==================================================
     this.classesSvc.getClassDetails(this.classId).subscribe({
       next: (res) => {
-        console.log("📦 Detalles clase:", res);
-
         this.className = res.className;
         this.date = res.date;
         this.courseName = res.courseName;
-        this.courseId = res.courseId; // ✅ AHORA VIENE DEL BACKEND
+        this.courseId = res.courseId;
 
         if (!this.courseId) {
-          console.error("❌ ERROR: courseId NO vino del backend. Revisar DTO.");
+          Swal.fire({
+            title: 'Error',
+            text: 'No se recibió el courseId del backend.',
+            icon: 'error',
+            heightAuto: false
+          });
         }
       },
-      error: () => alert('⚠️ No se pudo cargar detalles de la clase')
+      error: () => {
+        Swal.fire({
+          title: 'Error',
+          text: 'No se pudo cargar detalles de la clase.',
+          icon: 'error',
+          heightAuto: false
+        });
+      }
     });
 
-    // ✅ Cargar alumnos
+    // ==================================================
+    // 🔹 Cargar alumnos y asistencia previa
+    // ==================================================
     this.classesSvc.getStudentsForClass(this.classId).subscribe(students => {
       this.students = students ?? [];
 
-      // ✅ Ver si ya tenía asistencia
       this.attendanceSvc.getSessionAttendance(this.classId).subscribe(marks => {
         if (marks?.length > 0) {
           this.wasAlreadyTaken = true;
@@ -91,24 +114,40 @@ ngOnInit(): void {
     return this.attendanceMarks.find(a => a.userId === userId)?.present ?? false;
   }
 
- toggleAttendance(userId: number, present: boolean) {
+  toggleAttendance(userId: number, present: boolean) {
     const mark = this.attendanceMarks.find(a => a.userId === userId);
     if (mark) mark.present = present;
     else this.attendanceMarks.push({ userId, present });
   }
 
-  /** ✅ Guarda y vuelve al listado del curso correcto */
-save() {
+  // ==================================================
+  // 🔹 Guardar asistencia
+  // ==================================================
+  save() {
     this.attendanceSvc.registerAttendance(this.classId, this.attendanceMarks).subscribe({
       next: () => {
-        alert(this.wasAlreadyTaken ? '✅ Cambios guardados' : '✅ Asistencia registrada');
-        this.router.navigate(['/attendance/class', this.courseId]); // ✅ YA NO ES NaN
+        Swal.fire({
+          title: this.wasAlreadyTaken ? 'Cambios guardados' : 'Asistencia registrada',
+          icon: 'success',
+          heightAuto: false
+        });
+
+        this.router.navigate(['/attendance/class', this.courseId]);
       },
-      error: () => alert('❌ No se pudo guardar la asistencia')
+      error: () =>
+        Swal.fire({
+          title: 'Error',
+          text: 'No se pudo guardar la asistencia.',
+          icon: 'error',
+          heightAuto: false
+        })
     });
   }
-cancel(): void {
-  this.router.navigate(['/courses']); // 👉 vuelve al listado de cursos
-}
 
+  // ==================================================
+  // 🔹 Cancelar
+  // ==================================================
+  cancel(): void {
+    this.router.navigate(['/courses']);
+  }
 }

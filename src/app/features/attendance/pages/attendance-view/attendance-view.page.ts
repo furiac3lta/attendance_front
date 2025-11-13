@@ -3,7 +3,10 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { AttendanceService } from '../../../../core/services/attendance.service';
 
-// ✅ Material
+// SweetAlert2
+import Swal from 'sweetalert2';
+
+// Material
 import { MatCardModule } from '@angular/material/card';
 import { MatTableModule } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
@@ -29,7 +32,6 @@ export class AttendanceViewPage implements OnInit {
   classId!: number;
   records: any[] = [];
 
-  // ✅ Necesario para que la tabla funcione
   displayedColumns = ['fullName', 'present'];
 
   constructor(
@@ -48,7 +50,14 @@ export class AttendanceViewPage implements OnInit {
           present: item.attended
         }));
       },
-      error: () => alert("⚠️ No se pudo cargar la asistencia")
+      error: () => {
+        Swal.fire({
+          title: 'Error',
+          text: 'No se pudo cargar la asistencia.',
+          icon: 'error',
+          heightAuto: false
+        });
+      }
     });
   }
 

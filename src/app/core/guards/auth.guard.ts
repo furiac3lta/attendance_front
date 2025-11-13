@@ -1,35 +1,41 @@
 import { inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
+import Swal from 'sweetalert2';
 
 export const canActivateAuth: CanActivateFn = (route, state) => {
   const router = inject(Router);
 
-  // 🔹 Buscar token y rol
+  // 🔹 Obtener token y rol
   const token = sessionStorage.getItem('token') || localStorage.getItem('token');
   const rawRole = sessionStorage.getItem('role') || localStorage.getItem('role');
 
-  // ⚠️ Solo redirige al login si realmente NO hay token
+  // ❌ Si no existe token → redirige al login
   if (!token) {
-    console.warn('⚠️ No hay token, redirigiendo al login...');
     router.navigate(['/login']);
     return false;
   }
 
-  // 🔹 Normalizar formato de rol (ej: ROLE_SUPER_ADMIN → SUPER_ADMIN)
+  // 🔹 Normalizar formato de rol
   const role = rawRole?.replace(/^ROLE_/, '').toUpperCase() || '';
 
-  // 🔹 Verificar si la ruta define roles permitidos
+  // 🔹 Roles permitidos definidos en la ruta
   const allowedRoles = (route.data?.['roles'] || []).map((r: string) => r.toUpperCase());
 
-  // 🔹 Si no hay restricción → permitir acceso
+  // ✔️ Si la ruta no tiene restricción → permitir
   if (allowedRoles.length === 0) return true;
 
-  // 🔹 Si el rol tiene permiso → permitir acceso
+  // ✔️ Si el rol tiene permisos → permitir
   if (allowedRoles.includes(role)) return true;
 
-  // 🚫 Si no tiene permiso → mostrar alerta, pero NO romper sesión
-  alert('🚫 Acceso restringido: tu rol no tiene permisos para acceder a esta sección.');
-  console.warn(`Acceso denegado para rol "${role}" en ruta ${state.url}`);
-  router.navigate(['/dashboard']); // redirige al panel, no al login
+  // ❌ Si no tiene permiso → notificar sin cerrar sesión
+  Swal.fire({
+    title: '⛔ Acceso denegado',
+    text: 'Tu rol no tiene permisos para acceder a esta sección.',
+    icon: 'error',
+    confirmButtonText: 'Entendido',
+    heightAuto: false,
+  });
+
+  router.navigate(['/dashboard']);
   return false;
 };

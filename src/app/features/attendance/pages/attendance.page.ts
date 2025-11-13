@@ -32,7 +32,7 @@ export class AttendancePage implements OnInit {
               instructorName: a.instructorName || '—',
             }))
           : [];
-        console.log('📋 Asistencias obtenidas:', this.attendances);
+        //console.log('📋 Asistencias obtenidas:', this.attendances);
         this.loading = false;
       },
       error: (err) => {

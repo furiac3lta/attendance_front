@@ -7,14 +7,19 @@ import { MatCardModule } from '@angular/material/card';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-login-page',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, MatCardModule,
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    MatCardModule,
     MatInputModule,
     MatIconModule,
-    MatButtonModule],
+    MatButtonModule,
+  ],
   templateUrl: './login.page.html',
 })
 export class LoginPage {
@@ -34,7 +39,12 @@ export class LoginPage {
 
   onSubmit(): void {
     if (this.loginForm.invalid) {
-      alert('⚠️ Completá todos los campos correctamente.');
+      Swal.fire({
+        icon: 'warning',
+        title: 'Formulario incompleto',
+        text: 'Completá todos los campos correctamente.',
+        heightAuto: false
+      });
       return;
     }
 
@@ -42,29 +52,44 @@ export class LoginPage {
 
     this.authService.login(this.loginForm.value).subscribe({
       next: (res) => {
-        console.log('✅ Login exitoso:', res);
-
-        // 🔐 Guardamos token y rol
+        // Guardamos token y rol
         sessionStorage.setItem('token', res.token);
         sessionStorage.setItem('role', res.type);
 
         const role = res.type?.replace(/^ROLE_/, '').toUpperCase();
-        alert(`Bienvenido ${role.replace('_', ' ')}`);
 
-        // 🚀 Redirige siempre al dashboard
+        Swal.fire({
+          icon: 'success',
+          title: 'Bienvenido',
+          text: `Hola ${role.replace('_', ' ')}`,
+          timer: 1500,
+          showConfirmButton: false,
+          heightAuto: false
+        });
+
+        // Redirige al dashboard
         this.router.navigate(['/dashboard']);
       },
+
       error: (err) => {
         console.error('❌ Error de login:', err);
 
+        let message = '❌ Error de conexión con el servidor.';
+
         if (err.status === 401) {
-          alert('⚠️ Usuario o contraseña incorrectos.');
+          message = '⚠️ Usuario o contraseña incorrectos.';
         } else if (err.status === 403) {
-          alert('⛔ Tu cuenta no tiene permisos para ingresar.');
-        } else {
-          alert('❌ Error de conexión con el servidor.');
+          message = '⛔ Tu cuenta no tiene permisos para ingresar.';
         }
+
+        Swal.fire({
+          icon: 'error',
+          title: 'Error al iniciar sesión',
+          text: message,
+          heightAuto: false
+        });
       },
+
       complete: () => {
         this.isLoading = false;
       },

@@ -49,7 +49,7 @@ export class OrganizationFormPage {
 
     this.orgService.create(payload).subscribe({
       next: (res) => {
-        console.log('✅ Organización creada:', res);
+       // console.log('✅ Organización creada:', res);
         this.message = '✅ Organización creada correctamente.';
         this.router.navigate(['/organizations']);
       },

@@ -9,6 +9,9 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { CoursesService } from '../../../../core/services/courses.service';
 
+// SweetAlert2
+import Swal from 'sweetalert2';
+
 @Component({
   selector: 'app-course-report',
   standalone: true,
@@ -30,7 +33,7 @@ export class CourseReportPage implements OnInit {
   courseId!: number;
   month!: number;
   year!: number;
-  courseName = ''; // nombre del curso
+  courseName = '';
 
   stats: any[] = [];
 
@@ -64,13 +67,10 @@ export class CourseReportPage implements OnInit {
     this.month = today.getMonth() + 1;
     this.year = today.getFullYear();
 
-    // Generar años desde 2020 hasta el actual
     const currentYear = today.getFullYear();
     this.years = Array.from({ length: 6 }, (_, i) => currentYear - i);
 
-    // Primero cargar el nombre del curso
     this.loadCourseInfo();
-    // Luego cargar el reporte del mes actual
     this.loadReport();
   }
 
@@ -78,7 +78,15 @@ export class CourseReportPage implements OnInit {
   loadCourseInfo() {
     this.courseSvc.getById(this.courseId).subscribe({
       next: (course: any) => this.courseName = course.name,
-      error: () => this.courseName = 'Curso desconocido'
+      error: () => {
+        this.courseName = 'Curso desconocido';
+        Swal.fire({
+          icon: 'warning',
+          title: 'Atención',
+          text: 'No se pudo cargar el nombre del curso.',
+          heightAuto: false
+        });
+      }
     });
   }
 
@@ -94,7 +102,14 @@ export class CourseReportPage implements OnInit {
           percent: s.percent ?? 0
         }));
       },
-      error: () => alert('⚠️ No se pudo cargar el reporte')
+      error: () => {
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'No se pudo cargar el reporte mensual.',
+          heightAuto: false
+        });
+      }
     });
   }
 

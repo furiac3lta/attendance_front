@@ -93,7 +93,7 @@ onAssignInstructor(courseId: number, event: any) {
   const instructorId = Number(event.target.value);
   this.coursesSvc.assignInstructor(courseId, instructorId).subscribe({
     next: () => {
-      console.log("✅ Instructor asignado");
+     // console.log("✅ Instructor asignado");
       this.loadCourses();
     },
     error: (err) => console.error("❌ Error asignando instructor:", err)
@@ -105,7 +105,7 @@ saveInstructor(courseId: number, instructorId: number | null): void {
 
   this.coursesSvc.assignInstructor(courseId, instructorId).subscribe({
     next: () => {
-      console.log("✅ Instructor asignado");
+     // console.log("✅ Instructor asignado");
       this.loadCourses();
     },
     error: (err) => console.error("❌ Error asignando instructor", err),

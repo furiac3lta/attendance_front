@@ -4,6 +4,7 @@ import { environment } from '../../../environments/environment';
 import { tap } from 'rxjs/operators';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { Router } from '@angular/router';
+import Swal from 'sweetalert2';
 
 export interface LoginRequest {
   email: string;
@@ -18,14 +19,14 @@ export interface RegisterRequest {
 
 export interface AuthResponse {
   token: string;
-  type: string; // ADMIN, INSTRUCTOR, SUPER_ADMIN, etc.
-  user?: any;   // 👈 nuevo: el backend ahora devuelve el usuario completo
+  type: string;
+  user?: any;
 }
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
   private base = `${environment.API_URL}/auth`;
-    private roleSubject = new BehaviorSubject<string | null>(sessionStorage.getItem('role'));
+  private roleSubject = new BehaviorSubject<string | null>(sessionStorage.getItem('role'));
 
   private loginStatus = new BehaviorSubject<boolean>(this.hasToken());
   loginStatus$ = this.loginStatus.asObservable();
@@ -38,32 +39,25 @@ export class AuthService {
   }
 
   // ======================================================
-  // 🔹 LOGIN con redirección automática por rol
+  // 🔹 LOGIN con SweetAlert2
   // ======================================================
   login(payload: LoginRequest): Observable<AuthResponse> {
     return this.http.post<AuthResponse>(`${this.base}/login`, payload).pipe(
       tap({
         next: (res) => {
           if (res && res.token) {
-            // ✅ Guardamos el token y rol
             localStorage.setItem('token', res.token);
             localStorage.setItem('role', res.type);
 
-            // ✅ Guardamos también el usuario completo si viene
             if (res.user) {
               localStorage.setItem('user', JSON.stringify(res.user));
-              console.log('✅ Usuario guardado en localStorage:', res.user);
-            } else {
-              console.warn('⚠️ No se recibió el usuario en la respuesta del backend:', res);
             }
 
             this.loginStatus.next(true);
-            console.log('✅ Token guardado correctamente en localStorage:', res.token);
 
-            // 🔹 Normalizamos el rol (por si el backend lo envía con ROLE_)
             const role = res.type?.replace(/^ROLE_/, '').toUpperCase();
 
-            // 🔁 Redirección automática según rol
+            // 🔁 Redirección según rol
             switch (role) {
               case 'SUPER_ADMIN':
                 this.router.navigate(['/organizations']);
@@ -82,23 +76,48 @@ export class AuthService {
                 break;
 
               default:
-                alert('⚠️ Rol no reconocido. Contactá al administrador.');
+                Swal.fire({
+                  title: 'Error',
+                  text: 'Rol no reconocido. Contactá al administrador.',
+                  icon: 'error',
+                  heightAuto: false
+                });
                 this.logout();
                 break;
             }
           } else {
-            console.warn('⚠️ No se recibió token en la respuesta:', res);
+            Swal.fire({
+              title: 'Error',
+              text: 'No se recibió token desde el servidor.',
+              icon: 'error',
+              heightAuto: false
+            });
           }
         },
+
         error: (err) => {
           if (err.status === 403) {
-            alert('⛔ Acceso denegado: tu cuenta no tiene permisos para ingresar.');
+            Swal.fire({
+              title: 'Acceso denegado',
+              text: 'Tu cuenta no tiene permisos para ingresar.',
+              icon: 'error',
+              heightAuto: false
+            });
           } else if (err.status === 401) {
-            alert('⚠️ Credenciales incorrectas.');
+            Swal.fire({
+              title: 'Credenciales incorrectas',
+              text: 'Revisá tu email y contraseña.',
+              icon: 'warning',
+              heightAuto: false
+            });
           } else {
-            alert('❌ Error de conexión o servidor. Intenta nuevamente.');
+            Swal.fire({
+              title: 'Error de servidor',
+              text: 'No se pudo conectar. Intentá nuevamente.',
+              icon: 'error',
+              heightAuto: false
+            });
           }
-          console.error('❌ Error de login:', err);
         },
       })
     );
@@ -119,9 +138,16 @@ export class AuthService {
     localStorage.removeItem('role');
     localStorage.removeItem('user');
     this.loginStatus.next(false);
+    this.roleSubject.next(null);
+
     this.router.navigate(['/login']);
-     this.roleSubject.next(null);
-    console.log('🚪 Sesión cerrada correctamente.');
+
+    Swal.fire({
+      title: 'Sesión cerrada',
+      text: 'Has salido correctamente.',
+      icon: 'info',
+      heightAuto: false
+    });
   }
 
   // ======================================================
@@ -131,23 +157,17 @@ export class AuthService {
     return localStorage.getItem('token');
   }
 
-  // ======================================================
-  // 🔹 LOGIN CHECK
-  // ======================================================
   isLoggedIn(): boolean {
     return !!localStorage.getItem('token');
   }
 
-  // ======================================================
-  // 🔹 ROLE NORMALIZADO
-  // ======================================================
   getRole(): string {
     const role = localStorage.getItem('role');
     return role ? role.replace(/^ROLE_/, '').toUpperCase() : '';
   }
 
   // ======================================================
-  // 🔹 OBTENER USUARIO GUARDADO
+  // 🔹 OBTENER USUARIO
   // ======================================================
   getUser(): any | null {
     const userJson = localStorage.getItem('user');

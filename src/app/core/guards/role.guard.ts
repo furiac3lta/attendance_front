@@ -1,37 +1,47 @@
 import { inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
+import Swal from 'sweetalert2';
 
 export const roleGuard: CanActivateFn = (route, state) => {
   const authService = inject(AuthService);
   const router = inject(Router);
 
-  // 🔹 Si no hay token → sesión expirada → ir al login
+  // 🔹 Validar token
   const token = authService.getToken();
   if (!token) {
-    alert('⚠️ Tu sesión ha expirado. Iniciá sesión nuevamente.');
+    Swal.fire({
+      title: 'Sesión expirada',
+      text: 'Tu sesión ha expirado. Iniciá sesión nuevamente.',
+      icon: 'warning',
+      confirmButtonText: 'Ir al login',
+      heightAuto: false
+    });
+
     router.navigate(['/login']);
     return false;
   }
 
-  // 🔹 Obtener rol actual
+  // 🔹 Obtener rol del usuario (normalizado)
   const role = authService.getRole()?.replace(/^ROLE_/, '').toUpperCase() || '';
 
-  // 🔹 Roles permitidos
+  // 🔹 Roles permitidos desde la ruta
   const allowedRoles = (route.data?.['roles'] || []).map((r: string) => r.toUpperCase());
 
-  // ✅ Si no hay restricción → acceso permitido
+  // ✔️ Sin restricción → permitir
   if (allowedRoles.length === 0) return true;
 
-  // ✅ Si el rol tiene permiso → permitir
-  if (allowedRoles.includes(role)) {
-    return true;
-  }
+  // ✔️ Si coincide → permitir
+  if (allowedRoles.includes(role)) return true;
 
-  // 🚫 Si no tiene permiso → mostrar mensaje y quedarse en la página
-  alert('🚫 No tenés permiso para acceder a esta sección.');
-  console.warn(`Acceso denegado: rol "${role}" no autorizado para ${state.url}`);
+  // ❌ Acceso denegado → SweetAlert2 elegante
+  Swal.fire({
+    title: '⛔ Acceso denegado',
+    text: 'No tenés permiso para acceder a esta sección.',
+    icon: 'error',
+    confirmButtonText: 'Entendido',
+    heightAuto: false
+  });
 
-  // ❌ No redirige, simplemente cancela la navegación
-  return false;
+  return false; // NO redirige, solo bloquea
 };

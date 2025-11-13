@@ -3,30 +3,38 @@ import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 import { CoursesService } from '../../../../core/services/courses.service';
 import { Router } from '@angular/router';
+
+// Material
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 
+import Swal from 'sweetalert2';
 
 @Component({
   standalone: true,
   selector: 'app-course-form',
-  imports: [CommonModule, ReactiveFormsModule, MatCardModule,
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    MatCardModule,
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
-  MatIconModule],
+    MatIconModule
+  ],
   templateUrl: './course-form.page.html',
   styleUrls: ['./course-form.page.css']
 })
 export class CourseFormPage {
+
   private fb = inject(FormBuilder);
   private router = inject(Router);
   private coursesSvc = inject(CoursesService);
 
-  // ✅ Formulario con validaciones básicas
+  // Formulario con validaciones
   form = this.fb.group({
     name: ['', Validators.required],
     description: [''],
@@ -34,10 +42,15 @@ export class CourseFormPage {
     instructorId: [1]
   });
 
-  // ✅ Crear curso
+  // Crear curso
   createCourse() {
     if (this.form.invalid) {
-      alert('Por favor, completá los campos requeridos.');
+      Swal.fire({
+        icon: 'warning',
+        title: 'Campos incompletos',
+        text: 'Por favor completá los campos obligatorios.',
+        heightAuto: false
+      });
       return;
     }
 
@@ -51,23 +64,29 @@ export class CourseFormPage {
     };
 
     this.coursesSvc.create(payload).subscribe({
-      next: (res) => {
-        console.log('✅ Curso creado correctamente:', res);
-
-        // Mostrar mensaje visual
-        alert('✅ Curso creado correctamente');
-
-        // Redirigir al listado de cursos
-      this.router.navigateByUrl('/courses').then(ok => console.log('🔁 navigateByUrl ejecutado:', ok));
-
+      next: () => {
+        Swal.fire({
+          icon: 'success',
+          title: 'Curso creado',
+          text: 'El curso fue creado correctamente.',
+          heightAuto: false
+        }).then(() => {
+          this.router.navigate(['/courses']);
+        });
       },
-      error: (err: any) => {
+      error: (err) => {
         console.error('❌ Error al crear curso:', err);
-        alert('❌ Ocurrió un error al crear el curso');
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'No se pudo crear el curso. Intentá nuevamente.',
+          heightAuto: false
+        });
       }
     });
   }
+
   cancel(): void {
-  this.router.navigate(['/courses']); // 👉 vuelve al listado de cursos
-}
+    this.router.navigate(['/courses']);
+  }
 }

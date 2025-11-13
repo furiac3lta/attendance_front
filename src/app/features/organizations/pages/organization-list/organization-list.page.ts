@@ -47,7 +47,7 @@ userRole: string | null = sessionStorage.getItem('role');
     this.orgService.findAll().subscribe({
       next: (res) => {
         this.organizations = res || [];
-        console.log('✅ Organizaciones cargadas:', this.organizations);
+      //  console.log('✅ Organizaciones cargadas:', this.organizations);
       },
       error: (err) => {
         console.error('❌ Error al cargar organizaciones:', err);
@@ -61,7 +61,7 @@ loadAdmins() {
   this.usersService.getUsersByRole('ADMIN').subscribe({
     next: (admins) => {
       this.admins = admins;
-      console.log('✅ Admins disponibles:', admins);
+     // console.log('✅ Admins disponibles:', admins);
     },
     error: () => this.snackbar.show('❌ Error al cargar administradores'),
   });
