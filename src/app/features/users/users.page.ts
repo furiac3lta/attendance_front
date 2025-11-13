@@ -4,9 +4,9 @@ import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormsModule, Validators } from '@angular/forms';
 import { UsersService, User, PageResponse } from '../../core/services/users.service';
 import { CoursesService } from '../../core/services/courses.service';
-import { SnackbarService } from '../../shared/services/snackbar.service';
 import { MaterialModule } from '../../material.module';
 import { MatChipsModule } from '@angular/material/chips';
+import Swal from 'sweetalert2';
 
 @Component({
   standalone: true,
@@ -26,7 +26,6 @@ export class UsersPage implements OnInit {
   private fb = inject(FormBuilder);
   private usersSvc = inject(UsersService);
   private coursesSvc = inject(CoursesService);
-  private snackbar = inject(SnackbarService);
 
   users: User[] = [];
   courses: any[] = [];
@@ -48,11 +47,11 @@ export class UsersPage implements OnInit {
     password: [''],
     role: ['USER', Validators.required],
     organizationId: [null as number | null],
-    courseIds: [[] as number[]] // SE GUARDAN ACA LOS IDS
+    courseIds: [[] as number[]]
   });
 
   ngOnInit() {
-    this.loadCourses(); // importante cargar cursos antes de users
+    this.loadCourses();
     this.loadUsers();
     if (this.currentRole === 'SUPER_ADMIN') this.loadOrganizations();
   }
@@ -70,7 +69,6 @@ export class UsersPage implements OnInit {
         this.totalElements = res?.totalElements ?? this.users.length;
         this.currentPage = res?.number ?? 0;
 
-        // ⭐ Convertimos nombres de cursos -> IDS
         this.users.forEach(u => {
           this.selectedCourses[u.id] = this.mapCourseNamesToIds(u.courses || []);
         });
@@ -78,7 +76,7 @@ export class UsersPage implements OnInit {
         this.loading = false;
       },
       error: () => {
-        this.snackbar.show('❌ Error al cargar usuarios');
+        Swal.fire('Error', '❌ Error al cargar usuarios', 'error');
         this.loading = false;
       }
     });
@@ -99,14 +97,14 @@ export class UsersPage implements OnInit {
   loadCourses() {
     this.coursesSvc.findAll().subscribe({
       next: res => this.courses = res,
-      error: () => this.snackbar.show('❌ Error al cargar cursos')
+      error: () => Swal.fire('Error', '❌ Error al cargar cursos', 'error')
     });
   }
 
   loadOrganizations() {
     this.usersSvc.getOrganizations().subscribe({
       next: res => this.organizations = res,
-      error: () => this.snackbar.show('❌ Error al cargar organizaciones')
+      error: () => Swal.fire('Error', '❌ Error al cargar organizaciones', 'error')
     });
   }
 
@@ -114,7 +112,10 @@ export class UsersPage implements OnInit {
   // CRUD USERS
   // ============================================
   saveUser() {
-    if (this.form.invalid) return this.snackbar.show('⚠️ Completa los campos');
+    if (this.form.invalid) {
+      Swal.fire('Atención', '⚠️ Completa los campos requeridos', 'warning');
+      return;
+    }
 
     const dto = this.form.value;
 
@@ -123,7 +124,7 @@ export class UsersPage implements OnInit {
       email: dto.email || `${dto.username}@dojo.com`,
       password: dto.password ?? '',
       role: dto.role!,
-      courseIds: dto.courseIds || [] // ⭐ IMPORTANTE
+      courseIds: dto.courseIds || []
     };
 
     if (this.currentRole === 'SUPER_ADMIN' && dto.organizationId) {
@@ -136,12 +137,12 @@ export class UsersPage implements OnInit {
 
     req$.subscribe({
       next: () => {
-        this.snackbar.show('✅ Usuario guardado');
+        Swal.fire('Éxito', '✅ Usuario guardado correctamente', 'success');
         this.form.reset({ role: 'USER', courseIds: [] });
         this.editingUserId = null;
         this.loadUsers();
       },
-      error: () => this.snackbar.show('❌ Error al guardar')
+      error: () => Swal.fire('Error', '❌ Error al guardar usuario', 'error')
     });
   }
 
@@ -167,14 +168,24 @@ export class UsersPage implements OnInit {
   }
 
   deleteUser(id: number) {
-    if (!confirm('¿Eliminar este usuario?')) return;
+    Swal.fire({
+      title: '¿Eliminar este usuario?',
+      text: 'Esta acción no se puede deshacer',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Eliminar',
+      cancelButtonText: 'Cancelar'
+    }).then(result => {
 
-    this.usersSvc.remove(id).subscribe({
-      next: () => {
-        this.snackbar.show('🗑️ Usuario eliminado');
-        this.loadUsers();
-      },
-      error: () => this.snackbar.show('❌ Error al eliminar')
+      if (!result.isConfirmed) return;
+
+      this.usersSvc.remove(id).subscribe({
+        next: () => {
+          Swal.fire('Eliminado', '🗑️ Usuario eliminado', 'success');
+          this.loadUsers();
+        },
+        error: () => Swal.fire('Error', '❌ Error al eliminar usuario', 'error')
+      });
     });
   }
 
@@ -186,10 +197,10 @@ export class UsersPage implements OnInit {
 
     this.usersSvc.assignCourses(userId, courseIds).subscribe({
       next: () => {
-        this.snackbar.show('✅ Cursos asignados');
+        Swal.fire('Éxito', '✅ Cursos asignados correctamente', 'success');
         this.loadUsers();
       },
-      error: () => this.snackbar.show('❌ Error al asignar cursos')
+      error: () => Swal.fire('Error', '❌ Error al asignar cursos', 'error')
     });
   }
 
