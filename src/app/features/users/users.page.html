@@ -2,6 +2,15 @@
 
   <h2 class="title"> Gestión de Usuarios</h2>
 
+  <!-- BUSCADOR -->
+  <div class="search-bar">
+    <mat-form-field appearance="outline">
+      <mat-label>Buscar usuario...</mat-label>
+      <input matInput [(ngModel)]="searchTerm" (input)="applyFilter()">
+      <mat-icon matSuffix>search</mat-icon>
+    </mat-form-field>
+  </div>
+
   <!-- FORMULARIO -->
   <div class="form-section">
     <form [formGroup]="form" (ngSubmit)="saveUser()" class="form-grid">
@@ -30,7 +39,7 @@
         </mat-select>
       </mat-form-field>
 
-      <!-- ORGANIZACIÓN (solo SUPER ADMIN) -->
+      <!-- ORGANIZACIÓN -->
       <mat-form-field appearance="outline" *ngIf="currentRole === 'SUPER_ADMIN'">
         <mat-label>Organización</mat-label>
         <mat-select formControlName="organizationId">
@@ -41,15 +50,17 @@
         </mat-select>
       </mat-form-field>
 
-      <!-- ⭐ SELECTOR DE CURSOS PARA ADMIN & SUPER_ADMIN -->
+      <!-- CURSOS -->
       <mat-form-field appearance="outline"
         *ngIf="currentRole === 'ADMIN' || currentRole === 'SUPER_ADMIN'">
+
         <mat-label>Cursos</mat-label>
         <mat-select formControlName="courseIds" multiple>
           <mat-option *ngFor="let c of courses" [value]="c.id">
             {{ c.name }}
           </mat-option>
         </mat-select>
+
       </mat-form-field>
 
       <div class="actions">
@@ -67,51 +78,47 @@
 
   <!-- TABLA -->
   <div class="table-section">
-    <table mat-table [dataSource]="users" class="table-modern responsive-table">
+    <table mat-table [dataSource]="filteredUsers" class="table-modern responsive-table">
 
-      <!-- Nombre -->
       <ng-container matColumnDef="fullName">
         <th mat-header-cell *matHeaderCellDef> Nombre </th>
         <td mat-cell *matCellDef="let u"> {{ u.fullName }} </td>
       </ng-container>
 
-      <!-- Email -->
       <ng-container matColumnDef="email">
         <th mat-header-cell *matHeaderCellDef> Email </th>
         <td mat-cell *matCellDef="let u"> {{ u.email }} </td>
       </ng-container>
 
-      <!-- Rol -->
       <ng-container matColumnDef="role">
         <th mat-header-cell *matHeaderCellDef> Rol </th>
         <td mat-cell *matCellDef="let u"> {{ u.role }} </td>
       </ng-container>
 
-      <!-- Organización -->
       <ng-container matColumnDef="organization">
         <th mat-header-cell *matHeaderCellDef> Organización </th>
         <td mat-cell *matCellDef="let u"> {{ u.organizationName || 'Sin asignar' }} </td>
       </ng-container>
 
-      <!-- ⭐ Nueva columna: Cursos asignados (chips) -->
+      <!-- CHIPS -->
       <ng-container matColumnDef="cursosAsignados">
         <th mat-header-cell *matHeaderCellDef> Cursos asignados </th>
         <td mat-cell *matCellDef="let u">
 
-         <mat-chip-set class="chip-wrapper">
-  <mat-chip *ngFor="let c of u.courses" class="course-chip" selected>
-    {{ c }}
-  </mat-chip>
+          <mat-chip-set class="chip-wrapper">
+            <mat-chip *ngFor="let c of u.courses" class="course-chip" selected>
+              {{ c }}
+            </mat-chip>
 
-  <span *ngIf="!u.courses || u.courses.length === 0" class="no-courses">
-    Sin cursos
-  </span>
-</mat-chip-set>
+            <span *ngIf="!u.courses || u.courses.length === 0" class="no-courses">
+              Sin cursos
+            </span>
+          </mat-chip-set>
 
         </td>
       </ng-container>
 
-      <!-- ⭐ Columna: Asignar cursos -->
+      <!-- ASIGNAR CURSOS -->
       <ng-container matColumnDef="courses">
         <th mat-header-cell *matHeaderCellDef> Asignar Cursos </th>
         <td mat-cell *matCellDef="let u">
@@ -134,11 +141,10 @@
         </td>
       </ng-container>
 
-      <!-- Acciones -->
       <ng-container matColumnDef="actions">
         <th mat-header-cell *matHeaderCellDef> Acciones </th>
         <td mat-cell *matCellDef="let u">
-          <button mat-icon-button (click)="editUser(u)" class="edit-btn">
+          <button mat-icon-button (click)="editUser(u)">
             <mat-icon>edit</mat-icon>
           </button>
           <button mat-icon-button color="accent" (click)="deleteUser(u.id)">
@@ -147,7 +153,6 @@
         </td>
       </ng-container>
 
-      <!-- Filas -->
       <tr mat-header-row *matHeaderRowDef="[
         'fullName','email','role','organization',
         'cursosAsignados','courses','actions'

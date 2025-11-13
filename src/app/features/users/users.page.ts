@@ -28,6 +28,9 @@ export class UsersPage implements OnInit {
   private coursesSvc = inject(CoursesService);
 
   users: User[] = [];
+  filteredUsers: User[] = [];   // ⭐ PARA EL BUSCADOR
+  searchTerm: string = '';      // ⭐ TEXTO DEL BUSCADOR
+
   courses: any[] = [];
   organizations: any[] = [];
   selectedCourses: Record<number, number[]> = {};
@@ -56,15 +59,17 @@ export class UsersPage implements OnInit {
     if (this.currentRole === 'SUPER_ADMIN') this.loadOrganizations();
   }
 
-  // ============================================
+  // ========================================================
   // CARGA DE USERS
-  // ============================================
+  // ========================================================
   loadUsers() {
     this.loading = true;
     this.usersSvc.findAll(this.currentPage, this.pageSize).subscribe({
       next: (res: PageResponse<User>) => {
 
         this.users = Array.isArray(res?.content) ? res.content : [];
+        this.filteredUsers = [...this.users];  // ⭐ INICIALIZA TABLA
+
         this.totalPages = res?.totalPages ?? 1;
         this.totalElements = res?.totalElements ?? this.users.length;
         this.currentPage = res?.number ?? 0;
@@ -82,18 +87,18 @@ export class UsersPage implements OnInit {
     });
   }
 
-  // ============================================
+  // ========================================================
   // MAPEO NOMBRE → ID
-  // ============================================
+  // ========================================================
   mapCourseNamesToIds(courseNames: string[]): number[] {
     return this.courses
       .filter(c => courseNames.includes(c.name))
       .map(c => c.id);
   }
 
-  // ============================================
+  // ========================================================
   // CARGA DE CURSOS Y ORGANIZACIONES
-  // ============================================
+  // ========================================================
   loadCourses() {
     this.coursesSvc.findAll().subscribe({
       next: res => this.courses = res,
@@ -108,9 +113,9 @@ export class UsersPage implements OnInit {
     });
   }
 
-  // ============================================
+  // ========================================================
   // CRUD USERS
-  // ============================================
+  // ========================================================
   saveUser() {
     if (this.form.invalid) {
       Swal.fire('Atención', '⚠️ Completa los campos requeridos', 'warning');
@@ -137,7 +142,7 @@ export class UsersPage implements OnInit {
 
     req$.subscribe({
       next: () => {
-        Swal.fire('Éxito', '✅ Usuario guardado correctamente', 'success');
+        Swal.fire('Éxito', 'Usuario guardado correctamente', 'success');
         this.form.reset({ role: 'USER', courseIds: [] });
         this.editingUserId = null;
         this.loadUsers();
@@ -181,7 +186,7 @@ export class UsersPage implements OnInit {
 
       this.usersSvc.remove(id).subscribe({
         next: () => {
-          Swal.fire('Eliminado', '🗑️ Usuario eliminado', 'success');
+          Swal.fire('Eliminado', 'Usuario eliminado', 'success');
           this.loadUsers();
         },
         error: () => Swal.fire('Error', '❌ Error al eliminar usuario', 'error')
@@ -189,15 +194,15 @@ export class UsersPage implements OnInit {
     });
   }
 
-  // ============================================
+  // ========================================================
   // ASIGNAR CURSOS
-  // ============================================
+  // ========================================================
   saveCourses(userId: number) {
     const courseIds = this.selectedCourses[userId] || [];
 
     this.usersSvc.assignCourses(userId, courseIds).subscribe({
       next: () => {
-        Swal.fire('Éxito', '✅ Cursos asignados correctamente', 'success');
+        Swal.fire('Éxito', 'Cursos asignados correctamente', 'success');
         this.loadUsers();
       },
       error: () => Swal.fire('Error', '❌ Error al asignar cursos', 'error')
@@ -206,14 +211,15 @@ export class UsersPage implements OnInit {
 
   onCoursesChange(userId: number, event: any) {
     this.selectedCourses[userId] = event.value;
+
     if (this.editingUserId === userId) {
       this.form.patchValue({ courseIds: event.value });
     }
   }
 
-  // ============================================
+  // ========================================================
   // PAGINADOR
-  // ============================================
+  // ========================================================
   onPaginatorChange(event: any) {
     this.pageSize = event.pageSize;
     this.currentPage = event.pageIndex;
@@ -221,4 +227,19 @@ export class UsersPage implements OnInit {
   }
 
   trackByUserId = (_: number, u: User) => u.id;
+
+  // ========================================================
+  // 🔍 BUSCADOR
+  // ========================================================
+  applyFilter() {
+    const term = this.searchTerm.toLowerCase().trim();
+
+    this.filteredUsers = this.users.filter(u =>
+      u.fullName?.toLowerCase().includes(term) ||
+      u.email?.toLowerCase().includes(term) ||
+      u.role?.toLowerCase().includes(term) ||
+      u.organizationName?.toLowerCase().includes(term) ||
+      u.courses?.some(c => c.toLowerCase().includes(term))
+    );
+  }
 }
