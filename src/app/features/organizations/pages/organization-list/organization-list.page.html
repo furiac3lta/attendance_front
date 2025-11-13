@@ -7,6 +7,17 @@
     No hay organizaciones registradas.
   </div>
 
+<!-- Botón normal para agregar organización -->
+<div class="actions">
+  <button
+    *ngIf="userRole === 'SUPER_ADMIN'"
+    mat-raised-button
+    color="primary"
+    routerLink="/organizations/new">
+    <mat-icon>add</mat-icon> Nueva Organización
+  </button>
+</div>
+
   <!-- 📊 TABLA -->
   <div class="table-section">
     <div class="table-scroll-wrapper">
@@ -85,14 +96,5 @@
     </div>
   </div>
 
-  <!-- ➕ Botón flotante -->
-  <button
-    *ngIf="userRole === 'SUPER_ADMIN'"
-    mat-fab
-    color="primary"
-    class="add-btn"
-    routerLink="/organizations/new">
-    <mat-icon>add</mat-icon>
-  </button>
 
 </mat-card>

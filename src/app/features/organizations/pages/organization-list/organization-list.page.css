@@ -5,6 +5,7 @@
   padding: 3rem;
   margin-top: 1rem;
   position: relative;
+  overflow: visible !important;
 }
 
 /* ===================================== */
@@ -28,7 +29,7 @@
 /* Tabla base */
 .table-modern {
   width: 100%;
-  min-width: 750px; /* 👈 evita que se corten columnas */
+  min-width: 750px;
   border-collapse: collapse;
   border-spacing: 0;
 }
@@ -37,12 +38,13 @@
 /* 🎛️ ELEMENTOS ADICIONALES              */
 /* ===================================== */
 
-/* Botón flotante */
-.add-btn {
-  position: fixed;
-  bottom: 2rem;
-  right: 2rem;
-  z-index: 100;
+/* Botón de acciones (nuevo botón "Nueva Organización") */
+.actions {
+  margin-bottom: 1.5rem;
+}
+
+.actions button {
+  font-weight: 500;
 }
 
 /* Select de admins */
@@ -54,8 +56,10 @@
 /* 📱 MODO MOBILE                        */
 /* ===================================== */
 @media (max-width: 768px) {
+
   .page-card {
     padding: 1.4rem;
+    overflow: visible !important;
   }
 
   .table-section {
@@ -76,9 +80,11 @@
     min-width: 600px;
   }
 
-  /* Botón más cerca del borde */
-  .add-btn {
-    bottom: 1.4rem;
-    right: 1.4rem;
+  .actions {
+    text-align: center; /* ✔ mejora presentación en mobile */
+  }
+
+  .actions button {
+    width: 100%; /* ✔ botón full-width en móvil */
   }
 }
