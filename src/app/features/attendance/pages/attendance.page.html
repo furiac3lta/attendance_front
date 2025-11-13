@@ -1,9 +1,10 @@
 <h3>Asistencias registradas</h3>
 
-<div *ngIf="loading">Cargando asistencias...</div>
-
-<table mat-table class="table-modern responsive-table">
-  *ngIf="!loading && attendances.length > 0"
+<!-- TABLA -->
+<table
+  mat-table
+  *ngIf="attendances && attendances.length > 0"
+  class="table-modern responsive-table"
   border="1"
   cellpadding="6"
   cellspacing="0"
@@ -21,6 +22,7 @@
       <th>Organización</th>
     </tr>
   </thead>
+
   <tbody>
     <tr *ngFor="let a of attendances">
       <td>{{ a.id }}</td>
@@ -29,12 +31,15 @@
       <td>{{ a.studentName }}</td>
       <td>{{ a.courseName }}</td>
       <td>{{ a.instructorName }}</td>
-      <td style="text-align: center;">{{ a.attended ? '✅' : '❌' }}</td>
+      <td style="text-align: center;">
+        {{ a.attended ? '✅' : '❌' }}
+      </td>
       <td>{{ a.organizationName }}</td>
     </tr>
   </tbody>
 </table>
 
-<div *ngIf="!loading && attendances.length === 0" style="margin-top: 20px;">
+<!-- CUANDO NO HAY ASISTENCIAS -->
+<div *ngIf="attendances && attendances.length === 0" style="margin-top: 20px;">
   <p>No hay asistencias registradas.</p>
 </div>

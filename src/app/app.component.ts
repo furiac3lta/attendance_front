@@ -8,10 +8,11 @@ import { LoaderComponent } from './shared/components/loader/loader.component';
   standalone: true,
   imports: [RouterOutlet, NavbarComponent, LoaderComponent],
   template: `
-    <app-navbar></app-navbar>
-    
-    <router-outlet></router-outlet>
     <app-loader></app-loader>
+
+    <app-navbar></app-navbar>
+
+    <router-outlet></router-outlet>
   `,
 })
 export class AppComponent {}
