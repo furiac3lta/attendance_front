@@ -159,10 +159,11 @@ export class UsersPage implements OnInit {
     });
   }
 
-  onCoursesChange(userId: number, event: Event) {
-    const select = event.target as HTMLSelectElement;
-    this.selectedCourses[userId] = Array.from(select.selectedOptions).map(opt => Number(opt.value));
-  }
+  onCoursesChange(userId: number, event: any) {
+  const values = event.value;
+  this.selectedCourses[userId] = Array.isArray(values) ? values : [];
+}
+
 onPaginatorChange(event: any) {
   this.pageSize = event.pageSize;
   this.currentPage = event.pageIndex;
