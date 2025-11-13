@@ -57,18 +57,16 @@ userRole: string | null = sessionStorage.getItem('role');
   }
 
   // 🔹 Cargar solo usuarios ADMIN
-  loadAdmins() {
-    this.usersService.findAll().subscribe({
-      next: (res) => {
-          console.log("📦 Organizaciones recibidas del backend:", res);
+loadAdmins() {
+  this.usersService.getUsersByRole('ADMIN').subscribe({
+    next: (admins) => {
+      this.admins = admins;
+      console.log('✅ Admins disponibles:', admins);
+    },
+    error: () => this.snackbar.show('❌ Error al cargar administradores'),
+  });
+}
 
-this.admins = (res?.content || []).filter((u: any) => String(u.role) === 'ADMIN');
-
-        console.log('✅ Admins disponibles:', this.admins);
-      },
-      error: () => this.snackbar.show('❌ Error al cargar usuarios'),
-    });
-  }
 
   // 🔹 Asignar administrador a una organización
   assignAdmin(orgId: number) {
