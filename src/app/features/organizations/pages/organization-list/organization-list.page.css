@@ -38,7 +38,7 @@
 /* 🎛️ ELEMENTOS ADICIONALES              */
 /* ===================================== */
 
-/* Botón de acciones (nuevo botón "Nueva Organización") */
+/* Acción (botón agregar nueva org) */
 .actions {
   margin-bottom: 1.5rem;
 }
@@ -68,23 +68,64 @@
     justify-content: center;
   }
 
-  /* Scroll horizontal fluido */
   .table-scroll-wrapper {
     max-width: 100%;
     overflow-x: auto;
     padding-bottom: 10px;
   }
 
-  /* Evita recortes */
   .table-modern {
     min-width: 600px;
   }
 
   .actions {
-    text-align: center; /* ✔ mejora presentación en mobile */
+    text-align: center;
   }
 
   .actions button {
-    width: 100%; /* ✔ botón full-width en móvil */
+    width: 100%;
   }
+}
+
+/* ===================================== */
+/* 💠 FILAS Y ACCIONES                    */
+/* ===================================== */
+
+/* Contenedor para iconos y select */
+.actions-inline {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Íconos de acciones */
+.table-modern .mat-icon {
+  font-size: 22px;
+  height: 22px;
+  width: 22px;
+  line-height: 22px;
+}
+
+/* Botones de icono */
+button.mat-icon-button {
+  padding: 4px;
+  min-width: 32px;
+  min-height: 32px;
+}
+
+/* Mejor alineado vertical en columnas */
+table td,
+table th {
+  vertical-align: middle !important;
+}
+
+/* Admin actual sin asignar */
+.text-muted {
+  color: #777;
+}
+
+/* Hover bonito */
+.mat-row:hover {
+  background-color: #f5f5f5;
+  transition: background-color 0.2s ease-in-out;
 }

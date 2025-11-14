@@ -7,20 +7,21 @@
     No hay organizaciones registradas.
   </div>
 
-<!-- Botón normal para agregar organización -->
-<div class="actions">
-  <button
-    *ngIf="userRole === 'SUPER_ADMIN'"
-    mat-raised-button
-    color="primary"
-    routerLink="/organizations/new">
-    <mat-icon>add</mat-icon> Nueva Organización
-  </button>
-</div>
+  <!-- Botón agregar organización -->
+  <div class="actions">
+    <button
+      *ngIf="userRole === 'SUPER_ADMIN'"
+      mat-raised-button
+      color="primary"
+      routerLink="/organizations/new">
+      <mat-icon>add</mat-icon> Nueva Organización
+    </button>
+  </div>
 
   <!-- 📊 TABLA -->
   <div class="table-section">
     <div class="table-scroll-wrapper">
+
       <table mat-table [dataSource]="organizations" class="table-modern responsive-table">
 
         <!-- Nombre -->
@@ -60,31 +61,53 @@
           </td>
         </ng-container>
 
-        <!-- Asignar admin -->
+        <!-- Asignar nuevo admin -->
         <ng-container *ngIf="userRole === 'SUPER_ADMIN'" matColumnDef="selectAdmin">
-          <th mat-header-cell *matHeaderCellDef> Asignar nuevo administrador </th>
+          <th mat-header-cell *matHeaderCellDef> Nuevo Admin </th>
           <td mat-cell *matCellDef="let org">
-            <mat-select [(ngModel)]="selectedAdmin[org.id]" placeholder="Seleccionar..." class="admin-select">
-              <mat-option [value]="null">Seleccionar...</mat-option>
-              <mat-option *ngFor="let admin of admins" [value]="admin.id">
-                {{ admin.fullName }}
-              </mat-option>
-            </mat-select>
+
+            <div class="actions-inline">
+
+              <mat-form-field appearance="outline" class="admin-select">
+                <mat-select [(ngModel)]="selectedAdmin[org.id]" placeholder="Seleccionar...">
+                  <mat-option [value]="null">Seleccionar...</mat-option>
+                  <mat-option *ngFor="let admin of admins" [value]="admin.id">
+                    {{ admin.fullName }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+
+              <!-- ICONO GUARDAR -->
+              <button mat-icon-button color="primary"
+                (click)="assignAdmin(org.id)"
+                [disabled]="!selectedAdmin[org.id]">
+                <mat-icon>save</mat-icon>
+              </button>
+
+            </div>
+
           </td>
         </ng-container>
 
-        <!-- Acciones -->
+        <!-- ACCIONES -->
         <ng-container *ngIf="userRole === 'SUPER_ADMIN'" matColumnDef="actions">
           <th mat-header-cell *matHeaderCellDef> Acciones </th>
           <td mat-cell *matCellDef="let org">
-            <button mat-stroked-button color="primary" class="me-2"
-              (click)="assignAdmin(org.id)" [disabled]="!selectedAdmin[org.id]">
-              <mat-icon>person_add</mat-icon> Asignar
-            </button>
 
-            <button mat-stroked-button color="accent" (click)="deleteOrganization(org.id)">
-              <mat-icon>delete</mat-icon> Eliminar
-            </button>
+            <div class="actions-inline">
+
+              <!-- EDITAR -->
+              <button mat-icon-button color="accent" (click)="editOrganization(org)">
+                <mat-icon>edit</mat-icon>
+              </button>
+
+              <!-- ELIMINAR -->
+              <button mat-icon-button color="warn" (click)="deleteOrganization(org.id)">
+                <mat-icon>delete</mat-icon>
+              </button>
+
+            </div>
+
           </td>
         </ng-container>
 
@@ -93,8 +116,8 @@
         <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
 
       </table>
+
     </div>
   </div>
-
 
 </mat-card>
