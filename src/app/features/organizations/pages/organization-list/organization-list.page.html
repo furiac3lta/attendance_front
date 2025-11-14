@@ -96,15 +96,16 @@
 
             <div class="actions-inline">
 
-              <!-- EDITAR -->
-              <button mat-icon-button color="accent" (click)="editOrganization(org)">
-                <mat-icon>edit</mat-icon>
-              </button>
+            <!-- EDITAR -->
+<button mat-icon-button (click)="editOrganization(org)">
+  <mat-icon class="icon-edit">edit</mat-icon>
+</button>
 
-              <!-- ELIMINAR -->
-              <button mat-icon-button color="warn" (click)="deleteOrganization(org.id)">
-                <mat-icon>delete</mat-icon>
-              </button>
+<!-- ELIMINAR -->
+<button mat-icon-button (click)="deleteOrganization(org.id)">
+  <mat-icon class="icon-delete">delete</mat-icon>
+</button>
+
 
             </div>
 
