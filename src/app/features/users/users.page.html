@@ -33,7 +33,11 @@
         <mat-chip-option value="USER">Usuario</mat-chip-option>
         <mat-chip-option value="INSTRUCTOR">Instructor</mat-chip-option>
         <mat-chip-option value="ADMIN">Administrador</mat-chip-option>
-        <mat-chip-option value="SUPER_ADMIN">Super Admin</mat-chip-option>
+<mat-chip-option 
+  value="SUPER_ADMIN" 
+  *ngIf="isSuperAdmin()">
+  Super Admin
+</mat-chip-option>
       </mat-chip-listbox>
     </div>
 

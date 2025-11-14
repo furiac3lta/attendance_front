@@ -23,41 +23,46 @@ import Swal from 'sweetalert2';
 })
 export class UsersPage implements OnInit {
 
-  // ============================================
+  // ===========================================================
   // INYECCIONES
-  // ============================================
+  // ===========================================================
   private fb = inject(FormBuilder);
   private usersSvc = inject(UsersService);
   private coursesSvc = inject(CoursesService);
 
-  // ============================================
-  // ESTADOS
-  // ============================================
+  // ===========================================================
+  // ESTADO GENERAL
+  // ===========================================================
   users: User[] = [];
   filteredUsers: User[] = [];
 
-  // 🔍 Buscador y filtros
+  // Filtros
   searchTerm: string = '';
   filterRole: string = 'ALL';
   filterOrg: number | 'ALL' = 'ALL';
   filterCourse: number | 'ALL' = 'ALL';
 
+  // Datos
   courses: any[] = [];
   organizations: any[] = [];
   selectedCourses: Record<number, number[]> = {};
 
+  // Paginación
   currentPage = 0;
   pageSize = 10;
   totalPages = 1;
   totalElements = 0;
 
+  // Flags
   loading = false;
+  isSearching = false;
+
   currentRole: string | null = sessionStorage.getItem('role');
   editingUserId: number | null = null;
 
-  // ============================================
+  // ===========================================================
   // FORMULARIO
-  // ============================================
+  // ===========================================================
   form = this.fb.group({
     username: ['', Validators.required],
     email: [''],
@@ -67,18 +72,25 @@ export class UsersPage implements OnInit {
     courseIds: [[] as number[]]
   });
 
-  // ============================================
+  // ===========================================================
   // INIT
-  // ============================================
+  // ===========================================================
   ngOnInit() {
     this.loadCourses();
     this.loadUsers();
-    if (this.currentRole === 'SUPER_ADMIN') this.loadOrganizations();
+    if (this.isSuperAdmin()) this.loadOrganizations();
   }
 
-  // ============================================
-  // CARGA DE USERS (back + filtros)
-  // ============================================
+  // ===========================================================
+  // ROLES
+  // ===========================================================
+  isSuperAdmin(): boolean {
+    return this.currentRole === 'SUPER_ADMIN';
+  }
+
+  // ===========================================================
+  // CARGA DE USERS
+  // ===========================================================
   loadUsers() {
     this.loading = true;
 
@@ -89,7 +101,6 @@ export class UsersPage implements OnInit {
         this.totalElements = res.totalElements ?? 0;
         this.currentPage = res.number ?? 0;
 
-        // Aplicar filtros locales
         this.applyFilter(false);
 
         this.loading = false;
@@ -101,9 +112,9 @@ export class UsersPage implements OnInit {
     });
   }
 
-  // ============================================
-  // CURSOS
-  // ============================================
+  // ===========================================================
+  // CURSOS / ORGANIZACIONES
+  // ===========================================================
   loadCourses() {
     this.coursesSvc.findAll().subscribe({
       next: res => this.courses = res,
@@ -118,9 +129,9 @@ export class UsersPage implements OnInit {
     });
   }
 
-  // ============================================
-  // CRUD USERS
-  // ============================================
+  // ===========================================================
+  // CRUD
+  // ===========================================================
   saveUser() {
     if (this.form.invalid) {
       Swal.fire('Atención', '⚠️ Completa los campos requeridos', 'warning');
@@ -137,7 +148,7 @@ export class UsersPage implements OnInit {
       courseIds: dto.courseIds || []
     };
 
-    if (this.currentRole === 'SUPER_ADMIN' && dto.organizationId) {
+    if (this.isSuperAdmin() && dto.organizationId) {
       payload.organization = { id: dto.organizationId };
     }
 
@@ -158,7 +169,6 @@ export class UsersPage implements OnInit {
 
   editUser(user: User) {
     this.editingUserId = user.id!;
-
     const ids = this.mapCourseNamesToIds(user.courses || []);
 
     this.form.patchValue({
@@ -198,9 +208,9 @@ export class UsersPage implements OnInit {
     });
   }
 
-  // ============================================
+  // ===========================================================
   // ASIGNAR CURSOS
-  // ============================================
+  // ===========================================================
   saveCourses(userId: number) {
     const courseIds = this.selectedCourses[userId] || [];
 
@@ -221,36 +231,49 @@ export class UsersPage implements OnInit {
     }
   }
 
-  // ============================================
+  // ===========================================================
   // PAGINADOR
-  // ============================================
+  // ===========================================================
   onPaginatorChange(event: any) {
     this.pageSize = event.pageSize;
     this.currentPage = event.pageIndex;
     this.loadUsers();
   }
 
+  // ===========================================================
+  // MAPEO
+  // ===========================================================
   mapCourseNamesToIds(courseNames: string[]): number[] {
     return this.courses
       .filter(c => courseNames.includes(c.name))
       .map(c => c.id);
   }
 
-  // ============================================
-  // 🔍 BUSCADOR + FILTROS (con fallback en frontend)
-  // ============================================
+  // ===========================================================
+  // 🔍 FILTROS Y BÚSQUEDA LOCAL (SIN PAGINACIÓN)
+  // ===========================================================
   applyFilter(triggerBackend: boolean = true) {
-    if (triggerBackend) {
+    const normalize = (str: string = '') =>
+      str.toLowerCase()
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '')
+        .trim();
+
+    // Detecta si hay filtros activos
+    const filtersActive =
+      this.searchTerm.trim() !== '' ||
+      this.filterRole !== 'ALL' ||
+      this.filterOrg !== 'ALL' ||
+      this.filterCourse !== 'ALL';
+
+    this.isSearching = filtersActive;
+
+    // Si debe recargar del backend
+    if (triggerBackend && !filtersActive) {
       this.currentPage = 0;
       this.loadUsers();
       return;
     }
-
-    const normalize = (str: string = '') =>
-      str.toLowerCase()
-         .normalize('NFD')
-         .replace(/[\u0300-\u036f]/g, '')
-         .trim();
 
     const term = normalize(this.searchTerm);
 
@@ -282,7 +305,11 @@ export class UsersPage implements OnInit {
 
       return matchesText && matchesRole && matchesOrg && matchesCourse;
     });
+
+    // Si está buscando → sin paginado
+    this.totalElements = this.isSearching ? this.filteredUsers.length : this.users.length;
   }
 
   trackByUserId = (_: number, u: User) => u.id;
+  
 }
