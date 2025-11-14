@@ -256,3 +256,79 @@ mat-paginator {
   border-color: #ffb3d9 !important;
   box-shadow: 0 0 10px #ffb3d9;
 }
+/* Contenedor principal dentro del mat-card */
+.users-page {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+/* Layout vertical de las secciones */
+.users-layout {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+/* Título centrado */
+.main-title {
+  text-align: center;
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+/* Card de cada bloque (buscador / alta / tabla) */
+.section-card {
+  background: var(--card-bg);
+  border-radius: 18px;
+  padding: 1.5rem 2rem;
+  box-shadow: var(--shadow);
+}
+
+/* Títulos de sección */
+.section-title {
+  margin: 0 0 1rem 0;
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: var(--text-strong);
+}
+
+/* Filtros arriba */
+.filters-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.filter-item {
+  flex: 1 1 220px;
+}
+
+/* Formulario centrado */
+.form-section {
+  display: flex;
+  justify-content: center;
+}
+
+.form-grid {
+  width: 100%;
+  max-width: 480px;
+  display: grid;
+  gap: 1rem;
+}
+
+/* Tabla: que ocupe todo el ancho de la sección */
+.section-table .table-section {
+  margin-top: 0.5rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .section-card {
+    padding: 1.2rem 1rem;
+  }
+
+  .form-grid {
+    max-width: 100%;
+  }
+}
