@@ -1,20 +1,68 @@
-.page-card {
-  padding: 3rem;
-  margin-top: 1rem;
+/* ======================================================= */
+/* 📌 CONTENEDOR PRINCIPAL */
+/* ======================================================= */
+.users-page {
+  max-width: 1100px;
+  margin: 0 auto;
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: 2rem;
 }
 
-/* Formulario */
+.main-title {
+  text-align: center;
+  font-size: 1.9rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  color: var(--text-strong);
+}
+
+/* ======================================================= */
+/* 📦 SECCIONES (Buscador / Alta / Tabla) */
+/* ======================================================= */
+.section-card {
+  background: var(--card-bg);
+  padding: 1.4rem 1.8rem;            /* 🔥 Mucho más compacto */
+  border-radius: 16px;
+  box-shadow:
+    4px 4px 14px rgba(0,0,0,0.25),
+    -4px -4px 14px rgba(255,255,255,0.05);
+  transition: 0.25s ease;
+}
+
+.section-title {
+  margin: 0 0 1rem 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--text-strong);
+}
+
+/* ======================================================= */
+/* 🔍 FILTROS */
+/* ======================================================= */
+.filters-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+}
+
+.filter-item {
+  flex: 1 1 220px;
+  min-width: 200px;
+}
+
+/* ======================================================= */
+/* 🟣 FORMULARIO */
+/* ======================================================= */
 .form-section {
-  max-width: 700px;
-  margin: 0 auto;
+  display: flex;
+  justify-content: center;
 }
 
 .form-grid {
+  width: 100%;
+  max-width: 460px;  /* 🔥 Mismo ancho visual que mobile */
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
   gap: 12px;
 }
 
@@ -24,119 +72,25 @@
   align-items: center;
 }
 
-/* Tabla */
+/* ======================================================= */
+/* 📋 TABLA */
+/* ======================================================= */
 .table-section {
   width: 100%;
   max-width: 900px;
   margin: 0 auto;
 }
 
-.edit-btn {
-  color: #70d6ff;
+.section-table .table-section {
+  margin-top: 0.4rem;
 }
 
-mat-paginator {
-  margin-top: 15px;
-  display: flex;
-  justify-content: center;
-}
-
-/* 📱 Mobile */
-@media (max-width: 768px) {
-  .page-card {
-    padding: 1.4rem;
-  }
-
-  .form-section,
-  .table-section {
-    width: 100%;
-    max-width: 420px; /* mismo ancho visual */
-    margin: 0 auto;
-  }
-
-  .table-section {
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-  }
-
-  .table-modern {
-    min-width: 420px; /* evita que la tabla quede más chica que el form */
-  }
-}
-.page-card {
-  padding: 3rem;
-  margin-top: 1rem;
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-}
-
-/* Formulario */
-.form-section {
-  max-width: 700px;
-  margin: 0 auto;
-}
-
-.form-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 12px;
-}
-
-.actions {
-  display: flex;
-  gap: 10px;
-  align-items: center;
-}
-
-/* Tabla */
-.table-section {
-  width: 100%;
-  max-width: 900px;
-  margin: 0 auto;
-}
-
-.edit-btn {
-  color: #70d6ff;
-}
-
-mat-paginator {
-  margin-top: 15px;
-  display: flex;
-  justify-content: center;
-}
-
-/* 📱 Mobile */
-@media (max-width: 768px) {
-  .page-card {
-    padding: 1.4rem;
-  }
-
-  .form-section,
-  .table-section {
-    width: 100%;
-    max-width: 420px; /* mismo ancho visual */
-    margin: 0 auto;
-  }
-
-  .table-section {
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-  }
-
-  .table-modern {
-    min-width: 420px; /* evita que la tabla quede más chica que el form */
-  }
-}
 .no-courses {
-  color: #777;
+  color: #999;
   font-size: 12px;
   font-style: italic;
 }
 
-.course-select {
-  width: 180px;
-}
 .chip-wrapper {
   display: flex;
   flex-wrap: wrap;
@@ -148,98 +102,27 @@ mat-paginator {
   padding: 4px 10px;
   border-radius: 12px;
   background-color: #e0e0e0;
-  max-width: none !important;
-  white-space: nowrap !important;
+  white-space: nowrap;
 }
-/* ================================ */
-/* 🔍 FILTROS SUPERIORES ORGANIZADOS */
-/* ================================ */
 
-.filters-container {
+.course-select {
+  width: 180px;
+}
+
+mat-paginator {
+  margin-top: 15px;
   display: flex;
-  align-items: center;
-  gap: 18px;
-  margin-bottom: 25px;
-  flex-wrap: wrap; /* Responsivo */
+  justify-content: center;
 }
 
-.filter-item {
-  width: 220px;
-  min-width: 200px;
-}
-
-/* Mobile */
-@media (max-width: 768px) {
-  .filters-container {
-    flex-direction: column;
-    align-items: stretch;
-    gap: 12px;
-  }
-
-  .filter-item {
-    width: 100%;
-  }
-}
-
-/* Título principal */
-.page-title {
-  text-align: center;
-  font-size: 2rem;
-  font-weight: 700;
-  color: var(--text-strong);
-  margin-bottom: 0.5rem;
-}
-
-/* ============================== */
-/* 📌 Contenedor general por secciones */
-.section-card {
-  background: var(--card-bg);
-  padding: 20px 28px;
-  border-radius: 18px;
-  box-shadow:
-    4px 4px 14px rgba(0, 0, 0, 0.25),
-    -4px -4px 14px rgba(255, 255, 255, 0.05);
-  transition: 0.3s ease;
-}
-
-/* Título de cada sección */
-.section-title {
-  font-size: 1.4rem;
-  font-weight: 600;
-  margin-bottom: 1rem;
-  color: var(--text-strong);
-}
-
-/* ============================== */
-/* 🔍 Filtros organizados */
-.search-filters {
-  display: flex;
-  gap: 18px;
-  flex-wrap: wrap;
-}
-
-/* Formulario alta */
-.form-wrapper {
-  display: flex;
-  flex-direction: column;
-  gap: 18px;
-  max-width: 450px;
-  margin: auto;
-}
-
-/* Botón crear */
-.btn-create {
-  width: 100%;
-  font-size: 1.1rem;
-  margin-top: 10px;
-}
-
-/* Inputs glow pastel */
+/* ======================================================= */
+/* ✨ GLOW PASTEL INPUTS */
+/* ======================================================= */
 .mdc-text-field--focused .mdc-notched-outline__leading,
 .mdc-text-field--focused .mdc-notched-outline__trailing,
 .mdc-text-field--focused .mdc-notched-outline__notch {
   border-color: var(--accent-hover) !important;
-  box-shadow: 0 0 6px var(--accent-hover);
+  box-shadow: 0 0 7px var(--accent-hover);
 }
 
 .dark-mode .mdc-text-field--focused .mdc-notched-outline__leading,
@@ -249,98 +132,39 @@ mat-paginator {
   box-shadow: 0 0 10px #ffb3d9;
 }
 
-/* Layout vertical de las secciones */
-.users-layout {
-  display: flex;
-  flex-direction: column;
-  gap: 2rem;
-}
-
-
-
-/* Card de cada bloque (buscador / alta / tabla) */
-.section-card {
-  background: var(--card-bg);
-  border-radius: 18px;
-  padding: 1.5rem 2rem;
-  box-shadow: var(--shadow);
-}
-
-/* Títulos de sección */
-.section-title {
-  margin: 0 0 1rem 0;
-  font-size: 1.3rem;
-  font-weight: 600;
-  color: var(--text-strong);
-}
-
-/* Filtros arriba */
-.filters-container {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1rem;
-}
-
-.filter-item {
-  flex: 1 1 220px;
-}
-
-/* Formulario centrado */
-.form-section {
-  display: flex;
-  justify-content: center;
-}
-
-.form-grid {
-  width: 100%;
-  max-width: 480px;
-  display: grid;
-  gap: 1rem;
-}
-
-/* Tabla: que ocupe todo el ancho de la sección */
-.section-table .table-section {
-  margin-top: 0.5rem;
-}
-
-/* Responsive */
+/* ======================================================= */
+/* 📱 MOBILE OPTIMIZADO */
+/* ======================================================= */
 @media (max-width: 768px) {
+
   .section-card {
-    padding: 1.2rem 1rem;
+    padding: 1rem 1rem;       /* 🔥 Mucho más chico */
+  }
+
+  .main-title {
+    margin-top: 0.3rem;
+    font-size: 1.7rem;
+  }
+
+  .filters-container {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .filter-item {
+    width: 100%;
   }
 
   .form-grid {
     max-width: 100%;
   }
-}
-/* ======================================================= */
-/* 📌 CONTENEDOR PRINCIPAL */
-/* ======================================================= */
-.users-page {
-  max-width: 1100px;
-  margin: 0 auto;
-  display: flex;
-  flex-direction: column;
-  gap: 2.5rem;
-}
 
-.main-title {
-  text-align: center;
-  font-size: 2rem;
-  font-weight: 700;
-  margin-bottom: -0.5rem;
-  color: var(--text-strong);
-}
+  .table-section {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
 
-/* ======================================================= */
-/* 📦 SECCIONES (Buscador / Alta / Tabla) */
-/* ======================================================= */
-.section-card {
-  background: var(--card-bg);
-  padding: 1.8rem 2rem;
-  border-radius: 18px;
-  box-shadow:
-    4px 4px 14px rgba(0, 0, 0, 0.25),
-    -4px -4px 14px rgba(255, 255, 255, 0.05);
-  transition: 0.3
+  .table-modern {
+    min-width: 460px;  /* 🔥 mismo ancho visual que filtros y formulario */
+  }
 }
