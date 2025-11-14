@@ -8,58 +8,71 @@
     <!-- ===================== -->
     <!-- 🔍 SECCIÓN BUSCADOR  -->
     <!-- ===================== -->
-    <div class="section-card">
-      <h3 class="section-title">🔍 Buscador</h3>
+<div class="section-card">
+  <h3 class="section-title"> Buscador</h3>
 
-      <!-- 🔍 FILTROS SUPERIORES -->
-      <div class="filters-container">
+  <div class="filters-chip-container">
 
-        <!-- Buscar -->
-        <mat-form-field appearance="outline" class="filter-item">
-          <mat-label>Buscar...</mat-label>
-          <input matInput [(ngModel)]="searchTerm" (input)="applyFilter()">
-          <mat-icon matSuffix>search</mat-icon>
-        </mat-form-field>
+    <!-- 🔎 BUSCAR -->
+    <mat-form-field appearance="outline" class="filter-text">
+      <mat-label>Buscar...</mat-label>
+      <input matInput [(ngModel)]="searchTerm" (input)="applyFilter()">
+      <mat-icon matSuffix>search</mat-icon>
+    </mat-form-field>
 
-        <!-- Rol -->
-        <mat-form-field appearance="outline" class="filter-item">
-          <mat-label>Rol</mat-label>
-          <mat-select [(ngModel)]="filterRole" (selectionChange)="applyFilter()">
-            <mat-option value="ALL">Todos</mat-option>
-            <mat-option value="USER">Usuario</mat-option>
-            <mat-option value="INSTRUCTOR">Instructor</mat-option>
-            <mat-option value="ADMIN">Administrador</mat-option>
-            <mat-option value="SUPER_ADMIN">Super Admin</mat-option>
-          </mat-select>
-        </mat-form-field>
+    <!-- 🎭 ROL -->
+    <div class="chip-filter-block">
+      <h2 class="chip-title">Rol:</h2>
 
-        <!-- Organización (solo SUPER ADMIN) -->
-        <mat-form-field
-          appearance="outline"
-          class="filter-item"
-          *ngIf="currentRole === 'SUPER_ADMIN'">
-          <mat-label>Organización</mat-label>
-          <mat-select [(ngModel)]="filterOrg" (selectionChange)="applyFilter()">
-            <mat-option value="ALL">Todas</mat-option>
-            <mat-option *ngFor="let org of organizations" [value]="org.id">
-              {{ org.name }}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-
-        <!-- Cursos -->
-        <mat-form-field appearance="outline" class="filter-item">
-          <mat-label>Curso</mat-label>
-          <mat-select [(ngModel)]="filterCourse" (selectionChange)="applyFilter()">
-            <mat-option value="ALL">Todos</mat-option>
-            <mat-option *ngFor="let c of courses" [value]="c.id">
-              {{ c.name }}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-
-      </div>
+      <mat-chip-listbox
+        class="chip-row"
+        [(ngModel)]="filterRole"
+        (ngModelChange)="applyFilter()"
+      >
+        <mat-chip-option value="ALL">Todos</mat-chip-option>
+        <mat-chip-option value="USER">Usuario</mat-chip-option>
+        <mat-chip-option value="INSTRUCTOR">Instructor</mat-chip-option>
+        <mat-chip-option value="ADMIN">Administrador</mat-chip-option>
+        <mat-chip-option value="SUPER_ADMIN">Super Admin</mat-chip-option>
+      </mat-chip-listbox>
     </div>
+
+    <!-- 🏢 ORGANIZACIÓN -->
+    <div class="chip-filter-block" *ngIf="currentRole === 'SUPER_ADMIN'">
+      <span class="chip-title">Organización:</span>
+
+      <mat-chip-listbox
+        class="chip-row"
+        [(ngModel)]="filterOrg"
+        (ngModelChange)="applyFilter()"
+      >
+        <mat-chip-option value="ALL">Todas</mat-chip-option>
+
+        <mat-chip-option *ngFor="let org of organizations" [value]="org.id">
+          {{ org.name }}
+        </mat-chip-option>
+      </mat-chip-listbox>
+    </div>
+
+    <!-- 📚 CURSO -->
+    <div class="chip-filter-block">
+      <h2 class="chip-title">Curso:</h2>
+
+      <mat-chip-listbox
+        class="chip-row"
+        [(ngModel)]="filterCourse"
+        (ngModelChange)="applyFilter()"
+      >
+        <mat-chip-option value="ALL">Todos</mat-chip-option>
+
+        <mat-chip-option *ngFor="let c of courses" [value]="c.id">
+          {{ c.name }}
+        </mat-chip-option>
+      </mat-chip-listbox>
+    </div>
+
+  </div>
+</div>
 
     <!-- ===================== -->
     <!-- 🟣 ALTA DE USUARIO    -->

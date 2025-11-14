@@ -193,3 +193,58 @@ mat-paginator {
     margin-bottom: 6px !important;
   }
 }
+/* ======================================================= */
+/* 🌞 LIGHT MODE – Chips pastel                            */
+/* ======================================================= */
+
+::ng-deep mat-chip-option .mdc-evolution-chip__cell {
+  background: rgba(230,230,230,0.65) !important;
+  border-radius: 14px !important;
+  border: 1px solid rgba(0,0,0,0.10) !important;
+  padding: 2px px !important;
+  color: var(--text-strong) !important;
+  font-size: 0.82rem !important;
+  font-weight: 500;
+  transition: 0.25s ease;
+  
+}
+
+::ng-deep mat-chip-option:hover .mdc-evolution-chip__cell {
+  background: rgba(200,200,200,0.55) !important;
+}
+
+/* SELECCIONADO */
+::ng-deep mat-chip-option.mat-mdc-chip-selected .mdc-evolution-chip__cell {
+  background: var(--accent-strong) !important; /* rosa pastel */
+  border-color: var(--accent-hover) !important;
+  color: #000 !important;
+  box-shadow: 0 0 8px rgba(255,175,204,0.45);
+}
+
+/* icon/text inside chip */
+::ng-deep mat-chip-option .mdc-evolution-chip__action {
+  color: inherit !important;
+}
+
+
+/* ======================================================= */
+/* 🌙 DARK MODE – Chips pastel                             */
+/* ======================================================= */
+
+::ng-deep .dark-mode mat-chip-option .mdc-evolution-chip__cell {
+  background: rgba(255,255,255,0.12) !important;
+  border-color: rgba(255,255,255,0.25) !important;
+  color: var(--text) !important;
+}
+
+::ng-deep .dark-mode mat-chip-option:hover .mdc-evolution-chip__cell {
+  background: rgba(255,255,255,0.20) !important;
+}
+
+/* SELECCIONADO (dark) */
+::ng-deep .dark-mode mat-chip-option.mat-mdc-chip-selected .mdc-evolution-chip__cell {
+  background: var(--accent-hover) !important; /* celeste pastel */
+  border-color: var(--accent-strong) !important;
+  color: #000 !important;
+  box-shadow: 0 0 10px rgba(189,224,254,0.65);
+}
