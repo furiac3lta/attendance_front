@@ -2,116 +2,102 @@
 
   <h2 class="title"> Gestión de Usuarios</h2>
 
-<!-- 🔍 FILTROS SUPERIORES -->
-<div class="filters-container">
+<mat-card class="page-card users-page">
 
-  <!-- Buscar -->
-  <mat-form-field appearance="outline" class="filter-item">
-    <mat-label>Buscar...</mat-label>
-    <input matInput [(ngModel)]="searchTerm" (input)="applyFilter()">
-    <mat-icon matSuffix>search</mat-icon>
-  </mat-form-field>
+  <h2 class="page-title">Gestión de Usuarios</h2>
 
-  <!-- Rol -->
-  <mat-form-field appearance="outline" class="filter-item">
-    <mat-label>Rol</mat-label>
-    <mat-select [(ngModel)]="filterRole" (selectionChange)="applyFilter()">
-      <mat-option value="ALL">Todos</mat-option>
-      <mat-option value="USER">Usuario</mat-option>
-      <mat-option value="INSTRUCTOR">Instructor</mat-option>
-      <mat-option value="ADMIN">Administrador</mat-option>
-      <mat-option value="SUPER_ADMIN">Super Admin</mat-option>
-    </mat-select>
-  </mat-form-field>
+  <!-- ====================== -->
+  <!-- 🔍 SECCIÓN BUSCADOR -->
+  <!-- ====================== -->
+  <div class="section-card">
+    <h3 class="section-title">🔍 Buscador</h3>
 
-  <!-- Organización (solo SUPER ADMIN) -->
-  <mat-form-field appearance="outline" class="filter-item" *ngIf="currentRole === 'SUPER_ADMIN'">
-    <mat-label>Organización</mat-label>
-    <mat-select [(ngModel)]="filterOrg" (selectionChange)="applyFilter()">
-      <mat-option value="ALL">Todas</mat-option>
-      <mat-option *ngFor="let org of organizations" [value]="org.id">
-        {{ org.name }}
-      </mat-option>
-    </mat-select>
-  </mat-form-field>
+    <div class="search-filters">
 
-  <!-- Cursos -->
-  <mat-form-field appearance="outline" class="filter-item">
-    <mat-label>Curso</mat-label>
-    <mat-select [(ngModel)]="filterCourse" (selectionChange)="applyFilter()">
-      <mat-option value="ALL">Todos</mat-option>
-      <mat-option *ngFor="let c of courses" [value]="c.id">
-        {{ c.name }}
-      </mat-option>
-    </mat-select>
-  </mat-form-field>
-
-</div>
-
-  <!-- FORMULARIO -->
-  <div class="form-section">
-    <form [formGroup]="form" (ngSubmit)="saveUser()" class="form-grid">
-
+      <!-- Buscar -->
       <mat-form-field appearance="outline">
-        <mat-label>Nombre completo</mat-label>
-        <input matInput type="text" formControlName="username" required>
+        <mat-label>Buscar...</mat-label>
+        <input matInput [(ngModel)]="searchTerm" (input)="applyFilter()">
+        <mat-icon matSuffix>search</mat-icon>
       </mat-form-field>
 
-      <mat-form-field appearance="outline">
-        <mat-label>Correo electrónico</mat-label>
-        <input matInput type="email" formControlName="email" required>
-      </mat-form-field>
-
-      <mat-form-field appearance="outline" *ngIf="!editingUserId">
-        <mat-label>Contraseña</mat-label>
-        <input matInput type="password" formControlName="password">
-      </mat-form-field>
-
+      <!-- Rol -->
       <mat-form-field appearance="outline">
         <mat-label>Rol</mat-label>
-        <mat-select formControlName="role">
+        <mat-select [(ngModel)]="filterRole" (selectionChange)="applyFilter()">
+          <mat-option value="ALL">Todos</mat-option>
           <mat-option value="USER">Usuario</mat-option>
           <mat-option value="INSTRUCTOR">Instructor</mat-option>
           <mat-option value="ADMIN">Administrador</mat-option>
+          <mat-option value="SUPER_ADMIN">Super Admin</mat-option>
         </mat-select>
       </mat-form-field>
 
-      <!-- ORGANIZACIÓN -->
+      <!-- Organización -->
       <mat-form-field appearance="outline" *ngIf="currentRole === 'SUPER_ADMIN'">
         <mat-label>Organización</mat-label>
-        <mat-select formControlName="organizationId">
-          <mat-option [value]="null">Sin asignar</mat-option>
+        <mat-select [(ngModel)]="filterOrg" (selectionChange)="applyFilter()">
+          <mat-option value="ALL">Todas</mat-option>
           <mat-option *ngFor="let org of organizations" [value]="org.id">
             {{ org.name }}
           </mat-option>
         </mat-select>
       </mat-form-field>
 
-      <!-- CURSOS -->
-      <mat-form-field appearance="outline"
-        *ngIf="currentRole === 'ADMIN' || currentRole === 'SUPER_ADMIN'">
-
-        <mat-label>Cursos</mat-label>
-        <mat-select formControlName="courseIds" multiple>
+      <!-- Curso -->
+      <mat-form-field appearance="outline">
+        <mat-label>Curso</mat-label>
+        <mat-select [(ngModel)]="filterCourse" (selectionChange)="applyFilter()">
+          <mat-option value="ALL">Todos</mat-option>
           <mat-option *ngFor="let c of courses" [value]="c.id">
             {{ c.name }}
           </mat-option>
         </mat-select>
-
       </mat-form-field>
 
-      <div class="actions">
-        <button mat-raised-button color="primary" type="submit">
-          {{ editingUserId ? 'Guardar' : 'Crear' }}
-        </button>
-
-        <button *ngIf="editingUserId" mat-button color="warn" type="button" (click)="cancelEdit()">
-          Cancelar
-        </button>
-      </div>
-
-    </form>
+    </div>
   </div>
+
+  <!-- ====================== -->
+  <!-- ➕ SECCIÓN ALTA USUARIO -->
+  <!-- ====================== -->
+  <div class="section-card">
+    <h3 class="section-title">🟣 Alta de Usuario</h3>
+
+    <div class="form-wrapper">
+
+      <mat-form-field appearance="outline" class="full">
+        <mat-label>Nombre completo*</mat-label>
+        <input matInput [(ngModel)]="form.fullName">
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full">
+        <mat-label>Correo electrónico*</mat-label>
+        <input matInput [(ngModel)]="form.email">
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full">
+        <mat-label>Contraseña</mat-label>
+        <input matInput type="password" [(ngModel)]="form.password">
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full">
+        <mat-label>Rol*</mat-label>
+        <mat-select [(ngModel)]="form.role">
+          <mat-option value="USER">Usuario</mat-option>
+          <mat-option value="INSTRUCTOR">Instructor</mat-option>
+          <mat-option value="ADMIN">Administrador</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <button mat-raised-button color="primary" class="btn-create" (click)="createUser()">
+        Crear
+      </button>
+
+    </div>
+  </div>
+
+</mat-card>
 
   <!-- TABLA -->
   <div class="table-section">
