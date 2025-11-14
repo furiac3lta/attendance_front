@@ -3,32 +3,30 @@
   <h2>Reporte mensual - {{ selectedCourseName }}</h2>
   <p class="date-label">{{ currentDate }}</p>
 
- <!-- ===================== -->
-<!-- 📅 FILTROS MES / AÑO -->
-<!-- ===================== -->
-<div class="filters-chip-container">
+  <!-- FILTROS -->
+  <div class="filters">
+    
+    <!-- Mes -->
+    <mat-form-field appearance="outline" class="filter-item">
+      <mat-label>Mes</mat-label>
+      <mat-select [(ngModel)]="selectedMonth" (selectionChange)="reloadReport()">
+        <mat-option *ngFor="let m of months" [value]="m.value">
+          {{ m.label }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
 
-  <!-- Mes -->
-  <div class="chip-filter-block">
-    <span class="chip-title">Mes:</span>
-    <mat-chip-listbox class="chip-row" [(ngModel)]="selectedMonth" (ngModelChange)="reloadReport()">
-      <mat-chip-option *ngFor="let m of months" [value]="m.value">
-        {{ m.label }}
-      </mat-chip-option>
-    </mat-chip-listbox>
+    <!-- Año -->
+    <mat-form-field appearance="outline" class="filter-item">
+      <mat-label>Año</mat-label>
+      <mat-select [(ngModel)]="selectedYear" (selectionChange)="reloadReport()">
+        <mat-option *ngFor="let y of years" [value]="y">
+          {{ y }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
   </div>
-
-  <!-- Año -->
-  <div class="chip-filter-block">
-    <span class="chip-title">Año:</span>
-    <mat-chip-listbox class="chip-row" [(ngModel)]="selectedYear" (ngModelChange)="reloadReport()">
-      <mat-chip-option *ngFor="let y of years" [value]="y">
-        {{ y }}
-      </mat-chip-option>
-    </mat-chip-listbox>
-  </div>
-
-</div>
 
   <!-- BOTONES -->
   <div class="center-actions">
