@@ -1,96 +1,38 @@
-/* ===================================== */
-/* 🧾 CONTENEDOR PRINCIPAL               */
-/* ===================================== */
-.page-card {
-  padding: 3rem;
-  margin-top: 1rem;
-  position: relative;
-}
-
-/* ===================================== */
-/* 🏷️ TÍTULO                            */
-/* ===================================== */
-.title {
-  font-weight: 600;
-  text-align: center;
-  margin-bottom: 1rem;
-}
-
-/* ===================================== */
-/* 📊 TABLA DE REPORTE                   */
-/* ===================================== */
-.table-section {
+/* Contenedor general de chips */
+.chips-container {
   display: flex;
-  justify-content: center;
-  width: 100%;
-  margin-top: 1rem;
-}
-
-.table-scroll-wrapper {
-  width: 100%;
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
-  scrollbar-width: thin;
-}
-
-.table-modern {
-  width: 100%;
-  min-width: 650px; /* 👈 evita recortes */
-  border-collapse: collapse;
-  border-spacing: 0;
-  text-align: center;
-}
-
-.table-modern th {
-  font-weight: 600;
-}
-
-.table-modern td,
-.table-modern th {
-  padding: 10px 14px;
-  text-align: center;
-}
-
-/* ===================================== */
-/* 📱 MODO MOBILE                        */
-/* ===================================== */
-@media (max-width: 768px) {
-  .page-card {
-    padding: 1.4rem;
-  }
-
-  .table-section {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-  }
-
-  .table-scroll-wrapper {
-    max-width: 100%;
-    overflow-x: auto;
-    padding-bottom: 10px;
-  }
-
-  .table-modern {
-    min-width: 500px;
-  }
-
-  .title {
-    font-size: 1.2rem;
-  }
-}
-.filters {
-  display: flex;
-  gap: 16px;
-  margin-bottom: 1rem;
   flex-wrap: wrap;
+  gap: 14px;
+  margin-bottom: 20px;
 }
 
-.filter-field {
-  width: 180px;
+.chip-section {
+  flex: 1;
+  min-width: 140px;
 }
 
-.subtitle {
+.chip-title {
+  font-size: 14px;
+  margin-bottom: 6px;
   font-weight: 600;
-  margin-bottom: 8px;
+}
+
+.chip-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+/* Chips */
+mat-chip-option {
+  padding: 6px 12px;
+  border-radius: 20px !important;
+  font-size: 13px;
+  background: #eee;
+  cursor: pointer;
+}
+
+mat-chip-option.mat-mdc-chip-selected {
+  background: #673ab7 !important;
+  color: white !important;
 }

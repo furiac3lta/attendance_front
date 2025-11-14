@@ -2,12 +2,17 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+
+// Servicios
 import { AttendanceService } from '../../../../core/services/attendance.service';
+import { CoursesService } from '../../../../core/services/courses.service';
+
+// Material
 import { MatCardModule } from '@angular/material/card';
 import { MatTableModule } from '@angular/material/table';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatSelectModule } from '@angular/material/select';
-import { CoursesService } from '../../../../core/services/courses.service';
+
+// ❗ Necesario para Chips
+import { MatChipsModule } from '@angular/material/chips';
 
 // SweetAlert2
 import Swal from 'sweetalert2';
@@ -20,8 +25,7 @@ import Swal from 'sweetalert2';
     FormsModule,
     MatCardModule,
     MatTableModule,
-    MatFormFieldModule,
-    MatSelectModule
+    MatChipsModule
   ],
   templateUrl: './course-report.page.html',
   styleUrls: ['./course-report.page.css'],
@@ -38,18 +42,18 @@ export class CourseReportPage implements OnInit {
   stats: any[] = [];
 
   months = [
-    { label: 'Enero', value: 1 },
-    { label: 'Febrero', value: 2 },
-    { label: 'Marzo', value: 3 },
-    { label: 'Abril', value: 4 },
-    { label: 'Mayo', value: 5 },
-    { label: 'Junio', value: 6 },
-    { label: 'Julio', value: 7 },
-    { label: 'Agosto', value: 8 },
-    { label: 'Septiembre', value: 9 },
-    { label: 'Octubre', value: 10 },
-    { label: 'Noviembre', value: 11 },
-    { label: 'Diciembre', value: 12 },
+    { value: 1, label: 'Enero', short: 'Ene' },
+    { value: 2, label: 'Febrero', short: 'Feb' },
+    { value: 3, label: 'Marzo', short: 'Mar' },
+    { value: 4, label: 'Abril', short: 'Abr' },
+    { value: 5, label: 'Mayo', short: 'May' },
+    { value: 6, label: 'Junio', short: 'Jun' },
+    { value: 7, label: 'Julio', short: 'Jul' },
+    { value: 8, label: 'Agosto', short: 'Ago' },
+    { value: 9, label: 'Septiembre', short: 'Sep' },
+    { value: 10, label: 'Octubre', short: 'Oct' },
+    { value: 11, label: 'Noviembre', short: 'Nov' },
+    { value: 12, label: 'Diciembre', short: 'Dic' },
   ];
 
   years: number[] = [];
@@ -74,7 +78,22 @@ export class CourseReportPage implements OnInit {
     this.loadReport();
   }
 
-  /** 🔹 Carga el nombre del curso */
+  // ===========================
+  // 🔵 Métodos para CHIPS
+  // ===========================
+  setMonth(v: number) {
+    this.month = v;
+    this.loadReport();
+  }
+
+  setYear(v: number) {
+    this.year = v;
+    this.loadReport();
+  }
+
+  // ===========================
+  // Datos del curso
+  // ===========================
   loadCourseInfo() {
     this.courseSvc.getById(this.courseId).subscribe({
       next: (course: any) => this.courseName = course.name,
@@ -90,7 +109,9 @@ export class CourseReportPage implements OnInit {
     });
   }
 
-  /** 🔹 Carga el reporte mensual */
+  // ===========================
+  // Reporte mensual
+  // ===========================
   loadReport() {
     this.attendanceSvc.getMonthlyReport(this.courseId, this.month, this.year).subscribe({
       next: res => {
@@ -113,13 +134,10 @@ export class CourseReportPage implements OnInit {
     });
   }
 
-  /** 🔹 Devuelve el nombre del mes */
   getMonthLabel(value: number): string {
-    const found = this.months.find(m => m.value === value);
-    return found ? found.label : '';
+    return this.months.find(m => m.value === value)?.label ?? '';
   }
 
-  /** 🔹 Color según porcentaje */
   getColor(percent: number): string {
     if (percent >= 85) return 'limegreen';
     if (percent >= 60) return 'orange';
