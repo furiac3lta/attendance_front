@@ -1,9 +1,35 @@
 <mat-card class="attendance-container">
 
-  <h2>Clases de {{ selectedCourseName }}</h2>
+  <h2>Reporte mensual - {{ selectedCourseName }}</h2>
   <p class="date-label">{{ currentDate }}</p>
 
-  <div class="actions">
+  <!-- FILTROS -->
+  <div class="filters">
+    
+    <!-- Mes -->
+    <mat-form-field appearance="outline" class="filter-item">
+      <mat-label>Mes</mat-label>
+      <mat-select [(ngModel)]="selectedMonth" (selectionChange)="reloadReport()">
+        <mat-option *ngFor="let m of months" [value]="m.value">
+          {{ m.label }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <!-- Año -->
+    <mat-form-field appearance="outline" class="filter-item">
+      <mat-label>Año</mat-label>
+      <mat-select [(ngModel)]="selectedYear" (selectionChange)="reloadReport()">
+        <mat-option *ngFor="let y of years" [value]="y">
+          {{ y }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+  </div>
+
+  <!-- BOTONES -->
+  <div class="center-actions">
     <button mat-raised-button color="primary" (click)="createClass()">
       Crear nueva clase
     </button>
@@ -15,6 +41,7 @@
 
   <mat-divider></mat-divider>
 
+  <!-- LISTA DE CLASES -->
   <div *ngIf="classes.length === 0" class="no-classes">
     ⚠️ Este curso no tiene clases creadas todavía.
   </div>
@@ -28,13 +55,11 @@
 
       <span class="spacer"></span>
 
-      <!-- Tomar asistencia -->
       <button mat-raised-button color="primary" *ngIf="!c.attendanceTaken"
               (click)="goToAttendance(c.id)">
         Tomar asistencia
       </button>
 
-      <!-- Editar asistencia -->
       <button mat-raised-button color="warn" *ngIf="c.attendanceTaken"
               (click)="goToAttendance(c.id)">
         Editar asistencia
