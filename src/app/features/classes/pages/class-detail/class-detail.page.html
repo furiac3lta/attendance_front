@@ -1,33 +1,9 @@
 <mat-card class="attendance-container">
 
-  <h2>Reporte mensual si borrar - {{ selectedCourseName }}</h2>
+  <h2>Lista de clases creadas - {{ selectedCourseName }}</h2>
   <p class="date-label">{{ currentDate }}</p>
 
-  <!-- FILTROS -->
-  <div class="filters">
-    
-    <!-- Mes -->
-    <mat-form-field appearance="outline" class="filter-item">
-      <mat-label>Mes</mat-label>
-      <mat-select [(ngModel)]="selectedMonth" (selectionChange)="reloadReport()">
-        <mat-option *ngFor="let m of months" [value]="m.value">
-          {{ m.label }}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
-
-    <!-- Año -->
-    <mat-form-field appearance="outline" class="filter-item">
-      <mat-label>Año</mat-label>
-      <mat-select [(ngModel)]="selectedYear" (selectionChange)="reloadReport()">
-        <mat-option *ngFor="let y of years" [value]="y">
-          {{ y }}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
-
-  </div>
-
+ 
   <!-- BOTONES -->
   <div class="center-actions">
     <button mat-raised-button color="primary" (click)="createClass()">
