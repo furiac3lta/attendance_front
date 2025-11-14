@@ -42,9 +42,9 @@
         <ng-container matColumnDef="instructor">
           <th mat-header-cell *matHeaderCellDef> Instructor actual </th>
           <td mat-cell *matCellDef="let c">
-            <span *ngIf="c.instructorName && c.instructorName !== 'Sin asignar'">
+            <ng-container *ngIf="c.instructorName && c.instructorName !== 'Sin asignar'">
               {{ c.instructorName }}
-            </span>
+            </ng-container>
             <span *ngIf="!c.instructorName || c.instructorName === 'Sin asignar'" class="text-muted">
               Sin asignar
             </span>
@@ -55,26 +55,28 @@
         <ng-container matColumnDef="assign">
           <th mat-header-cell *matHeaderCellDef> Asignar Instructor </th>
           <td mat-cell *matCellDef="let c">
-            <mat-select [(ngModel)]="c.selectedInstructorId" placeholder="Seleccionar" class="assign-select">
-             <!--  <button mat-icon-button color="primary"
-  matTooltip="Guardar instructor"
-  (click)="saveInstructor(c.id, c.selectedInstructorId)"
-  [disabled]="!c.selectedInstructorId">
-  <mat-icon>save</mat-icon>
-</button> -->
 
-              <mat-option [value]="null">Sin asignar</mat-option>
-              <mat-option *ngFor="let inst of instructors" [value]="inst.id">
-                {{ inst.fullName }}
-              </mat-option>
-            </mat-select>
+            <div class="actions-inline">
 
-            <button mat-icon-button color="primary"
-              matTooltip="Guardar instructor"
-              (click)="saveInstructor(c.id!, c.selectedInstructorId!)"
-              [disabled]="!c.selectedInstructorId">
-              <mat-icon>save</mat-icon>
-            </button>
+              <mat-form-field appearance="outline" class="assign-select">
+                <mat-select [(ngModel)]="c.selectedInstructorId" placeholder="Seleccionar">
+                  <mat-option [value]="null">Sin asignar</mat-option>
+                  <mat-option *ngFor="let inst of instructors" [value]="inst.id">
+                    {{ inst.fullName }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+
+              <!-- ICONO GUARDAR -->
+              <button mat-icon-button
+                matTooltip="Guardar instructor"
+                (click)="saveInstructor(c.id!, c.selectedInstructorId!)"
+                [disabled]="!c.selectedInstructorId">
+                <mat-icon class="icon-save">save</mat-icon>
+              </button>
+
+            </div>
+
           </td>
         </ng-container>
 
@@ -83,14 +85,19 @@
           <th mat-header-cell *matHeaderCellDef> Acciones </th>
           <td mat-cell *matCellDef="let c">
 
-            <button mat-stroked-button color="primary" (click)="goToAttendance(c.id!)">
-              <mat-icon>assignment</mat-icon> Asistencia
-            </button>
+            <div class="actions-inline">
 
-            <button mat-stroked-button color="accent" style="margin-left: 6px;"
-              (click)="goToReport(c.id!)">
-              <mat-icon>bar_chart</mat-icon> Reporte
-            </button>
+              <!-- Asistencia -->
+              <button mat-icon-button (click)="goToAttendance(c.id!)" matTooltip="Tomar asistencia">
+                <mat-icon class="icon-attendance">assignment</mat-icon>
+              </button>
+
+              <!-- Reporte -->
+              <button mat-icon-button (click)="goToReport(c.id!)" matTooltip="Ver reporte">
+                <mat-icon class="icon-report">bar_chart</mat-icon>
+              </button>
+
+            </div>
 
           </td>
         </ng-container>

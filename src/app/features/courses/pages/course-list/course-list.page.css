@@ -1,5 +1,5 @@
 /* ===================================== */
-/* 🧩 CONTENEDOR PRINCIPAL (mat-card)     */
+/* 🧩 CONTENEDOR PRINCIPAL               */
 /* ===================================== */
 .page-card {
   padding: 3rem;
@@ -8,27 +8,16 @@
 }
 
 /* ===================================== */
-/* 🎛️ ACCIONES / BOTONES                 */
+/* ACCIONES SUPERIORES                   */
 /* ===================================== */
 .actions {
   margin-bottom: 1rem;
   display: flex;
-  justify-content: flex-start;
   gap: 10px;
 }
 
-/* Mensaje si no hay cursos */
-.empty {
-  margin-top: 1rem;
-  color: #777;
-  font-style: italic;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
 /* ===================================== */
-/* 📊 TABLA DE CURSOS                    */
+/* TABLA                                 */
 /* ===================================== */
 .table-section {
   display: flex;
@@ -40,15 +29,12 @@
 .table-scroll-wrapper {
   width: 100%;
   overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
-  scrollbar-width: thin;
 }
 
 .table-modern {
   width: 100%;
-  min-width: 850px; /* evita recorte de columnas */
+  min-width: 850px;
   border-collapse: collapse;
-  border-spacing: 0;
 }
 
 .assign-select {
@@ -56,41 +42,65 @@
 }
 
 /* ===================================== */
-/* 🔄 LOADING                            */
+/* INLINE ACTIONS                        */
 /* ===================================== */
-.loading {
+.actions-inline {
   display: flex;
-  flex-direction: column;
   align-items: center;
-  padding: 2rem;
+  gap: 10px;
 }
 
 /* ===================================== */
-/* 📱 MOBILE                            */
+/* ICONOS – PALETA                       */
 /* ===================================== */
-@media (max-width: 768px) {
-  .page-card {
-    padding: 1.4rem;
-  }
 
-  .table-section {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-  }
+/* Guardar (violeta) */
+.icon-save {
+  color: #7c3aed !important;
+  transition: 0.2s ease;
+}
 
-  .table-scroll-wrapper {
-    max-width: 100%;
-    overflow-x: auto;
-    padding-bottom: 10px;
-  }
+.icon-save:hover {
+  color: #5b21b6 !important;
+  transform: scale(1.15);
+}
 
-  .table-modern {
-    min-width: 650px;
-  }
+/* Asistencia (rosa) */
+.icon-attendance {
+  color: #FF4DB2 !important;
+  transition: 0.2s ease;
+}
 
-  .actions {
-    flex-direction: column;
-    align-items: flex-start;
-  }
+.icon-attendance:hover {
+  color: #d9368e !important;
+  transform: scale(1.15);
+}
+
+/* Reporte (rojo suave) */
+.icon-report {
+  color: #ff4e4e !important;
+  transition: 0.2s ease;
+}
+
+.icon-report:hover {
+  color: #d63a3a !important;
+  transform: scale(1.15);
+}
+
+/* ===================================== */
+/* TEXTO / ESTADOS                       */
+/* ===================================== */
+.text-muted {
+  color: #777;
+}
+
+/* Hover tabla */
+.mat-row:hover {
+  background: #f5f5f5;
+  transition: 0.2s ease;
+}
+
+/* Tamaño iconos */
+.mat-icon {
+  font-size: 22px !important;
 }
