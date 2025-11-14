@@ -23,19 +23,7 @@
   gap: 6px;
 }
 
-/* Chips */
-mat-chip-option {
-  padding: 6px 12px;
-  border-radius: 20px !important;
-  font-size: 13px;
-  background: #eee;
-  cursor: pointer;
-}
 
-mat-chip-option.mat-mdc-chip-selected {
-  background: #673ab7 !important;
-  color: white !important;
-}
 /* ======================================================= */
 /* 🌞 LIGHT MODE – Chips pastel                            */
 /* ======================================================= */
