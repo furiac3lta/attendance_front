@@ -313,3 +313,81 @@ button.mat-icon-button {
 .dark-mode .mat-mdc-select-value:focus {
   box-shadow: 0 0 10px #ffc8dd !important;
 }
+/* ======================================================= */
+/* 🌙 DARK MODE — TABLAS MÁS CLARAS Y LEGIBLES             */
+/* ======================================================= */
+
+.dark-mode .table-modern tbody tr,
+.dark-mode .mat-row {
+  background: #2b2b32 !important;        /* gris oscuro elegante */
+  color: #f8f8f8 !important;             /* texto muy claro */
+  border: 1px solid #4d4d56 !important;  /* borde gris claro */
+}
+
+.dark-mode .table-modern thead th,
+.dark-mode .mat-header-cell {
+  background: #26242e !important;        /* un poquito más oscuro */
+  color: #ffffff !important;
+  border-bottom: 2px solid #6e6a78 !important;
+}
+
+/* Hover de fila */
+.dark-mode .table-modern tbody tr:hover,
+.dark-mode .mat-row:hover {
+  background: #3a3744 !important;        /* gris+violeta suave */
+  border-color: #a2d2ff !important;       /* celeste pastel */
+}
+/* ======================================================= */
+/* 🌙 INPUTS Y SELECTS MÁS CLAROS                         */
+/* ======================================================= */
+
+.dark-mode .mat-mdc-form-field-flex {
+  background: #3a3744 !important; /* más claro que la tabla */
+  border-radius: 8px !important;
+}
+
+/* Texto del input */
+.dark-mode .mat-mdc-input-element {
+  color: #ffffff !important;
+}
+
+/* Placeholder MUCHO más claro */
+.dark-mode .mat-mdc-input-element::placeholder {
+  color: #cfcad9 !important; /* lavanda pastel visible */
+}
+
+/* Label visible */
+.dark-mode .mat-mdc-floating-label {
+  color: #d7d3e3 !important;
+}
+
+/* Borde del input */
+.dark-mode .mdc-notched-outline__leading,
+.dark-mode .mdc-notched-outline__trailing,
+.dark-mode .mdc-notched-outline__notch {
+  border-color: #5a5568 !important;
+}
+
+/* Glow al foco */
+.dark-mode .mdc-text-field--focused .mdc-notched-outline__leading,
+.dark-mode .mdc-text-field--focused .mdc-notched-outline__trailing,
+.dark-mode .mdc-text-field--focused .mdc-notched-outline__notch {
+  border-color: #ffb3c6 !important; /* rosa */
+  box-shadow: 0 0 6px #ffb3c6 !important;
+}
+.dark-mode .mat-select-value {
+  color: #ffffff !important;
+}
+
+.dark-mode .mat-select-arrow {
+  color: #dcd7e8 !important;
+}
+
+.dark-mode .mat-option {
+  background: #2f2c39 !important;
+  color: #fff !important;
+}
+
+.dark-mode .mat-option:hover {
+  background: #6f6a7a !important;
+}
