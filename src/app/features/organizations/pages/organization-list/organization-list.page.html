@@ -77,11 +77,10 @@
                 </mat-select>
               </mat-form-field>
 
-              <!-- ICONO GUARDAR -->
-              <button mat-icon-button color="primary"
+              <button mat-icon-button
                 (click)="assignAdmin(org.id)"
                 [disabled]="!selectedAdmin[org.id]">
-                <mat-icon>save</mat-icon>
+                <mat-icon class="icon-save">save</mat-icon>
               </button>
 
             </div>
@@ -96,16 +95,15 @@
 
             <div class="actions-inline">
 
-            <!-- EDITAR -->
-<button mat-icon-button (click)="editOrganization(org)">
-  <mat-icon class="icon-edit">edit</mat-icon>
-</button>
+              <!-- EDITAR -->
+              <button mat-icon-button (click)="editOrganization(org)">
+                <mat-icon class="icon-edit">edit</mat-icon>
+              </button>
 
-<!-- ELIMINAR -->
-<button mat-icon-button (click)="deleteOrganization(org.id)">
-  <mat-icon class="icon-delete">delete</mat-icon>
-</button>
-
+              <!-- ELIMINAR -->
+              <button mat-icon-button (click)="deleteOrganization(org.id)">
+                <mat-icon class="icon-delete">delete</mat-icon>
+              </button>
 
             </div>
 
