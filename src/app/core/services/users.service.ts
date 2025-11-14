@@ -46,12 +46,12 @@ export class UsersService {
   }
 
   // ✅ Paginado
-  findAll(page: number = 0, size: number = 10): Observable<PageResponse<User>> {
-    return this.http.get<PageResponse<User>>(
-      `${this.base}?page=${page}&size=${size}`,
-      this.authHeaders()
-    );
-  }
+ findAll(page: number, size: number, search: string = '') {
+  return this.http.get<PageResponse<User>>(
+    `${this.base}?page=${page}&size=${size}&search=${search}`
+  );
+}
+
 
   create(dto: CreateUserDto): Observable<User> {
     return this.http.post<User>(`${this.base}/create`, dto, this.authHeaders());
