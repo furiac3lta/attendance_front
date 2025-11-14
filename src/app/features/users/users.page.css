@@ -332,3 +332,34 @@ mat-paginator {
     max-width: 100%;
   }
 }
+/* ======================================================= */
+/* 📌 CONTENEDOR PRINCIPAL */
+/* ======================================================= */
+.users-page {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+}
+
+.main-title {
+  text-align: center;
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: -0.5rem;
+  color: var(--text-strong);
+}
+
+/* ======================================================= */
+/* 📦 SECCIONES (Buscador / Alta / Tabla) */
+/* ======================================================= */
+.section-card {
+  background: var(--card-bg);
+  padding: 1.8rem 2rem;
+  border-radius: 18px;
+  box-shadow:
+    4px 4px 14px rgba(0, 0, 0, 0.25),
+    -4px -4px 14px rgba(255, 255, 255, 0.05);
+  transition: 0.3
+}
