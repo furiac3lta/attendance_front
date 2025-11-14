@@ -2,18 +2,18 @@
 
   <h2 class="title"> Gestión de Usuarios</h2>
 
-  <!-- BUSCADOR AVANZADO -->
-<div class="search-filters">
+<!-- 🔍 FILTROS SUPERIORES -->
+<div class="filters-container">
 
-  <!-- 🔍 Texto -->
-  <mat-form-field appearance="outline">
+  <!-- Buscar -->
+  <mat-form-field appearance="outline" class="filter-item">
     <mat-label>Buscar...</mat-label>
     <input matInput [(ngModel)]="searchTerm" (input)="applyFilter()">
     <mat-icon matSuffix>search</mat-icon>
   </mat-form-field>
 
-  <!-- 🎭 Rol -->
-  <mat-form-field appearance="outline">
+  <!-- Rol -->
+  <mat-form-field appearance="outline" class="filter-item">
     <mat-label>Rol</mat-label>
     <mat-select [(ngModel)]="filterRole" (selectionChange)="applyFilter()">
       <mat-option value="ALL">Todos</mat-option>
@@ -24,8 +24,8 @@
     </mat-select>
   </mat-form-field>
 
-  <!-- 🏛️ Organización -->
-  <mat-form-field appearance="outline" *ngIf="currentRole === 'SUPER_ADMIN'">
+  <!-- Organización (solo SUPER ADMIN) -->
+  <mat-form-field appearance="outline" class="filter-item" *ngIf="currentRole === 'SUPER_ADMIN'">
     <mat-label>Organización</mat-label>
     <mat-select [(ngModel)]="filterOrg" (selectionChange)="applyFilter()">
       <mat-option value="ALL">Todas</mat-option>
@@ -35,8 +35,8 @@
     </mat-select>
   </mat-form-field>
 
-  <!-- 📘 Cursos -->
-  <mat-form-field appearance="outline">
+  <!-- Cursos -->
+  <mat-form-field appearance="outline" class="filter-item">
     <mat-label>Curso</mat-label>
     <mat-select [(ngModel)]="filterCourse" (selectionChange)="applyFilter()">
       <mat-option value="ALL">Todos</mat-option>
@@ -47,7 +47,6 @@
   </mat-form-field>
 
 </div>
-
 
   <!-- FORMULARIO -->
   <div class="form-section">

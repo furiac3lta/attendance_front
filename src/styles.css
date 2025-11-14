@@ -1,52 +1,49 @@
 @import "@angular/material/prebuilt-themes/indigo-pink.css";
 
 /* ======================================================= */
-/* 🎨 FUENTES Y VARIABLES BASE                             */
+/* 🎨 VARIABLES Y FUENTES                                 */
 /* ======================================================= */
 :root {
   --font-main: 'Poppins', sans-serif;
 
-  /* 🌞 Tema claro */
+  /* 🌞 CLARO */
   --bg: #e4e2e6;
   --text: #3b3b4f;
   --text-strong: #1f1b2d;
   --card-bg: #e6e6e7;
-
   --accent: #cdb4db;
   --accent-strong: #ffafcc;
   --accent-hover: #a2d2ff;
-
   --border: #e7e0ef;
   --shadow: 0 6px 18px rgba(134, 118, 164, 0.12);
 }
 
-/* 🌙 Tema oscuro lavanda pastel */
+/* 🌙 OSCURO */
 .dark-mode {
-  --bg: #1a1720;              /* Fondo violeta oscuro */
-  --text: #dcd7e8;            /* Texto principal lavanda claro */
-  --text-strong: #ffffff;     /* Blanco puro para títulos */
-  --card-bg: #252131;         /* Tarjetas violeta gris elegante */
+  --bg: #1a1720;
+  --text: #dcd7e8;
+  --text-strong: #ffffff;
+  --card-bg: #252131;
 
-  --accent: #ffb3c6;          /* Rosa pastel */
-  --accent-strong: #ffc8dd;   /* Rosa claro */
-  --accent-hover: #bde0fe;    /* Celeste pastel */
+  --accent: #ffb3c6;
+  --accent-strong: #ffc8dd;
+  --accent-hover: #bde0fe;
 
-  --border: #3d364c;          /* Borde violeta oscuro */
-  --shadow: 0 10px 28px rgba(0, 0, 0, 0.45);
+  --border: #3d364c;
+  --shadow: 0 10px 28px rgba(0,0,0,0.45);
 }
 
 /* ======================================================= */
 /* 🧩 BASE GLOBAL                                          */
 /* ======================================================= */
-body, input, button, mat-card, mat-toolbar, mat-select, mat-option, table {
+body, input, button, mat-card, mat-select, mat-option {
   font-family: var(--font-main) !important;
 }
 
 body {
   background: var(--bg);
   color: var(--text);
-  transition: background 0.35s ease, color 0.35s ease;
-  font-family: 'Inter', sans-serif;
+  transition: 0.35s ease;
 }
 
 /* ======================================================= */
@@ -57,23 +54,19 @@ mat-toolbar {
   color: var(--text-strong) !important;
   border-bottom: 1px solid var(--border);
   box-shadow: var(--shadow);
-  padding: 0.75rem 1rem;
-  position: sticky;
-  top: 0;
-  z-index: 2000;
 }
 
-mat-toolbar button, mat-toolbar a {
+mat-toolbar a,
+mat-toolbar button {
   color: var(--text-strong) !important;
-  font-weight: 500;
-  transition: color 0.2s ease;
+  transition: 0.2s ease;
 }
-mat-toolbar a:hover, mat-toolbar button:hover {
+mat-toolbar a:hover {
   color: var(--accent-hover) !important;
 }
 
 /* ======================================================= */
-/* 🟣 CARDS / BOTONES / INPUTS NEUMORFISMO SUAVE           */
+/* 🧱 CARDS Y BOTONES                                      */
 /* ======================================================= */
 mat-card {
   background: var(--card-bg) !important;
@@ -82,31 +75,107 @@ mat-card {
     6px 6px 14px rgba(0,0,0,0.18),
     -6px -6px 14px rgba(255,255,255,0.6);
   padding: 24px;
-  transition: 0.3s ease;
+  transition: 0.25s;
 }
 mat-card:hover { transform: translateY(-3px); }
 
-/* Botones principales */
+/* Botones */
 button[mat-raised-button] {
   border-radius: 12px !important;
-  text-transform: none !important;
-  font-weight: 600 !important;
-  padding: 10px 20px;
   background: var(--accent-strong) !important;
   color: #fff !important;
-  border: none;
-  box-shadow:
-    2px 2px 8px rgba(0,0,0,0.18),
-    -2px -2px 8px rgba(255,255,255,0.3);
-  transition: 0.25s ease;
+  font-weight: 600;
 }
 button[mat-raised-button]:hover {
   background: var(--accent-hover) !important;
-  transform: translateY(-2px);
+}
+
+/* Icon buttons */
+button.mat-icon-button {
+  padding: 4px;
+  min-width: 32px;
+  min-height: 32px;
 }
 
 /* ======================================================= */
-/* 🧾 TABLAS MODERNAS                                     */
+/* ✏ INPUTS & SELECTS – FIX COMPLETO                      */
+/* ======================================================= */
+
+/* CONTENEDOR */
+.mat-mdc-form-field-flex,
+.mat-mdc-text-field-wrapper {
+  background: var(--card-bg) !important;
+  border-radius: 10px !important;
+}
+
+/* LABEL */
+.mat-mdc-floating-label {
+  color: var(--text) !important;
+  opacity: 0.8 !important;
+}
+
+/* TEXTO */
+.mat-mdc-input-element,
+.mat-select-value {
+  color: var(--text-strong) !important;
+}
+
+/* PLACEHOLDER */
+.mdc-text-field__input::placeholder {
+  color: #6f6f7a !important;
+}
+
+/* BORDE */
+.mdc-notched-outline__leading,
+.mdc-notched-outline__trailing,
+.mdc-notched-outline__notch {
+  border-color: var(--border) !important;
+}
+
+/* HOVER */
+.mat-mdc-form-field-focus-overlay {
+  background: rgba(0,0,0,0.04) !important;
+}
+
+/* ======== DARK MODE FIX ======== */
+.dark-mode .mat-mdc-form-field-flex,
+.dark-mode .mat-mdc-text-field-wrapper {
+  background: #2f2b3a !important;
+}
+
+.dark-mode .mat-mdc-input-element,
+.dark-mode .mat-select-value {
+  color: #fff !important;
+}
+
+.dark-mode .mat-mdc-floating-label {
+  color: #cfcbe2 !important;
+}
+
+.dark-mode .mdc-text-field__input::placeholder {
+  color: rgba(255,255,255,0.7) !important;
+}
+
+.dark-mode .mdc-notched-outline__leading,
+.dark-mode .mdc-notched-outline__trailing,
+.dark-mode .mdc-notched-outline__notch {
+  border-color: rgba(255,255,255,0.25) !important;
+}
+
+.dark-mode .mat-select-arrow {
+  color: #f8d3ff !important;
+}
+
+.dark-mode .mat-mdc-option {
+  background: #2f2b3a !important;
+  color: #fff !important;
+}
+.dark-mode .mat-mdc-option:hover {
+  background: #413c58 !important;
+}
+
+/* ======================================================= */
+/* 📊 TABLAS                                               */
 /* ======================================================= */
 .table-modern {
   width: 100%;
@@ -115,18 +184,15 @@ button[mat-raised-button]:hover {
 }
 
 /* Encabezados */
-.table-modern thead th,
 .mat-header-cell {
   background: var(--card-bg) !important;
   color: var(--text-strong) !important;
-  font-weight: 600;
   text-transform: uppercase;
-  padding: 12px 16px;
+  font-weight: 600;
   border-bottom: 2px solid var(--accent);
 }
 
 /* Filas */
-.table-modern tbody tr,
 .mat-row {
   background: var(--card-bg) !important;
   color: var(--text) !important;
@@ -137,243 +203,113 @@ button[mat-raised-button]:hover {
     4px 4px 10px rgba(0,0,0,0.08),
     -4px -4px 10px rgba(255,255,255,0.6);
 }
-
-/* Hover modo claro */
-.table-modern tbody tr:hover,
 .mat-row:hover {
-  border-color: var(--accent);
   background: #f4f0ff !important;
+  border-color: var(--accent);
 }
 
-/* ======================================================= */
-/* 🌙 DARK MODE — LAVANDA PASTEL                           */
-/* ======================================================= */
-.dark-mode .table-modern thead th,
-.dark-mode .mat-header-cell {
-  background: #1f1d27 !important;
-  color: #f7f5fc !important;
-  border-bottom-color: var(--accent);
-}
-
-.dark-mode .table-modern tbody tr,
+/* OSCURO */
 .dark-mode .mat-row {
-  background: #2b2836 !important; /* gris violeta medio */
+  background: #2b2836 !important;
   color: #f4f0ff !important;
   border-color: #3a3a3a;
 }
-
-.dark-mode .table-modern tbody tr:hover,
 .dark-mode .mat-row:hover {
-  background: #413c58 !important; /* violeta más claro */
+  background: #413c58 !important;
   border-color: var(--accent);
 }
 
-.dark-mode .mat-icon { color: #ffbde6 !important; }
+/* ======================================================= */
+/* 🧩 CHIPS                                                */
+/* ======================================================= */
+.role-chip.ADMIN { background: #ff7043; color: #fff; }
+.role-chip.INSTRUCTOR { background: #29b6f6; color: #fff; }
+.role-chip.USER { background: #9c27b0; color: #fff; }
 
 /* ======================================================= */
-/* 🎨 SELECTS / INPUTS EN DARK MODE                        */
+/* 🧱 LOGIN                                                */
 /* ======================================================= */
-.dark-mode .mat-form-field-flex {
-  background: #2a2833 !important;
-  border-radius: 8px !important;
-}
-
-.dark-mode .mat-input-element,
-.dark-mode .mat-select-value {
-  color: #f8f7fa !important;
-}
-
-.dark-mode .mat-form-field-label { color: #c7c3d3 !important; }
-.dark-mode .mat-mdc-form-field-input-control { color:#29b6f6!important; }
-.dark-mode .mat-select-arrow { color: #d3cde3 !important; }
-
-.dark-mode .mat-option:hover:not(.mat-option-disabled) {
-  background: #726e7a !important;
-  color: white !important;
-}
-
-.dark-mode input, .dark-mode textarea, .dark-mode select {
-  background: #2b2b32 !important;
-  color: #f1f1f1 !important;
-  border: 1px solid #444 !important;
-  border-radius: 6px;
-  padding: 6px 8px;
-}
-
-/* ======================================================= */
-/* 🧱 LAYOUT Y RESPONSIVE                                  */
-/* ======================================================= */
-.container, .page-content, .page-card {
-  width: 100%;
-  max-width: 1200px;
-  margin: auto;
-  padding: 16px;
-}
-
-.page-container {
-  display: flex;
-  gap: 24px;
-  margin-top: 20px;
-}
-
-.form-section { flex: 1; max-width: 420px; }
-.table-section { flex: 2; }
-
-@media (max-width: 768px) {
-  .page-container {
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .form-section,
-  .table-section {
-    width: 100%;
-    max-width: 100%;
-  }
-
-  .table-modern {
-    border-spacing: 0;
-  }
-}
-
-/* ======================================================= */
-/* ✨ EXTRAS / CHIPS / BOTONES                             */
-/* ======================================================= */
-.role-chip.ADMIN { background: #ff7043; color: white; }
-.role-chip.INSTRUCTOR { background: #29b6f6; color: white; }
-.role-chip.USER { background: #9c27b0; color: white; }
-
-.actions {
-  display: flex;
-  gap: 12px;
-}
-@media (max-width: 768px) {
-  .actions { flex-direction: column; }
-}
-
-/* ======================================================= */
-/* 🌙 AJUSTES VISUALES DARK MODE EXTRA                     */
-/* ======================================================= */
-.dark-mode mat-card,
-.dark-mode .table-modern tbody tr,
-.dark-mode .mat-row,
-.dark-mode .mat-form-field-flex {
-  box-shadow:
-    4px 4px 12px rgba(0,0,0,0.65),
-    -4px -4px 12px rgba(255,255,255,0.05);
-}
-
-.dark-mode button[mat-raised-button] {
-  background: var(--accent) !important;
-  color: #fff !important;
-}
-.dark-mode button[mat-raised-button]:hover {
-  background: var(--accent-hover) !important;
-}
-/* === Modo oscuro: inputs más claros y sin redondeo === */
-.dark-theme .mat-mdc-text-field-wrapper,
-.dark-theme .mat-mdc-form-field-flex,
-.dark-theme .mat-mdc-input-element {
-  color: #f5f5f5 !important;
-  background: rgba(255, 255, 255, 0.05) !important;
-}
-
-.dark-theme .mat-mdc-form-field-subscript-wrapper,
-.dark-theme .mat-mdc-floating-label,
-.dark-theme .mdc-text-field--outlined .mdc-notched-outline__leading,
-.dark-theme .mdc-text-field--outlined .mdc-notched-outline__trailing,
-.dark-theme .mdc-text-field--outlined .mdc-notched-outline__notch {
-  border-radius: 0 !important;
-}
-
-.dark-theme .mdc-text-field--outlined .mdc-notched-outline__leading,
-.dark-theme .mdc-text-field--outlined .mdc-notched-outline__trailing,
-.dark-theme .mdc-text-field--outlined .mdc-notched-outline__notch {
-  border-color: rgba(255, 255, 255, 0.3) !important;
-}
-
-.dark-theme .mat-mdc-input-element::placeholder {
-  color: rgba(255, 255, 255, 0.6) !important;
-}
-
-.dark-theme .mat-mdc-form-field-focus-overlay {
-  background: rgba(255, 255, 255, 0.1) !important;
-}
-
-.dark-theme .mdc-text-field--focused .mdc-notched-outline__leading,
-.dark-theme .mdc-text-field--focused .mdc-notched-outline__trailing,
-.dark-theme .mdc-text-field--focused .mdc-notched-outline__notch {
-  border-color: #ffffff !important;
-}
-/* ======================================================= */
-/* Contenedor principal */
-/* 💡 Ajustado para navbar + footer visibles sin scroll */
 .login-wrapper {
-  min-height: calc(100vh - 64px); /* resta el alto del navbar */
+  min-height: calc(100vh - 64px);
   display: flex;
-  flex-direction: column;
-  justify-content: center;
   align-items: center;
-  background: var(--card-bg, #f3f3f3);
-  padding-bottom: 80px; /* espacio para el footer fijo */
-  box-sizing: border-box;
+  justify-content: center;
+  background: var(--card-bg);
 }
 
-
-/* Tarjeta de login */
-.login-card {
-  width: 100%;
-  max-width: 400px; /* limita el ancho en desktop */
-  padding: 2rem;
-  box-sizing: border-box;
-}
-
-/* Botón y campos */
-.full-width {
-  width: 100%;
-}
-
-.login-button {
-  width: 100%;
-  margin-top: 1rem;
-}
-
-/* Modo oscuro opcional */
-.dark-theme .login-wrapper {
+.dark-mode .login-wrapper {
   background: #121212;
 }
 
-.dark-theme .login-card {
-  background: #1e1e1e;
-  color: #fff;
-}
-/* ⚓ Footer siempre abajo */
+.login-card { width: 100%; max-width: 400px; }
+
+/* ======================================================= */
+/* FOOTER LOGIN                                            */
+/* ======================================================= */
 .login-footer {
   position: fixed;
   bottom: 0;
-  left: 0;
   width: 100%;
   text-align: center;
-  font-size: 0.85rem;
+  font-size: .85rem;
+  padding: .8rem;
   color: #555;
-  padding: 0.8rem 0;
-  background: transparent; /* se ve natural sobre el fondo */
 }
 
-.login-footer a {
-  text-decoration: none;
-  color: #1976d2;
-  font-weight: 500;
+/* OSCURO */
+.dark-mode .login-footer { color: #bdbdbd; }
+/* ======================================================= */
+/* ✨ GLOW PASTEL PARA INPUTS Y SELECTS                    */
+/* ======================================================= */
+
+/* FORM FIELD WRAPPER */
+.mdc-text-field--outlined.mdc-text-field--focused .mdc-notched-outline__leading,
+.mdc-text-field--outlined.mdc-text-field--focused .mdc-notched-outline__notch,
+.mdc-text-field--outlined.mdc-text-field--focused .mdc-notched-outline__trailing {
+  border-color: var(--accent-strong) !important; /* rosa pastel */
+  box-shadow: 0 0 6px var(--accent-strong) !important;
 }
 
-.login-footer a:hover {
-  text-decoration: underline;
+/* HOVER */
+.mdc-text-field--outlined:hover .mdc-notched-outline__leading,
+.mdc-text-field--outlined:hover .mdc-notched-outline__notch,
+.mdc-text-field--outlined:hover .mdc-notched-outline__trailing {
+  border-color: var(--accent-hover) !important; /* celeste pastel */
+  box-shadow: 0 0 4px var(--accent-hover) !important;
 }
 
-.dark-theme .login-footer {
-  color: #bbb;
+/* EFECTO EN EL INPUT DIRECTO */
+.mat-mdc-input-element:focus,
+.mat-mdc-select-placeholder:focus,
+.mat-mdc-select-value:focus {
+  outline: none !important;
+  box-shadow: 0 0 8px var(--accent-strong) !important;
+  border-radius: 10px;
 }
 
-.dark-theme .login-footer a {
-  color: #90caf9;
+/* ======================================================= */
+/* 🌙 DARK MODE — GLOW PASTEL                             */
+/* ======================================================= */
+
+.dark-mode .mdc-text-field--outlined.mdc-text-field--focused .mdc-notched-outline__leading,
+.dark-mode .mdc-text-field--outlined.mdc-text-field--focused .mdc-notched-outline__notch,
+.dark-mode .mdc-text-field--outlined.mdc-text-field--focused .mdc-notched-outline__trailing {
+  border-color: #ffb3c6 !important; /* glow rosa fuerte */
+  box-shadow: 0 0 10px #ffb3c6 !important;
+}
+
+.dark-mode .mdc-text-field--outlined:hover .mdc-notched-outline__leading,
+.dark-mode .mdc-text-field--outlined:hover .mdc-notched-outline__notch,
+.dark-mode .mdc-text-field--outlined:hover .mdc-notched-outline__trailing {
+  border-color: #bde0fe !important; /* glow celeste */
+  box-shadow: 0 0 8px #bde0fe !important;
+}
+
+.dark-mode .mat-mdc-input-element:focus {
+  box-shadow: 0 0 12px #ffb3c6 !important;
+}
+
+/* SELECTS EN FOCUS */
+.dark-mode .mat-mdc-select-value:focus {
+  box-shadow: 0 0 10px #ffc8dd !important;
 }
