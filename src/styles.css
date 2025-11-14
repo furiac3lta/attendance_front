@@ -416,3 +416,53 @@ button.mat-icon-button {
     margin-bottom: 6px !important;
   }
 }
+/* ======================================================= */
+/* 📱 FIX DEFINITIVO PARA SELECTS EN MOBILE                */
+/* ======================================================= */
+
+@media (max-width: 768px) {
+
+  /* Reducir tamaño real del select */
+  .section-card .mat-mdc-form-field {
+    --mdc-outlined-text-field-density: -6;
+    line-height: 32px !important;
+    min-height: 32px !important;
+  }
+
+  .section-card .mat-mdc-form-field .mat-mdc-select-value-text {
+    padding-top: 4px !important;
+    padding-bottom: 4px !important;
+    font-size: 14px !important;
+  }
+
+  /* =============================== */
+  /*   REDIMENSIONAR OVERLAY PANEL   */
+  /* =============================== */
+
+  .cdk-overlay-pane {
+    max-width: 340px !important;
+    width: 90% !important;
+    margin: auto !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+  }
+
+  .mat-mdc-select-panel {
+    max-height: 260px !important;
+    border-radius: 10px !important;
+    background: #2f2b39 !important;
+  }
+
+  .dark-mode .mat-mdc-option {
+    font-size: 14px !important;
+    padding: 10px 14px !important;
+  }
+
+  /* Quitar relleno extra del outline */
+  .mdc-notched-outline__leading,
+  .mdc-notched-outline__notch,
+  .mdc-notched-outline__trailing {
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+  }
+}
