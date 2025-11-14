@@ -248,63 +248,45 @@ export class UsersPage implements OnInit {
   // ===========================================================
   // 🔍 FILTROS Y BÚSQUEDA LOCAL (SIN PAGINACIÓN)
   // ===========================================================
-  applyFilter(triggerBackend: boolean = true) {
-    const normalize = (str: string = '') =>
-      str.toLowerCase()
-        .normalize('NFD')
-        .replace(/[\u0300-\u036f]/g, '')
-        .trim();
+ applyFilter() {
+  const normalize = (str: string = '') =>
+    str.toLowerCase()
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .trim();
 
-    // Detecta si hay filtros activos
-    const filtersActive =
-      this.searchTerm.trim() !== '' ||
-      this.filterRole !== 'ALL' ||
-      this.filterOrg !== 'ALL' ||
-      this.filterCourse !== 'ALL';
+  const term = normalize(this.searchTerm);
 
-    this.isSearching = filtersActive;
+  this.filteredUsers = this.users.filter(u => {
+    const name = normalize(u.fullName);
+    const email = normalize(u.email || '');
+    const role = normalize(u.role || '');
+    const org = normalize(u.organizationName || '');
+    const courses = (u.courses || []).map(c => normalize(c));
 
-    // Si debe recargar del backend
-    if (triggerBackend && !filtersActive) {
-      this.currentPage = 0;
-      this.loadUsers();
-      return;
-    }
+    const matchesText =
+      name.includes(term) ||
+      email.includes(term) ||
+      role.includes(term) ||
+      org.includes(term) ||
+      courses.some(c => c.includes(term));
 
-    const term = normalize(this.searchTerm);
+    const matchesRole =
+      this.filterRole === 'ALL' || u.role === this.filterRole;
 
-    this.filteredUsers = this.users.filter(u => {
-      const name = normalize(u.fullName);
-      const email = normalize(u.email || '');
-      const role = normalize(u.role || '');
-      const org = normalize(u.organizationName || '');
-      const courses = (u.courses || []).map(c => normalize(c));
+    const matchesOrg =
+      this.filterOrg === 'ALL' || u.organizationId === this.filterOrg;
 
-      const matchesText =
-        name.includes(term) ||
-        email.includes(term) ||
-        role.includes(term) ||
-        org.includes(term) ||
-        courses.some(c => c.includes(term));
+    const matchesCourse =
+      this.filterCourse === 'ALL' ||
+      (u.courses || []).includes(
+        this.courses.find(c => c.id === this.filterCourse)?.name
+      );
 
-      const matchesRole =
-        this.filterRole === 'ALL' || u.role === this.filterRole;
+    return matchesText && matchesRole && matchesOrg && matchesCourse;
+  });
+}
 
-      const matchesOrg =
-        this.filterOrg === 'ALL' || u.organizationId === this.filterOrg;
-
-      const matchesCourse =
-        this.filterCourse === 'ALL' ||
-        (u.courses || []).includes(
-          this.courses.find(c => c.id === this.filterCourse)?.name
-        );
-
-      return matchesText && matchesRole && matchesOrg && matchesCourse;
-    });
-
-    // Si está buscando → sin paginado
-    this.totalElements = this.isSearching ? this.filteredUsers.length : this.users.length;
-  }
 
   trackByUserId = (_: number, u: User) => u.id;
   
