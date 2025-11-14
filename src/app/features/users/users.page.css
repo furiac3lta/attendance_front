@@ -180,14 +180,6 @@ mat-paginator {
     width: 100%;
   }
 }
-/* Centro general */
-.users-page {
-  max-width: 1100px;
-  margin: auto;
-  display: flex;
-  flex-direction: column;
-  gap: 2.5rem;
-}
 
 /* Título principal */
 .page-title {
@@ -256,11 +248,6 @@ mat-paginator {
   border-color: #ffb3d9 !important;
   box-shadow: 0 0 10px #ffb3d9;
 }
-/* Contenedor principal dentro del mat-card */
-.users-page {
-  max-width: 1100px;
-  margin: 0 auto;
-}
 
 /* Layout vertical de las secciones */
 .users-layout {
@@ -269,13 +256,7 @@ mat-paginator {
   gap: 2rem;
 }
 
-/* Título centrado */
-.main-title {
-  text-align: center;
-  font-size: 2rem;
-  font-weight: 700;
-  margin-bottom: 1rem;
-}
+
 
 /* Card de cada bloque (buscador / alta / tabla) */
 .section-card {
