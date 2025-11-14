@@ -2,14 +2,52 @@
 
   <h2 class="title"> Gestión de Usuarios</h2>
 
-  <!-- BUSCADOR -->
-  <div class="search-bar">
-    <mat-form-field appearance="outline">
-      <mat-label>Buscar usuario...</mat-label>
-      <input matInput [(ngModel)]="searchTerm" (input)="applyFilter()">
-      <mat-icon matSuffix>search</mat-icon>
-    </mat-form-field>
-  </div>
+  <!-- BUSCADOR AVANZADO -->
+<div class="search-filters">
+
+  <!-- 🔍 Texto -->
+  <mat-form-field appearance="outline">
+    <mat-label>Buscar...</mat-label>
+    <input matInput [(ngModel)]="searchTerm" (input)="applyFilter()">
+    <mat-icon matSuffix>search</mat-icon>
+  </mat-form-field>
+
+  <!-- 🎭 Rol -->
+  <mat-form-field appearance="outline">
+    <mat-label>Rol</mat-label>
+    <mat-select [(ngModel)]="filterRole" (selectionChange)="applyFilter()">
+      <mat-option value="ALL">Todos</mat-option>
+      <mat-option value="USER">Usuario</mat-option>
+      <mat-option value="INSTRUCTOR">Instructor</mat-option>
+      <mat-option value="ADMIN">Administrador</mat-option>
+      <mat-option value="SUPER_ADMIN">Super Admin</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <!-- 🏛️ Organización -->
+  <mat-form-field appearance="outline" *ngIf="currentRole === 'SUPER_ADMIN'">
+    <mat-label>Organización</mat-label>
+    <mat-select [(ngModel)]="filterOrg" (selectionChange)="applyFilter()">
+      <mat-option value="ALL">Todas</mat-option>
+      <mat-option *ngFor="let org of organizations" [value]="org.id">
+        {{ org.name }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <!-- 📘 Cursos -->
+  <mat-form-field appearance="outline">
+    <mat-label>Curso</mat-label>
+    <mat-select [(ngModel)]="filterCourse" (selectionChange)="applyFilter()">
+      <mat-option value="ALL">Todos</mat-option>
+      <mat-option *ngFor="let c of courses" [value]="c.id">
+        {{ c.name }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+</div>
+
 
   <!-- FORMULARIO -->
   <div class="form-section">

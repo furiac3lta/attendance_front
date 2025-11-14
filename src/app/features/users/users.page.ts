@@ -30,6 +30,9 @@ export class UsersPage implements OnInit {
   users: User[] = [];
   filteredUsers: User[] = [];   // ⭐ PARA EL BUSCADOR
   searchTerm: string = '';      // ⭐ TEXTO DEL BUSCADOR
+  filterRole: string = 'ALL';
+  filterOrg: number | 'ALL' = 'ALL';
+  filterCourse: number | 'ALL' = 'ALL';
 
   courses: any[] = [];
   organizations: any[] = [];
@@ -63,29 +66,28 @@ export class UsersPage implements OnInit {
   // CARGA DE USERS
   // ========================================================
   loadUsers() {
-    this.loading = true;
-    this.usersSvc.findAll(this.currentPage, this.pageSize).subscribe({
-      next: (res: PageResponse<User>) => {
+  this.loading = true;
+  this.usersSvc.findAll(this.currentPage, this.pageSize).subscribe({
+    next: (res: PageResponse<User>) => {
+      this.users = Array.isArray(res?.content) ? res.content : [];
+      this.totalPages = res?.totalPages ?? 1;
+      this.totalElements = res?.totalElements ?? this.users.length;
+      this.currentPage = res?.number ?? 0;
 
-        this.users = Array.isArray(res?.content) ? res.content : [];
-        this.filteredUsers = [...this.users];  // ⭐ INICIALIZA TABLA
+      this.users.forEach(u => {
+        this.selectedCourses[u.id] = this.mapCourseNamesToIds(u.courses || []);
+      });
 
-        this.totalPages = res?.totalPages ?? 1;
-        this.totalElements = res?.totalElements ?? this.users.length;
-        this.currentPage = res?.number ?? 0;
+      this.applyFilter(); // 👈 MUY IMPORTANTE
+      this.loading = false;
+    },
+    error: () => {
+      Swal.fire('Error', '❌ Error al cargar usuarios', 'error');
+      this.loading = false;
+    }
+  });
+}
 
-        this.users.forEach(u => {
-          this.selectedCourses[u.id] = this.mapCourseNamesToIds(u.courses || []);
-        });
-
-        this.loading = false;
-      },
-      error: () => {
-        Swal.fire('Error', '❌ Error al cargar usuarios', 'error');
-        this.loading = false;
-      }
-    });
-  }
 
   // ========================================================
   // MAPEO NOMBRE → ID
@@ -231,15 +233,47 @@ export class UsersPage implements OnInit {
   // ========================================================
   // 🔍 BUSCADOR
   // ========================================================
-  applyFilter() {
-    const term = this.searchTerm.toLowerCase().trim();
+ applyFilter() {
+  const normalize = (str: string = '') =>
+    str.toLowerCase()
+       .normalize('NFD')
+       .replace(/[\u0300-\u036f]/g, '')
+       .trim();
 
-    this.filteredUsers = this.users.filter(u =>
-      u.fullName?.toLowerCase().includes(term) ||
-      u.email?.toLowerCase().includes(term) ||
-      u.role?.toLowerCase().includes(term) ||
-      u.organizationName?.toLowerCase().includes(term) ||
-      u.courses?.some(c => c.toLowerCase().includes(term))
-    );
-  }
+  const term = normalize(this.searchTerm);
+
+  this.filteredUsers = this.users.filter(u => {
+    const name = normalize(u.fullName);
+    const email = normalize(u.email || '');
+    const role = normalize(u.role || '');
+    const org = normalize(u.organizationName || '');
+    const courses = (u.courses || []).map(c => normalize(c));
+
+    // 🔍 Texto libre
+    const matchesText =
+      name.includes(term) ||
+      email.includes(term) ||
+      role.includes(term) ||
+      org.includes(term) ||
+      courses.some(c => c.includes(term));
+
+    // 🎭 Filtro por rol
+    const matchesRole =
+      this.filterRole === 'ALL' || u.role === this.filterRole;
+
+    // 🏛️ Filtro por organización
+    const matchesOrg =
+      this.filterOrg === 'ALL' || u.organizationId === this.filterOrg;
+
+    // 📘 Filtro por curso
+    const matchesCourse =
+      this.filterCourse === 'ALL' ||
+      (u.courses || []).includes(
+        this.courses.find(c => c.id === this.filterCourse)?.name
+      );
+
+    return matchesText && matchesRole && matchesOrg && matchesCourse;
+  });
+}
+
 }
