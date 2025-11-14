@@ -168,3 +168,28 @@ mat-paginator {
     min-width: 460px;  /* 🔥 mismo ancho visual que filtros y formulario */
   }
 }
+/* --------------------------------------- */
+/* 📱 MOBILE FIX PARA INPUTS GIGANTES */
+/* --------------------------------------- */
+
+@media (max-width: 768px) {
+
+  /* Limitar el ancho del card */
+  .section-card {
+    max-width: 380px;
+    margin: 0 auto;
+    padding: 0.8rem 1rem;
+  }
+
+  /* Achicar inputs Angular Material */
+  .section-card .mat-mdc-form-field {
+    --mdc-outlined-text-field-density: -4;
+    --mdc-shape-small: 6px;
+  }
+
+  /* Separación mínima entre campos */
+  .filters-container .mat-form-field,
+  .form-grid .mat-form-field {
+    margin-bottom: 6px !important;
+  }
+}
