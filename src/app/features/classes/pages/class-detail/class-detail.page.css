@@ -86,3 +86,70 @@
     width: 100%;
   }
 }
+/* Contenedor general */
+.filters-chip-container {
+  margin: 10px 0 20px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* Bloque de cada filtro */
+.chip-filter-block {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+/* Título (Mes, Año) */
+.chip-title {
+  font-size: 0.9rem;
+  opacity: 0.85;
+  color: var(--text-strong);
+}
+
+/* Fila de chips */
+.chip-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+/* Chips base */
+.mat-chip-option {
+  background: rgba(255,255,255,0.15) !important;
+  backdrop-filter: blur(5px);
+  padding: 6px 14px !important;
+  border-radius: 14px !important;
+  font-size: 0.82rem !important;
+  color: #fff !important;
+  border: 1px solid rgba(255,255,255,0.25) !important;
+  cursor: pointer;
+  transition: 0.25s ease;
+}
+
+/* Hover */
+.mat-chip-option:hover {
+  background: rgba(255,255,255,0.25) !important;
+}
+
+/* Seleccionado */
+.mat-mdc-chip-selected {
+  background: var(--accent-hover) !important;
+  color: #000 !important;
+  border-color: var(--accent-strong) !important;
+  box-shadow: 0 0 8px rgba(189, 224, 254, 0.45);
+}
+
+/* MOBILE FIX */
+@media (max-width: 600px) {
+  .chip-row {
+    gap: 6px;
+  }
+
+  .mat-chip-option {
+    padding: 5px 10px !important;
+    font-size: 0.75rem !important;
+  }
+}
+
