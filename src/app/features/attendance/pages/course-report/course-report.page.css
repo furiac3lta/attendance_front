@@ -79,3 +79,56 @@
   color: #000 !important;
   box-shadow: 0 0 10px rgba(189,224,254,0.65);
 }
+/* Contenedor general del card */
+.page-card {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* Sección de filtros */
+.filters {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+
+/* TABLE WRAPPER — hace que no se desborde */
+.table-scroll-wrapper {
+  width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  border-radius: 10px;
+  margin-top: 10px;
+}
+
+/* La tabla debe ocupar MINIMO el ancho total */
+table {
+  width: 100%;
+  min-width: 600px; /* evita que se rompa en mobile */
+  border-collapse: collapse;
+}
+
+/* Ajustes de celdas */
+.table-modern th,
+.table-modern td {
+  padding: 12px 8px;
+  text-align: left;
+  white-space: nowrap;
+}
+
+/* Para que se vea bien en modo oscuro */
+.table-modern {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+/* RESPONSIVE – más espacio en pantallas grandes */
+@media (min-width: 600px) {
+  .table-modern th,
+  .table-modern td {
+    padding: 14px 12px;
+  }
+}
